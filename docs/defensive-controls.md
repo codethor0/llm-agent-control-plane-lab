@@ -55,7 +55,7 @@ Each control lists its **tested invariant** and primary tests. If a control is n
 ## Output filter
 
 - **Invariant:** Secrets, private keys, JWT-like strings, and encoded blobs are blocked outside the model.
-- **Tests:** `tests/test_output_filter.py`, `test_output_leak_blocked_before_tool_stage`, `test_invariant_output_filter_outside_model`
+- **Tests:** `tests/test_output_filter.py` (layered findings, entropy, tenant/destination/schema rules), `test_output_leak_blocked_before_tool_stage`, `test_invariant_output_filter_outside_model`, `test_pipeline_output_filter_audit_has_safe_metadata`
 
 ## Audit logging
 
