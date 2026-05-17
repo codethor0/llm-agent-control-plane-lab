@@ -82,6 +82,8 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 
 ## Architecture flow
 
+![Control plane architecture](docs/assets/llm-agent-control-plane.svg)
+
 ```mermaid
 flowchart TD
   A[Untrusted input] --> B[Prompt assembly]
@@ -104,7 +106,7 @@ Untrusted input -> prompt -> simulated model (untrusted)
   -> simulated tools -> audit log (JSONL, redacted)
 ```
 
-Details: [docs/architecture.md](docs/architecture.md), [docs/threat-model.md](docs/threat-model.md), [docs/provenance.md](docs/provenance.md).
+Details: [docs/architecture.md](docs/architecture.md), [docs/threat-model.md](docs/threat-model.md), [docs/provenance.md](docs/provenance.md). Static diagram: [SVG](docs/assets/llm-agent-control-plane.svg), [PNG](docs/assets/llm-agent-control-plane.png).
 
 ## Demo scenarios
 
@@ -182,9 +184,9 @@ Use only in **authorized local lab** environments. Do not point this project at 
 - [docs/github-publication-readiness.md](docs/github-publication-readiness.md) — first push checklist
 - GitHub issue templates under `.github/ISSUE_TEMPLATE/`
 
-## LinkedIn sharing blurb
+## Social launch copy
 
-I open-sourced a defensive lab that shows how to wrap tool-connected LLM agents in an external control plane: deny-by-default policy, broker authorization, provenance checks, human approval for high-impact tools, output filtering, and redacted audit logs. The model can ask; the broker decides. Simulated tools only, no real shell or exfiltration, tests for every control. Repo: llm-agent-control-plane-lab.
+Draft posts for sharing: [docs/social/](docs/social/) (LinkedIn, Hacker News, Substack blurb).
 
 ## Configuration
 
