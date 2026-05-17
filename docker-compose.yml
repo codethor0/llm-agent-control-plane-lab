@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: llm-agent-control-plane-lab:local
+    environment:
+      AUDIT_LOG_PATH: /app/var/audit/events.jsonl
+      POLICY_PATH: /app/policies/default.yaml
+    working_dir: /app

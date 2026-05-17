@@ -1,0 +1,50 @@
+default_decision: deny
+
+tools:
+  read_records:
+    enabled: true
+    risk_level: low
+    external_effect: false
+    destructive: false
+    requires_human_approval: false
+    allowed_roles:
+      - user
+      - admin
+
+  send_email:
+    enabled: true
+    risk_level: high
+    external_effect: true
+    destructive: false
+    requires_human_approval: true
+    allowed_roles:
+      - user
+      - admin
+
+  export_records:
+    enabled: true
+    risk_level: high
+    external_effect: true
+    destructive: false
+    requires_human_approval: true
+    allowed_roles:
+      - admin
+
+  delete_records:
+    enabled: true
+    risk_level: critical
+    external_effect: false
+    destructive: true
+    requires_human_approval: true
+    allowed_roles:
+      - admin
+
+  run_shell:
+    enabled: false
+    risk_level: critical
+    external_effect: true
+    destructive: true
+    requires_human_approval: true
+    allowed_roles: []
+
+tenant_isolation: strict
