@@ -9,6 +9,11 @@ from agent_control_plane.models import (
     ToolCallPayload,
 )
 from agent_control_plane.prompt import assemble_prompt
+from agent_control_plane.provenance_integrity import (
+    LAB_DEMO_HMAC_KEY,
+    compute_content_hash,
+    sign_provenance,
+)
 
 
 def run_simulated_agent(request: AgentRequest) -> ModelTurnResult:
@@ -244,6 +249,29 @@ def run_simulated_agent(request: AgentRequest) -> ModelTurnResult:
                     trust=ContextTrust.TRUSTED,
                     context_ids=["tool-exec-foreign"],
                 ),
+            ),
+        )
+
+    if scenario == "strict_signed_read":
+        sample_content = "harmless lab record text for provenance hash"
+        signed = sign_provenance(
+            Provenance(
+                source=ProvenanceSource.MODEL,
+                trust=ContextTrust.TRUSTED,
+                context_ids=["model-turn"],
+                tenant_id=request.tenant_id,
+                chunk_id="chunk-strict-1",
+                content_hash=compute_content_hash(sample_content),
+            ),
+            LAB_DEMO_HMAC_KEY,
+        )
+        return ModelTurnResult(
+            natural_language="Reading records with signed provenance.",
+            tool_call=ToolCallPayload(
+                tool_name="read_records",
+                arguments={"record_ids": ["r-strict"]},
+                target=request.tenant_id,
+                provenance=signed,
             ),
         )
 

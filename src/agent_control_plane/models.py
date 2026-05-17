@@ -61,6 +61,10 @@ class Provenance(BaseModel):
     source: ProvenanceSource
     trust: ContextTrust
     context_ids: list[str] = Field(default_factory=list)
+    tenant_id: str | None = None
+    chunk_id: str | None = None
+    content_hash: str | None = None
+    signature: str | None = None
 
 
 class AgentRequest(BaseModel):

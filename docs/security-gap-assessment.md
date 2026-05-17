@@ -20,6 +20,7 @@ This document evaluates **gaps between the current lab and production-grade agen
 |------|----------|
 | Deny-by-default policy | `policies/default.yaml`, `tests/test_policy_engine.py` |
 | Policy integrity (schema + hash) | `policy_integrity.py`, `scripts/validate_policy.py`, `tests/test_policy_integrity.py` |
+| Provenance integrity (lab HMAC, strict mode) | `provenance_integrity.py`, `tests/test_provenance_integrity.py` |
 | Tool broker authority | `tool_broker.py`, `tests/test_tool_broker.py`, `test_invariant_tool_broker_is_authority_boundary` |
 | Schema is not authorization | `tests/test_schema_validation.py`, `test_invariant_schema_validation_not_authorization` |
 | Provenance rules (declarative) | `provenance.py`, `tests/test_provenance.py` |
@@ -34,26 +35,23 @@ This document evaluates **gaps between the current lab and production-grade agen
 
 See [SECURITY-CONTROLS.md](../SECURITY-CONTROLS.md) and [defensive-controls.md](defensive-controls.md).
 
-## Gap 1: Provenance integrity (declarative only)
+## Gap 1: Provenance integrity (partially addressed in P1)
 
-### Current state
+### Current state (after P1)
 
-Provenance is **declarative metadata** on tool calls and retrieved chunks (`source`, `trust`, `context_ids`). Policy uses it; tests prove untrusted sources cannot authorize tools. See [provenance.md](provenance.md).
+Lab HMAC-SHA256 over canonical provenance JSON in `provenance_integrity.py`. Strict broker/pipeline mode requires valid signatures; default mode remains declarative. Optional `content_hash` on `Provenance`. See [provenance.md](provenance.md).
 
-### Risk
+### Remaining risk
 
-A compromised ingestion pipeline or malicious label could mark untrusted content as `internal_reviewed`. The lab does not verify who produced the metadata.
+Lab fake key is not production key management. Default pipeline does not require signatures at runtime. No service identity or attested retrieval events.
 
-### Maturity target
+### Honest claim
 
-Signed or hashed provenance bound to retrieval events and service identity.
+HMAC mode detects metadata tampering in this reference implementation. It is not full production attestation.
 
-### Tests needed before claiming the control
+### Tests implemented (P1)
 
-- Reject tool calls when provenance signature missing or invalid
-- Reject when content hash does not match attested retrieval event
-- Reject when tenant on provenance does not match request tenant
-- Positive path: valid signed internal_reviewed allows only permitted tools
+- `tests/test_provenance_integrity.py` — sign/verify, tamper detection, strict pipeline, broker not bypassed
 
 ## Gap 2: Policy integrity (partially addressed in P0)
 
@@ -130,7 +128,7 @@ Layered filters: entropy heuristics, structured finding types, tenant-aware rule
 
 ### Current state
 
-98 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
+128 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
 
 ### Risk
 
