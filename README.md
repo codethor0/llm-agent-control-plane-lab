@@ -20,7 +20,7 @@ This repository is a **local, simulated** demonstration. It shows how to keep au
 |------|--------|
 | Repository | https://github.com/codethor0/llm-agent-control-plane-lab |
 | CI | GitHub Actions on `main` (badge above) |
-| Latest release | [v0.1.2](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.2) (E2E verified); [v0.1.1](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1); [v0.1.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.0) (initial) |
+| Latest release | [v0.2.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.2.0) (integrity hardening); [v0.1.2](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.2); [v0.1.1](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1); [v0.1.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.0) |
 
 ## One-command quick start
 
