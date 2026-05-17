@@ -1,0 +1,35 @@
+---
+description: Security control implementation rules
+globs: src/**/*.py
+alwaysApply: false
+---
+
+# Security Controls
+
+## Authority
+
+- `tool_broker.py` is the authority boundary; model and retrieved content only request.
+- `policy_engine.py` loads YAML; missing policy or unknown tool => deny with explicit reason.
+- Untrusted provenance cannot satisfy requirements for external-effect tools.
+
+## Tools
+
+- `run_shell`: always disabled in policy.
+- `send_email`: human approval required.
+- `export_records`: admin role + human approval.
+- Cross-tenant targets: deny.
+
+## Output filter
+
+Block before returning to caller: secrets, PEM private keys, JWT-like tokens, suspicious base64 blobs. Fail closed.
+
+## Audit
+
+JSONL fields per doctrine; `contains_sensitive_data` flag; never log raw secrets.
+
+## Example deny reason
+
+```python
+# Good: explains security decision
+return PolicyDecision(allowed=False, reason="untrusted_retrieved_context_cannot_authorize_external_effect")
+```

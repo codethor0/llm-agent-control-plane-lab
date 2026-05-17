@@ -1,0 +1,50 @@
+# Testing Strategy
+
+## Principles
+
+1. Tests are the specification for security behavior.
+2. Every control has positive and negative cases where applicable.
+3. Tests are deterministic and do not call external services.
+4. Do not mock away the control under test.
+
+## Layout
+
+| File | Focus |
+|------|-------|
+| `test_policy_engine.py` | Policy rules and deny reasons |
+| `test_tool_broker.py` | Authority boundary |
+| `test_schema_validation.py` | Structure-only validation |
+| `test_output_filter.py` | Leak prevention |
+| `test_audit_logger.py` | JSONL schema and redaction |
+| `test_pipeline_protected.py` | End-to-end protected path |
+| `test_pipeline_vulnerable.py` | Lab vulnerable path |
+| `test_security_invariants.py` | Cross-cutting invariants |
+| `test_api.py` | FastAPI smoke tests |
+
+## Adding a new tool safely
+
+1. Add policy entry in `policies/default.yaml` with explicit `enabled`, roles, and approval flags.
+2. Add Pydantic argument schema in `schemas.py`.
+3. Add simulator branch in `simulator.py` (simulation only).
+4. Add agent core scenario only for deterministic tests.
+5. Add policy allow/deny tests and pipeline tests before merging.
+
+## Running tests
+
+```bash
+make setup
+make validate
+```
+
+Docker:
+
+```bash
+docker compose build
+docker compose run --rm app python -m pytest
+```
+
+## Forbidden patterns
+
+- `@pytest.mark.skip` or `xfail` on security tests
+- Weakening assertions to match broken controls
+- Mocking `broker_tool_request` or `evaluate_policy` in control tests
