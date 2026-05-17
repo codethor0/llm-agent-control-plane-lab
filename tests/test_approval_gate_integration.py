@@ -138,6 +138,16 @@ def test_high_impact_external_requires_approval() -> None:
             user_message="x",
         ),
         _email_policy(),
+        ToolCallPayload(
+            tool_name="send_email",
+            arguments={"to": "a@b.invalid", "subject": "s", "body": "b"},
+            target="t",
+            provenance=Provenance(
+                source=ProvenanceSource.MODEL,
+                trust=ContextTrust.TRUSTED,
+                context_ids=["m"],
+            ),
+        ),
     )
     assert result.approval_required is True
     assert result.allowed is False

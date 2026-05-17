@@ -7,10 +7,11 @@
 3. Tests are deterministic and do not call external services.
 4. Do not mock away the control under test.
 
-## Layout (128 tests)
+## Layout (149 tests)
 
 | File | Focus |
 |------|-------|
+| `test_approval_tokens.py` | Approval token binding, replay, and broker integration |
 | `test_provenance_integrity.py` | Lab HMAC provenance sign/verify and strict mode |
 | `test_tool_output_injection.py` | Tool output as untrusted evidence; TOOL_OUTPUT provenance denied |
 | `test_policy_integrity.py` | Policy schema, invariants, canonical SHA-256 |

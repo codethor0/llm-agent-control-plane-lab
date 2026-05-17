@@ -3,9 +3,11 @@
 from pathlib import Path
 
 from agent_control_plane.agent_core import run_simulated_agent
+from agent_control_plane.approval_tokens import mark_approval_token_used
 from agent_control_plane.audit_logger import AuditEvent, AuditLogger
 from agent_control_plane.models import (
     AgentRequest,
+    BrokerDecision,
     PipelineResult,
     PolicyDecision,
     Provenance,
@@ -27,11 +29,13 @@ class ControlPlanePipeline:
         *,
         require_provenance_signature: bool = False,
         provenance_hmac_key: bytes | None = None,
+        require_approval_token: bool = False,
     ) -> None:
         self._policy_path = policy_path
         self._audit = audit_logger
         self._require_provenance_signature = require_provenance_signature
         self._provenance_hmac_key = provenance_hmac_key
+        self._require_approval_token = require_approval_token
 
     def run_protected(self, request: AgentRequest) -> PipelineResult:
         """
@@ -101,6 +105,7 @@ class ControlPlanePipeline:
             tool_call,
             require_provenance_signature=self._require_provenance_signature,
             provenance_hmac_key=self._provenance_hmac_key,
+            require_approval_token=self._require_approval_token,
         )
 
         if not broker_decision.schema_valid:
@@ -141,6 +146,7 @@ class ControlPlanePipeline:
                         pd,
                     ),
                     policy_decision=pd,
+                    broker_decision=broker_decision,
                 )
             )
             return PipelineResult(
@@ -154,6 +160,8 @@ class ControlPlanePipeline:
             )
 
         simulation = simulate_tool_execution(request, tool_call)
+        if request.approval_token is not None:
+            mark_approval_token_used(request.approval_token.approval_id)
         self._audit.write(
             _audit_event_for_tool(
                 request,
@@ -162,8 +170,9 @@ class ControlPlanePipeline:
                 stage="simulation",
                 allowed=True,
                 policy_reason=broker_decision.reason,
-                human_approval_required=request.human_approval,
+                human_approval_required=_approval_required_from_broker(broker_decision, pd),
                 policy_decision=pd,
+                broker_decision=broker_decision,
             )
         )
         return PipelineResult(
@@ -234,7 +243,9 @@ class ControlPlanePipeline:
 def _blocked_event_type(reason: str) -> str:
     if reason == "cross_tenant_target_denied":
         return "cross_tenant_blocked"
-    if "human_approval_required" in reason:
+    if reason.startswith("approval_token"):
+        return "approval_denied"
+    if "human_approval_required" in reason or reason == "approval_token_missing":
         return "approval_denied"
     if reason == "missing_provenance_denied":
         return "provenance_denied"
@@ -247,9 +258,20 @@ def _approval_required_from_reason(
     reason: str,
     policy_decision: PolicyDecision | None,
 ) -> bool:
+    if reason.startswith("approval_token"):
+        return True
     return "human_approval_required" in reason or bool(
         policy_decision and policy_decision.requires_human_approval
     )
+
+
+def _approval_required_from_broker(
+    broker_decision: BrokerDecision,
+    policy_decision: PolicyDecision | None,
+) -> bool:
+    if broker_decision.approval_decision is not None:
+        return broker_decision.approval_decision != "not_required"
+    return bool(policy_decision and policy_decision.requires_human_approval)
 
 
 def _risk_level_str(policy_decision: PolicyDecision | None) -> str | None:
@@ -315,7 +337,25 @@ def _audit_event_for_tool(
     policy_reason: str,
     human_approval_required: bool,
     policy_decision: PolicyDecision | None = None,
+    broker_decision: BrokerDecision | None = None,
 ) -> AuditEvent:
+    approval_id = None
+    approver_id = None
+    approval_decision = None
+    approval_reason = None
+    approval_token_valid = None
+    approval_token_failure_reason = None
+    if broker_decision is not None:
+        approval_id = broker_decision.approval_id
+        approver_id = broker_decision.approver_id
+        approval_decision = broker_decision.approval_decision
+        approval_reason = broker_decision.approval_reason
+        approval_token_valid = broker_decision.approval_token_valid
+        approval_token_failure_reason = broker_decision.approval_token_failure_reason
+    elif request.approval_token is not None:
+        approval_id = request.approval_token.approval_id
+        approver_id = request.approval_token.approver_id
+        approval_reason = request.approval_token.approval_reason
     return AuditEvent(
         event_type=event_type,
         request_id=request.request_id,
@@ -334,4 +374,10 @@ def _audit_event_for_tool(
         human_approval_required=human_approval_required,
         stage=stage,
         allowed=allowed,
+        approval_id=approval_id,
+        approver_id=approver_id,
+        approval_decision=approval_decision,
+        approval_reason=approval_reason,
+        approval_token_valid=approval_token_valid,
+        approval_token_failure_reason=approval_token_failure_reason,
     )

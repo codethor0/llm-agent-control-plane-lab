@@ -21,6 +21,7 @@ This document evaluates **gaps between the current lab and production-grade agen
 | Deny-by-default policy | `policies/default.yaml`, `tests/test_policy_engine.py` |
 | Policy integrity (schema + hash) | `policy_integrity.py`, `scripts/validate_policy.py`, `tests/test_policy_integrity.py` |
 | Provenance integrity (lab HMAC, strict mode) | `provenance_integrity.py`, `tests/test_provenance_integrity.py` |
+| Approval token binding (lab) | `approval_tokens.py`, `tests/test_approval_tokens.py` |
 | Tool broker authority | `tool_broker.py`, `tests/test_tool_broker.py`, `test_invariant_tool_broker_is_authority_boundary` |
 | Schema is not authorization | `tests/test_schema_validation.py`, `test_invariant_schema_validation_not_authorization` |
 | Provenance rules (declarative) | `provenance.py`, `tests/test_provenance.py` |
@@ -85,26 +86,19 @@ Coverage is simulated single-turn and test-harness multi-turn only. Production i
 
 Tool-output injection is tested on simulated paths. This does not prove all production tool integrations are safe.
 
-## Gap 4: Approval semantics (simulated checkbox)
+## Gap 4: Approval semantics (partially addressed in P3)
 
-### Current state
+### Current state (after P3)
 
-`AgentRequest.human_approval` is a boolean. Approval gate integrates with broker. No approval ID, approver identity, expiration, or binding to action/target hash.
+`ApprovalToken` model with action fingerprint, expiration, one-time use, and broker verification. Legacy `human_approval` boolean still supported when no token is supplied. Audit events include safe approval metadata. See `approval_tokens.py` and `tests/test_approval_tokens.py`.
 
-### Risk
+### Remaining risk
 
-Replay or context change after approval; approver cannot see what was approved.
+Lab in-memory one-time registry only; no production identity provider, approval UI, or distributed token store.
 
-### Maturity target
+### Honest claim
 
-Structured approval token: `approval_id`, `approver_id`, `expires_at`, `action_hash`, `target_hash`, one-time use, audit linkage.
-
-### Tests needed
-
-- Deny when approval token expired
-- Deny when target or tool args changed after approval minted
-- Deny on reuse of one-time approval ID
-- Allow only when token matches request fingerprint
+Approval tokens are lab-mode binding. Production systems need identity, persistence, replay protection, and audit review workflows.
 
 ## Gap 5: Output filtering depth (pattern-based)
 
@@ -128,7 +122,7 @@ Layered filters: entropy heuristics, structured finding types, tenant-aware rule
 
 ### Current state
 
-128 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
+149 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
 
 ### Risk
 
