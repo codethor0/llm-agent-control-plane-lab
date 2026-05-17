@@ -38,6 +38,9 @@ jobs:
       - name: Repo hygiene (prompt artifacts)
         run: python scripts/validate_repo.py
 
+      - name: Policy integrity
+        run: python scripts/validate_policy.py
+
       - name: Pytest
         run: python -m pytest
 
