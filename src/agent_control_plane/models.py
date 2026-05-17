@@ -1,9 +1,12 @@
 """Shared domain models for the control plane."""
 
 from enum import StrEnum
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, Field
+
+if TYPE_CHECKING:
+    from agent_control_plane.approval_tokens import ApprovalToken
 
 
 class ContextTrust(StrEnum):
@@ -77,6 +80,7 @@ class AgentRequest(BaseModel):
     role: str
     model: str = "simulated-v1"
     human_approval: bool = False
+    approval_token: "ApprovalToken | None" = None
     user_message: str
     retrieved_chunks: list[RetrievedChunk] = Field(default_factory=list)
     tool_output_segments: list[ToolOutputSegment] = Field(default_factory=list)
@@ -116,6 +120,12 @@ class BrokerDecision(BaseModel):
     reason: str
     policy_decision: PolicyDecision | None = None
     schema_valid: bool = True
+    approval_id: str | None = None
+    approver_id: str | None = None
+    approval_decision: str | None = None
+    approval_reason: str | None = None
+    approval_token_valid: bool | None = None
+    approval_token_failure_reason: str | None = None
 
 
 class SimulationResult(BaseModel):

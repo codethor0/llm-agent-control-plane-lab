@@ -18,6 +18,7 @@ def broker_tool_request(
     *,
     require_provenance_signature: bool = False,
     provenance_hmac_key: bytes | None = None,
+    require_approval_token: bool = False,
 ) -> BrokerDecision:
     """
     Decide whether a tool request may proceed to simulation.
@@ -56,13 +57,24 @@ def broker_tool_request(
         )
 
     tool_policy = policy.tools[tool_call.tool_name]
-    approval = evaluate_approval_gate(request, tool_policy)
+    approval = evaluate_approval_gate(
+        request,
+        tool_policy,
+        tool_call,
+        require_approval_token=require_approval_token,
+    )
     if not approval.allowed:
         return BrokerDecision(
             allowed=False,
             reason=approval.reason,
             policy_decision=policy_decision,
             schema_valid=True,
+            approval_id=approval.approval_id,
+            approver_id=approval.approver_id,
+            approval_decision=approval.approval_decision,
+            approval_reason=approval.approval_reason,
+            approval_token_valid=approval.approval_token_valid,
+            approval_token_failure_reason=approval.approval_token_failure_reason,
         )
 
     return BrokerDecision(
@@ -70,4 +82,9 @@ def broker_tool_request(
         reason=policy_decision.reason,
         policy_decision=policy_decision,
         schema_valid=True,
+        approval_id=approval.approval_id,
+        approver_id=approval.approver_id,
+        approval_decision=approval.approval_decision,
+        approval_reason=approval.approval_reason,
+        approval_token_valid=approval.approval_token_valid,
     )

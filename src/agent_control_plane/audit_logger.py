@@ -35,6 +35,12 @@ class AuditEvent:
     human_approval_required: bool
     stage: str
     allowed: bool
+    approval_id: str | None = None
+    approver_id: str | None = None
+    approval_decision: str | None = None
+    approval_reason: str | None = None
+    approval_token_valid: bool | None = None
+    approval_token_failure_reason: str | None = None
 
 
 class AuditLogger:
@@ -73,6 +79,12 @@ class AuditLogger:
             "human_approval_required": event.human_approval_required,
             "stage": event.stage,
             "allowed": event.allowed,
+            "approval_id": event.approval_id,
+            "approver_id": event.approver_id,
+            "approval_decision": event.approval_decision,
+            "approval_reason": _redact(event.approval_reason) if event.approval_reason else None,
+            "approval_token_valid": event.approval_token_valid,
+            "approval_token_failure_reason": event.approval_token_failure_reason,
         }
         line = json.dumps(record, separators=(",", ":"))
         safe_line = _redact(line)
