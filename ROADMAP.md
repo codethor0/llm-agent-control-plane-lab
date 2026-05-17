@@ -2,23 +2,43 @@
 
 This project is a **defensive reference lab**, not a production agent platform. Roadmap items extend the control plane model with tested security behavior. Items are not committed until they have tests and documentation.
 
-## Near term (post v0.1.0)
+## Completed (v0.1.x)
 
-| Item | Goal |
-|------|------|
-| GitHub remote and CI on `main` | Public repository with passing Actions workflow |
-| Architecture diagram assets | `docs/assets/` PNG/SVG for README and talks |
-| GitHub release `v0.1.0` | Tagged release with validated notes |
-| Issue and PR templates | Contributor workflow (added in repo) |
+| Item | Status |
+|------|--------|
+| Public GitHub repo and CI | Done |
+| Mermaid architecture diagrams and README badges | Done (main) |
+| SECURITY-CONTROLS.md matrix | Done |
+| Architecture SVG/PNG assets | Done |
+| Releases v0.1.0, v0.1.1, v0.1.2 | Done |
+| Fresh-clone and hygiene scanner fixes | Done (84 tests) |
+| Issue and PR templates | Done |
 
-## Security and policy
+## v0.2.0 — Security hardening (planned)
+
+Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.0-hardening-plan.md) and [docs/security-gap-assessment.md](docs/security-gap-assessment.md).
+
+| Priority | Work package | Status |
+|----------|--------------|--------|
+| P0 | Policy integrity (schema, hash, CI verification) | Planned |
+| P1 | Signed or hashed provenance (lab HMAC mode) | Planned |
+| P2 | Tool-output injection tests | Planned |
+| P3 | Approval token model (ID, expiry, action hash) | Planned |
+| P4 | Output filter layers (entropy, tenant-aware) | Planned |
+| P5 | Hypothesis fuzz tests | Planned |
+| P6 | Supply-chain (Dependabot, CodeQL, gitleaks, Trivy, SBOM) | Planned |
+| P7 | Production hardening documentation | Planned |
+| P8 | LLM adapter interface (no live API by default) | Planned |
+
+**v0.2.0 release bar (minimum):** P0 through P3 complete with tests; `make validate` green.
+
+## Security and policy (ongoing)
 
 | Item | Description |
 |------|-------------|
-| Signed provenance | Cryptographic attestation for tool-call provenance instead of declarative metadata only |
 | OPA/Rego policy backend | Optional policy engine behind the same broker interface |
-| Security control maturity matrix | Document control strength and test coverage per threat |
-| Additional output-filter rules | Safe detectors for new leak patterns with positive/negative tests |
+| Security control maturity matrix | Extend SECURITY-CONTROLS with maturity levels per gap |
+| Additional output-filter rules | Safe detectors with positive/negative tests |
 
 ## Observability and CI
 
@@ -40,7 +60,6 @@ This project is a **defensive reference lab**, not a production agent platform. 
 
 | Item | Description |
 |------|-------------|
-| GitHub issue templates | Bug, security gap, docs, feature request (see `.github/ISSUE_TEMPLATE/`) |
 | Discussion guidelines | When to use issues vs discussions for lab questions |
 
 ## Non-goals
