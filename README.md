@@ -1,5 +1,7 @@
 # llm-agent-control-plane-lab
 
+[![CI](https://github.com/codethor0/llm-agent-control-plane-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/codethor0/llm-agent-control-plane-lab/actions/workflows/ci.yml)
+
 Defensive open source reference lab for securing tool-connected LLM agents with an **external control plane**.
 
 **Core idea:** The model can ask. The broker decides.
@@ -10,13 +12,9 @@ This repository is a **local, simulated** demonstration. It shows how to keep au
 
 | Item | Status |
 |------|--------|
-| Git remote | Not configured yet (ready to push) |
-| CI badge | Add after GitHub repo exists (see below) |
-| Suggested first tag | `v0.1.0` — see [docs/github-release-notes-v0.1.0.md](docs/github-release-notes-v0.1.0.md) |
-
-After creating the GitHub repository, enable the CI badge by adding this line under the title (replace `OWNER`):
-
-`[![CI](https://github.com/OWNER/llm-agent-control-plane-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/llm-agent-control-plane-lab/actions/workflows/ci.yml)`
+| Repository | https://github.com/codethor0/llm-agent-control-plane-lab |
+| CI | GitHub Actions on `main` (badge above) |
+| Release notes | [docs/github-release-notes-v0.1.0.md](docs/github-release-notes-v0.1.0.md) |
 
 ## One-command quick start
 
