@@ -1,12 +1,12 @@
 # llm-agent-control-plane-lab
 
-[![CI](https://github.com/OWNER/llm-agent-control-plane-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/llm-agent-control-plane-lab/actions/workflows/ci.yml)
-
 Defensive open source reference lab for securing tool-connected LLM agents with an **external control plane**.
 
 **Core idea:** The model can ask. The broker decides.
 
-Replace `OWNER` in the CI badge URL after you create the GitHub repository.
+**CI badge:** No Git remote is configured yet. After creating the GitHub repository, replace `OWNER` in the badge URL below and uncomment this line:
+
+`[![CI](https://github.com/OWNER/llm-agent-control-plane-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/llm-agent-control-plane-lab/actions/workflows/ci.yml)`
 
 ## One-command quick start
 
@@ -105,7 +105,8 @@ make demo
 
 | Check | Command | Notes |
 |-------|---------|-------|
-| Tests | `python -m pytest` | 50+ security-focused tests |
+| Tests | `python -m pytest` | 83 security-focused tests |
+| Repo hygiene | `python scripts/validate_repo.py` | Blocks prompt artifacts |
 | Lint | `python -m ruff check .` | |
 | Format | `python -m ruff format --check .` | |
 | Types | `python -m mypy src tests` | Targets Python 3.12 |

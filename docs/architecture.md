@@ -2,7 +2,7 @@
 
 ## Overview
 
-This lab implements an **external control plane** around a simulated LLM agent. The model may propose tool calls; only the broker and policy engine may authorize execution. All tools run through a local simulator.
+This lab implements an **external control plane** around a simulated LLM agent. The model may propose tool calls; only the tool broker (policy, provenance, and approval gate) may authorize execution. All tools run through a local simulator.
 
 ## Flow
 

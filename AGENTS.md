@@ -10,6 +10,7 @@ Read `PROJECT_DOCTRINE.md` before any change. Follow `.cursor/rules/` in this re
 
 ## Non-negotiables
 
+- Do not create, stage, or commit prompt artifacts, AI transcripts, Cursor chats, master prompts, or validation scratchpads.
 - Deny by default; no model-trusted authorization.
 - Schema validation is not authorization.
 - Simulated tools only; no real shell, network, or credentials.
