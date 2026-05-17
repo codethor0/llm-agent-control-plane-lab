@@ -13,7 +13,11 @@ from agent_control_plane.models import (
     Provenance,
     ToolCallPayload,
 )
-from agent_control_plane.output_filter import filter_model_output
+from agent_control_plane.output_filter import (
+    build_filter_context_from_request,
+    filter_output,
+    findings_for_audit,
+)
 from agent_control_plane.policy_engine import load_policy
 from agent_control_plane.simulator import simulate_tool_execution, simulate_vulnerable_execution
 from agent_control_plane.tool_broker import broker_tool_request
@@ -47,7 +51,8 @@ class ControlPlanePipeline:
         policy = load_policy(self._policy_path)
         model_turn = run_simulated_agent(request)
 
-        output_result = filter_model_output(model_turn.natural_language)
+        filter_context = build_filter_context_from_request(request)
+        output_result = filter_output(model_turn.natural_language, filter_context)
         if not output_result.allowed:
             self._audit.write(
                 _audit_event(
@@ -61,6 +66,11 @@ class ControlPlanePipeline:
                     risk_level=None,
                     human_approval_required=False,
                     contains_sensitive=True,
+                    output_filter_decision=output_result.output_filter_decision,
+                    output_finding_count=output_result.finding_count,
+                    output_finding_types=output_result.finding_types,
+                    output_highest_severity=output_result.highest_severity,
+                    output_findings_redacted=findings_for_audit(output_result.findings),
                 )
             )
             return PipelineResult(
@@ -305,6 +315,11 @@ def _audit_event(
     human_approval_required: bool,
     contains_sensitive: bool,
     policy_decision: str = "deny",
+    output_filter_decision: str | None = None,
+    output_finding_count: int | None = None,
+    output_finding_types: list[str] | None = None,
+    output_highest_severity: str | None = None,
+    output_findings_redacted: list[dict[str, str]] | None = None,
 ) -> AuditEvent:
     return AuditEvent(
         event_type=event_type,
@@ -324,6 +339,11 @@ def _audit_event(
         human_approval_required=human_approval_required,
         stage=stage,
         allowed=allowed,
+        output_filter_decision=output_filter_decision,
+        output_finding_count=output_finding_count,
+        output_finding_types=output_finding_types,
+        output_highest_severity=output_highest_severity,
+        output_findings_redacted=output_findings_redacted,
     )
 
 

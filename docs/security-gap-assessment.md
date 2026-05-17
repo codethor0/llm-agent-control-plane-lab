@@ -100,29 +100,29 @@ Lab in-memory one-time registry only; no production identity provider, approval 
 
 Approval tokens are lab-mode binding. Production systems need identity, persistence, replay protection, and audit review workflows.
 
-## Gap 5: Output filtering depth (pattern-based)
+## Gap 5: Output filtering depth (layered lab filters)
 
 ### Current state
 
-`output_filter.py` blocks secret patterns, private keys, JWT-like strings, encoded blobs. Tested in `tests/test_output_filter.py`.
+`output_filter.py` applies layered checks: secret patterns, private keys, JWT-like strings, encoded blobs, high-entropy tokens, cross-tenant markers, destination-aware rules, source sensitivity propagation, and optional strict response schemas. Structured `OutputFinding` results with redacted samples. Tested in `tests/test_output_filter.py` (23 tests).
 
 ### Risk
 
-Encoded, split, or low-signal leaks may evade regex-only checks.
+Advanced encoding, steganography, or enterprise DLP evasion are out of scope for the lab.
 
 ### Maturity target
 
-Layered filters: entropy heuristics, structured finding types, tenant-aware rules, optional allowlisted response schemas for specific tools.
+Production deployments need enterprise DLP, classification services, egress controls, and monitoring beyond pattern/heuristic filters.
 
 ### Tests needed per new rule
 
-- Positive and negative cases; no weakening of existing pattern tests
+- Positive and negative cases; no weakening of existing pattern tests (maintained in P4)
 
 ## Gap 6: Adversarial fuzzing (deterministic suite only)
 
 ### Current state
 
-149 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
+167 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
 
 ### Risk
 
