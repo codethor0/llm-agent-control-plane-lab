@@ -1,6 +1,12 @@
 # llm-agent-control-plane-lab
 
 [![CI](https://github.com/codethor0/llm-agent-control-plane-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/codethor0/llm-agent-control-plane-lab/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/codethor0/llm-agent-control-plane-lab)](https://github.com/codethor0/llm-agent-control-plane-lab/releases)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-84%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane-lab/actions)
+[![Security](https://img.shields.io/badge/security-deny--by--default-critical)](SECURITY-CONTROLS.md)
+[![Docker](https://img.shields.io/badge/docker-verified-blue)](Dockerfile)
 
 Defensive open source reference lab for securing tool-connected LLM agents with an **external control plane**.
 
@@ -80,33 +86,109 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 - Test or attack third-party systems
 - Guarantee safety for production deployments
 
-## Architecture flow
+## Architecture
 
-![Control plane architecture](docs/assets/llm-agent-control-plane.svg)
+**The model can ask. The broker decides.** Model output is untrusted until deterministic controls approve a simulated tool call.
+
+Detailed diagrams: [docs/architecture.md](docs/architecture.md). Threat framing: [docs/threat-model.md](docs/threat-model.md). Optional exported assets: [SVG](docs/assets/llm-agent-control-plane.svg), [PNG](docs/assets/llm-agent-control-plane.png).
+
+### End-to-end control plane (protected path)
 
 ```mermaid
 flowchart TD
-  A[Untrusted input] --> B[Prompt assembly]
-  B --> C[Simulated agent core]
-  C --> D[Output filter]
-  D --> E[Schema validation]
-  E --> F[Tool broker]
-  F --> G[Policy engine]
-  F --> H[Approval gate]
-  F --> I[Simulated tools]
-  I --> J[Audit logger JSONL]
+  ui[Untrusted inputs]
+  pa[Prompt assembly]
+  ac[Simulated agent core]
+  of[Output filter]
+  sv[Schema validator]
+  tb[Tool broker]
+  pe[Policy engine]
+  pr[Provenance checks]
+  ag[Approval gate]
+  st[Simulated tools]
+  al[Audit logger JSONL]
+
+  ui --> pa
+  pa --> ac
+  ac -->|"untrusted output"| of
+  of --> sv
+  sv --> tb
+  tb --> pe
+  tb --> pr
+  tb --> ag
+  pe --> tb
+  pr --> tb
+  ag --> tb
+  tb -->|"allow only"| st
+  st --> al
+  of -.->|"block leaks"| al
+  tb -.->|"allow or deny"| al
 ```
 
-Text summary:
+### Security zones
 
-```text
-Untrusted input -> prompt -> simulated model (untrusted)
-  -> output filter -> schema validation (structure only)
-  -> tool broker -> policy engine + provenance + approval gate
-  -> simulated tools -> audit log (JSONL, redacted)
+```mermaid
+flowchart LR
+  subgraph untrusted["Untrusted zone"]
+    u1[User input]
+    u2[Retrieved documents]
+    u3[Tool output]
+    u4[Model output]
+  end
+
+  subgraph boundary["Deterministic control boundary"]
+    b1[Schema validation]
+    b2[Tool broker]
+    b3[Policy engine]
+    b4[Provenance checks]
+    b5[Approval gate]
+    b6[Output filter]
+  end
+
+  subgraph execution["Execution and evidence zone"]
+    e1[Simulated tools]
+    e2[JSONL audit logs]
+    e3[Demo and API results]
+  end
+
+  untrusted --> boundary
+  boundary --> execution
 ```
 
-Details: [docs/architecture.md](docs/architecture.md), [docs/threat-model.md](docs/threat-model.md), [docs/provenance.md](docs/provenance.md). Static diagram: [SVG](docs/assets/llm-agent-control-plane.svg), [PNG](docs/assets/llm-agent-control-plane.png).
+### Threat-to-control map
+
+```mermaid
+flowchart LR
+  t1[Prompt injection] --> c1[Prompt segmentation and broker]
+  t2[RAG poisoning] --> c2[Provenance checks]
+  t3[Tool misuse] --> c3[Policy engine and approval gate]
+  t4[Secret leakage] --> c4[Output filter]
+  t5[Cross-tenant exposure] --> c5[Tenant validation]
+  t6[Unsafe execution] --> c6[disabled run_shell and simulated tools]
+  t7[Audit gaps] --> c7[JSONL audit logger]
+  t8[Prompt artifact leakage] --> c8[Repo hygiene scanner]
+```
+
+### Validation pipeline
+
+```mermaid
+flowchart TD
+  ch[Developer change]
+  rh[Repo hygiene scanner]
+  rf[Ruff]
+  my[Mypy]
+  py[Pytest 84 tests]
+  bd[Bandit]
+  pa[pip-audit]
+  dk[Docker build]
+  dt[Docker pytest]
+  ga[GitHub Actions]
+  rel[Release tag]
+
+  ch --> rh --> rf --> my --> py --> bd --> pa --> dk --> dt --> ga --> rel
+```
+
+Vulnerable path (`path=vulnerable`): skips the control boundary for labeled unsafe simulation only (no real execution). See [docs/architecture.md](docs/architecture.md#paths).
 
 ## Demo scenarios
 
