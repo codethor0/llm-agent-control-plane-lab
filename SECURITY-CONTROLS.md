@@ -20,7 +20,7 @@ This project is a **local, simulated** reference lab. It is not certified for pr
 | Protected path | Control-plane bypass on normal requests | `pipeline.py` full chain; API `path=protected` | `tests/test_pipeline_protected.py`, `test_invariant_protected_path_enforces_control_plane` | Implemented, tested | Caller must select protected path; misconfiguration would weaken posture |
 | Vulnerable simulation path | No contrast for unsafe behavior in education | `pipeline.py` vulnerable branch; labels only, no broker | `tests/test_pipeline_vulnerable.py`, `test_invariant_vulnerable_path_simulation_only` | Implemented, tested | Still no real execution; must not be used as production mode |
 | Prompt-artifact hygiene scanner | AI transcripts, master prompts, cycle reports in repo | `scripts/validate_repo.py`; `make validate`; `.gitignore` | `tests/test_validate_repo.py` (8 tests), CI repo-hygiene step | Implemented, tested | Heuristic patterns; not a guarantee against all sensitive files |
-| Docker validation | Environment drift; non-reproducible validation | `Dockerfile`, `docker-compose.yml`; CI docker job | CI: `docker compose build` + `pytest` (83 tests); local `make validate` | Implemented, tested in CI | Docker optional locally; image does not bind-mount host code |
+| Docker validation | Environment drift; non-reproducible validation | `Dockerfile`, `docker-compose.yml`; CI docker job | CI: `docker compose build` + `pytest` (84 tests); local `make validate` | Implemented, tested in CI | Docker optional locally; image does not bind-mount host code |
 | GitHub Actions CI | Regressions on push/PR | `.github/workflows/ci.yml` | Workflow runs ruff, mypy, pytest, bandit, pip-audit, repo hygiene, Docker | Active on `main` | Node.js 20 deprecation warnings on actions; not formal compliance attestation |
 
 ## Related documentation
@@ -33,4 +33,4 @@ This project is a **local, simulated** reference lab. It is not certified for pr
 
 ## Validation baseline
 
-At v0.1.1 documentation release: **83** pytest tests, `scripts/validate_repo.py` pass, bandit clean, pip-audit clean, Docker pytest 83 passed. Re-run with `make validate` before relying on this matrix for a fork or deployment decision.
+At v0.1.1 documentation release: **84** pytest tests, `scripts/validate_repo.py` pass, bandit clean, pip-audit clean, Docker pytest 84 passed. Re-run with `make validate` before relying on this matrix for a fork or deployment decision.

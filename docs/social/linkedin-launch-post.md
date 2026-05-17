@@ -11,7 +11,7 @@ What it includes:
 - Schema validation that does not imply authorization
 - Provenance rules and human approval for high-impact tools
 - Output filtering and redacted JSONL audit events
-- 83 automated tests mapped to defensive controls
+- 84 automated tests mapped to defensive controls
 - Simulated tools only (no real shell, email, or network execution)
 
 What it is not:
@@ -20,6 +20,6 @@ What it is not:
 - A guarantee against all prompt injection
 
 Repository: https://github.com/codethor0/llm-agent-control-plane-lab
-Release v0.1.0: https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.0
+Release v0.1.1: https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1
 
 Use in authorized local lab environments only. Feedback and control-gap issues welcome on GitHub.

@@ -69,6 +69,15 @@ def test_ignored_cache_paths_do_not_fail(validate_repo: object, tmp_path: Path) 
     assert violations == []
 
 
+def test_ignored_pytest_basetemp_paths_do_not_fail(validate_repo: object, tmp_path: Path) -> None:
+    basetemp = tmp_path / "pytest-of-user" / "pytest-0" / "test_prompt_artifact_directory0"
+    bad_dir = basetemp / "master-prompts"
+    bad_dir.mkdir(parents=True)
+    (bad_dir / "build.prompt.md").write_text("test fixture", encoding="utf-8")
+    violations = validate_repo.scan_repository(tmp_path)  # type: ignore[attr-defined]
+    assert violations == []
+
+
 def test_repository_root_passes_hygiene_scan(validate_repo: object) -> None:
     violations = validate_repo.scan_repository(_REPO_ROOT)  # type: ignore[attr-defined]
     assert violations == []

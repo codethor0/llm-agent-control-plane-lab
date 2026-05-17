@@ -7,7 +7,7 @@
 3. Tests are deterministic and do not call external services.
 4. Do not mock away the control under test.
 
-## Layout (75 tests)
+## Layout (84 tests)
 
 | File | Focus |
 |------|-------|
@@ -24,6 +24,7 @@
 | `test_security_invariants.py` | Cross-cutting invariants |
 | `test_invariants.py` | Explicit security invariant coverage |
 | `test_api.py` | FastAPI smoke tests |
+| `test_validate_repo.py` | Prompt-artifact hygiene scanner |
 
 ## Adding a new tool safely
 
