@@ -4,7 +4,7 @@
 [![Release](https://img.shields.io/github/v/release/codethor0/llm-agent-control-plane-lab)](https://github.com/codethor0/llm-agent-control-plane-lab/releases)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-149%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane-lab/actions)
+[![Tests](https://img.shields.io/badge/tests-167%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane-lab/actions)
 [![Security](https://img.shields.io/badge/security-deny--by--default-critical)](SECURITY-CONTROLS.md)
 [![Docker](https://img.shields.io/badge/docker-verified-blue)](Dockerfile)
 
@@ -74,7 +74,7 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 - Enforces **deny-by-default** policy, **tool broker** authorization, **provenance** rules, **human approval**, and **output filtering**
 - Writes structured, **redacted JSONL** audit events
 - Provides a local **FastAPI** API and **CLI demo**
-- Maps [security invariants](docs/defensive-controls.md) to **149** automated tests
+- Maps [security invariants](docs/defensive-controls.md) to **167** automated tests
 - Blocks prompt artifacts from the repository via `scripts/validate_repo.py`
 
 ## What this repo does not do
@@ -177,7 +177,7 @@ flowchart TD
   rh[Repo hygiene scanner]
   rf[Ruff]
   my[Mypy]
-  py[Pytest 149 tests]
+  py[Pytest 167 tests]
   bd[Bandit]
   pa[pip-audit]
   dk[Docker build]
@@ -214,8 +214,8 @@ make demo
 
 | Check | Command | Notes |
 |-------|---------|-------|
-| All checks | `make validate` | lint, types, 149 tests, repo hygiene, policy integrity, bandit, pip-audit, Docker |
-| Tests | `python -m pytest` | 149 security-focused tests |
+| All checks | `make validate` | lint, types, 167 tests, repo hygiene, policy integrity, bandit, pip-audit, Docker |
+| Tests | `python -m pytest` | 167 security-focused tests |
 | Repo hygiene | `python scripts/validate_repo.py` | Blocks prompt artifacts |
 | Policy integrity | `python scripts/validate_policy.py` | Schema, invariants, SHA-256 vs `policies/default.sha256` |
 | Demo | `make demo` | Seven CLI scenarios |

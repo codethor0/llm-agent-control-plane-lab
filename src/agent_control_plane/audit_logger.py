@@ -41,6 +41,11 @@ class AuditEvent:
     approval_reason: str | None = None
     approval_token_valid: bool | None = None
     approval_token_failure_reason: str | None = None
+    output_filter_decision: str | None = None
+    output_finding_count: int | None = None
+    output_finding_types: list[str] | None = None
+    output_highest_severity: str | None = None
+    output_findings_redacted: list[dict[str, str]] | None = None
 
 
 class AuditLogger:
@@ -85,6 +90,11 @@ class AuditLogger:
             "approval_reason": _redact(event.approval_reason) if event.approval_reason else None,
             "approval_token_valid": event.approval_token_valid,
             "approval_token_failure_reason": event.approval_token_failure_reason,
+            "output_filter_decision": event.output_filter_decision,
+            "output_finding_count": event.output_finding_count,
+            "output_finding_types": event.output_finding_types,
+            "output_highest_severity": event.output_highest_severity,
+            "output_findings_redacted": event.output_findings_redacted,
         }
         line = json.dumps(record, separators=(",", ":"))
         safe_line = _redact(line)
