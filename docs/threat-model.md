@@ -36,8 +36,8 @@
 |--------|---------|-----------|
 | Unauthorized tool call | Broker + deny-by-default policy | `tests/test_policy_engine.py`, `tests/test_tool_broker.py` |
 | Schema-only bypass | Broker after schema validation | `tests/test_tool_broker.py` |
-| RAG-driven external action | Untrusted provenance block | `tests/test_policy_engine.py` |
-| Missing approval | Policy human approval flags | `tests/test_pipeline_protected.py` |
+| RAG-driven external action | Untrusted provenance block | `tests/test_provenance.py`, `tests/test_policy_engine.py` |
+| Missing approval | Approval gate in broker | `tests/test_approval_gate_integration.py`, `tests/test_audit_events.py` |
 | Cross-tenant access | Target tenant match | `tests/test_policy_engine.py` |
 | Secret leakage | Output filter + audit redaction | `tests/test_output_filter.py`, `tests/test_audit_logger.py` |
 | Shell execution | `run_shell` disabled; simulator refuses | `tests/test_policy_engine.py`, `tests/test_security_invariants.py` |

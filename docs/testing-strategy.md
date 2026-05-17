@@ -7,18 +7,22 @@
 3. Tests are deterministic and do not call external services.
 4. Do not mock away the control under test.
 
-## Layout
+## Layout (75 tests)
 
 | File | Focus |
 |------|-------|
 | `test_policy_engine.py` | Policy rules and deny reasons |
+| `test_provenance.py` | Declarative provenance authorization |
 | `test_tool_broker.py` | Authority boundary |
+| `test_approval_gate_integration.py` | Human approval wired through broker and pipeline |
 | `test_schema_validation.py` | Structure-only validation |
 | `test_output_filter.py` | Leak prevention |
 | `test_audit_logger.py` | JSONL schema and redaction |
+| `test_audit_events.py` | Pipeline audit event types |
 | `test_pipeline_protected.py` | End-to-end protected path |
 | `test_pipeline_vulnerable.py` | Lab vulnerable path |
 | `test_security_invariants.py` | Cross-cutting invariants |
+| `test_invariants.py` | Explicit security invariant coverage |
 | `test_api.py` | FastAPI smoke tests |
 
 ## Adding a new tool safely
@@ -27,7 +31,7 @@
 2. Add Pydantic argument schema in `schemas.py`.
 3. Add simulator branch in `simulator.py` (simulation only).
 4. Add agent core scenario only for deterministic tests.
-5. Add policy allow/deny tests and pipeline tests before merging.
+5. Add policy, provenance, approval, and pipeline tests before merging.
 
 ## Running tests
 

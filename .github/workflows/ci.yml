@@ -35,6 +35,9 @@ jobs:
       - name: Mypy
         run: python -m mypy src tests
 
+      - name: Repo hygiene (prompt artifacts)
+        run: python scripts/validate_repo.py
+
       - name: Pytest
         run: python -m pytest
 

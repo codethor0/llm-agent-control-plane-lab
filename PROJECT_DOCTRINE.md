@@ -95,6 +95,31 @@ docker compose build
 docker compose run --rm app python -m pytest
 ```
 
+## Prompt artifact hygiene
+
+Prompt artifacts must **never** be committed to this repository.
+
+Prompt artifacts include, but are not limited to:
+
+- Master prompts, build prompts, Cursor prompts, ChatGPT prompts, and agent prompts
+- Prompt transcripts, prompt exports, and AI chat logs (including Cursor chat logs)
+- Implementation-agent reports, validation scratchpads, temporary reasoning notes, and conversation exports
+- Directories or files named `master-prompts`, `prompts`, `prompt-artifacts`, `chat-logs`, `cursor-transcripts`, `agent-reports`, `scratchpads`, `validation-notes`, `ai-notes`, or similar
+
+**Allowed (governance only):**
+
+- `PROJECT_DOCTRINE.md` and `AGENTS.md` (project governance)
+- `.cursor/rules/*.mdc` (Cursor rule files that enforce behavior, not working prompts)
+
+**Not allowed:**
+
+- Working prompts used to instruct Cursor, ChatGPT, or other agents
+- Transcripts or exports of AI-agent conversations
+- Cursor implementation reports unless manually summarized into normal project documentation without transcript content
+- Local cycle reports copied from Downloads or other paths outside the repo hygiene rules
+
+Enforcement: `scripts/validate_repo.py` runs as part of `make validate`. Violations fail CI and local validation.
+
 ## Absolute rule
 
 Do not optimize for speed or appearance over correctness and security. Do not weaken tests to pass CI. Do not claim success until the repo builds, tests, validates, and demonstrates the control plane end-to-end.

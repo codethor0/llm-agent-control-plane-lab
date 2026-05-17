@@ -1,4 +1,4 @@
-.PHONY: setup validate test lint format typecheck security docker-build docker-test demo clean check-python
+.PHONY: setup validate test lint format typecheck repo-hygiene security docker-build docker-test demo clean check-python
 
 # Target interpreter: Python 3.12 (see .python-version). Override if needed.
 PYTHON ?= python3.12
@@ -20,7 +20,10 @@ check-host-python:
 check-python:
 	$(BIN)/python scripts/check_python_version.py
 
-validate: check-python lint format-check typecheck test security docker-build docker-test
+validate: check-python lint format-check typecheck test repo-hygiene security docker-build docker-test
+
+repo-hygiene: check-python
+	$(BIN)/python scripts/validate_repo.py
 
 test: check-python
 	$(BIN)/python -m pytest
@@ -35,7 +38,7 @@ format-check: check-python
 	$(BIN)/python -m ruff format --check .
 
 typecheck: check-python
-	$(BIN)/python -m mypy src tests
+	$(BIN)/python -m mypy src tests scripts/validate_repo.py
 
 security: check-python
 	$(BIN)/python -m bandit -r src

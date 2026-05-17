@@ -22,10 +22,27 @@ var/
 .idea/
 .vscode/
 *.swp
+
+# Cursor IDE (keep .cursor/rules doctrine files; block chats and exports)
 .cursor/chats/
 .cursor/projects/
+.cursor/**/*.jsonl
+
+# Prompt artifacts and AI conversation exports (never commit)
+master-prompts/
+prompts/
+prompt-artifacts/
+chat-logs/
+cursor-transcripts/
+conversation-exports/
 agent-reports/
 scratchpads/
 validation-notes/
-master-prompts/
-.cursor/**/*.jsonl
+ai-notes/
+*.prompt.md
+*.prompts.md
+*.chat.md
+*.transcript.md
+*cursor_project_doctrine*
+*cycle-report*.md
+llm-agent-control-plane-lab-cycle-report.md
