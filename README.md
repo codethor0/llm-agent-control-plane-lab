@@ -4,7 +4,17 @@ Defensive open source reference lab for securing tool-connected LLM agents with 
 
 **Core idea:** The model can ask. The broker decides.
 
-**CI badge:** No Git remote is configured yet. After creating the GitHub repository, replace `OWNER` in the badge URL below and uncomment this line:
+This repository is a **local, simulated** demonstration. It shows how to keep authorization, policy, provenance checks, human approval, output filtering, and audit logging **outside** the model. It is intended for security engineers, defenders, and builders learning control-plane patterns—not as a drop-in production agent platform.
+
+## Publication status
+
+| Item | Status |
+|------|--------|
+| Git remote | Not configured yet (ready to push) |
+| CI badge | Add after GitHub repo exists (see below) |
+| Suggested first tag | `v0.1.0` — see [docs/github-release-notes-v0.1.0.md](docs/github-release-notes-v0.1.0.md) |
+
+After creating the GitHub repository, enable the CI badge by adding this line under the title (replace `OWNER`):
 
 `[![CI](https://github.com/OWNER/llm-agent-control-plane-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/llm-agent-control-plane-lab/actions/workflows/ci.yml)`
 
@@ -41,7 +51,7 @@ Verify your venv:
 ```bash
 docker compose build
 docker compose run --rm app python -m pytest
-make demo   # host Python 3.12 venv, or run demo inside the image
+make demo
 ```
 
 ### Docker troubleshooting
@@ -60,7 +70,8 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 - Enforces **deny-by-default** policy, **tool broker** authorization, **provenance** rules, **human approval**, and **output filtering**
 - Writes structured, **redacted JSONL** audit events
 - Provides a local **FastAPI** API and **CLI demo**
-- Maps [security invariants](docs/defensive-controls.md) to automated tests
+- Maps [security invariants](docs/defensive-controls.md) to **83** automated tests
+- Blocks prompt artifacts from the repository via `scripts/validate_repo.py`
 
 ## What this repo does not do
 
@@ -69,8 +80,24 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 - Store or exfiltrate real credentials
 - Provide exploit chains, jailbreak libraries, or offensive tooling
 - Test or attack third-party systems
+- Guarantee safety for production deployments
 
 ## Architecture flow
+
+```mermaid
+flowchart TD
+  A[Untrusted input] --> B[Prompt assembly]
+  B --> C[Simulated agent core]
+  C --> D[Output filter]
+  D --> E[Schema validation]
+  E --> F[Tool broker]
+  F --> G[Policy engine]
+  F --> H[Approval gate]
+  F --> I[Simulated tools]
+  I --> J[Audit logger JSONL]
+```
+
+Text summary:
 
 ```text
 Untrusted input -> prompt -> simulated model (untrusted)
@@ -105,16 +132,10 @@ make demo
 
 | Check | Command | Notes |
 |-------|---------|-------|
+| All checks | `make validate` | lint, types, 83 tests, repo hygiene, bandit, pip-audit, Docker |
 | Tests | `python -m pytest` | 83 security-focused tests |
 | Repo hygiene | `python scripts/validate_repo.py` | Blocks prompt artifacts |
-| Lint | `python -m ruff check .` | |
-| Format | `python -m ruff format --check .` | |
-| Types | `python -m mypy src tests` | Targets Python 3.12 |
-| SAST | `python -m bandit -r src` | |
-| Dependencies | `python -m pip_audit` | Requires network |
-| Demo | `make demo` | |
-| All (host) | `make validate` | Includes Docker if daemon up |
-| Docker tests | `docker compose run --rm app python -m pytest` | Python 3.12 in container |
+| Demo | `make demo` | Seven CLI scenarios |
 
 ## API example
 
@@ -155,6 +176,14 @@ Full doctrine: [PROJECT_DOCTRINE.md](PROJECT_DOCTRINE.md).
 
 Use only in **authorized local lab** environments. Do not point this project at production systems, real customer data, or third-party targets. Report issues per [SECURITY.md](SECURITY.md).
 
+## Contributing and roadmap
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — tests required for security changes
+- [ROADMAP.md](ROADMAP.md) — planned future work
+- [docs/release-checklist.md](docs/release-checklist.md) — pre-release validation
+- [docs/github-publication-readiness.md](docs/github-publication-readiness.md) — first push checklist
+- GitHub issue templates under `.github/ISSUE_TEMPLATE/`
+
 ## LinkedIn sharing blurb
 
 I open-sourced a defensive lab that shows how to wrap tool-connected LLM agents in an external control plane: deny-by-default policy, broker authorization, provenance checks, human approval for high-impact tools, output filtering, and redacted audit logs. The model can ask; the broker decides. Simulated tools only, no real shell or exfiltration, tests for every control. Repo: llm-agent-control-plane-lab.
@@ -166,7 +195,7 @@ Copy `.env.example` to `.env` (optional). Policy: `policies/default.yaml`.
 ## Agent guidance
 
 - [AGENTS.md](AGENTS.md)
-- [.cursor/rules/](.cursor/rules/)
+- [.cursor/rules/](.cursor/rules/) (doctrine rules only; not working prompts)
 
 ## License
 

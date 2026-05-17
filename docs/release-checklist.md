@@ -22,7 +22,7 @@ Expected:
 - bandit: no issues in `src/`
 - pip-audit: no known vulnerabilities (network required)
 - docker compose build: pass (Docker daemon required)
-- docker compose run --rm app python -m pytest: 75 passed
+- docker compose run --rm app python -m pytest: 83 passed
 
 ## Repo hygiene
 
@@ -65,9 +65,12 @@ Expected:
 
 - [ ] `LICENSE` is MIT
 - [ ] `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md` present
+- [ ] `ROADMAP.md` and `docs/github-release-notes-v0.1.0.md` present
+- [ ] `.github/ISSUE_TEMPLATE/` and `.github/pull_request_template.md` present
 - [ ] GitHub Actions workflow uses `permissions: contents: read` and Python 3.12
-- [ ] CI badge URL updated with real `OWNER/repo` (remove placeholder note in README)
+- [ ] CI badge URL updated with real `OWNER/repo` (see README publication status)
 - [ ] Remote configured: `git remote add origin <url>` and initial push
+- [ ] See [github-publication-readiness.md](github-publication-readiness.md)
 
 ## First public release
 
