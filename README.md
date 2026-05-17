@@ -1,26 +1,28 @@
-# llm-agent-control-plane-lab
+# llm-agent-control-plane
 
-[![CI](https://github.com/codethor0/llm-agent-control-plane-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/codethor0/llm-agent-control-plane-lab/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/codethor0/llm-agent-control-plane-lab)](https://github.com/codethor0/llm-agent-control-plane-lab/releases)
+[![CI](https://github.com/codethor0/llm-agent-control-plane/actions/workflows/ci.yml/badge.svg)](https://github.com/codethor0/llm-agent-control-plane/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/codethor0/llm-agent-control-plane)](https://github.com/codethor0/llm-agent-control-plane/releases)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-167%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane-lab/actions)
+[![Tests](https://img.shields.io/badge/tests-167%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane/actions)
 [![Security](https://img.shields.io/badge/security-deny--by--default-critical)](SECURITY-CONTROLS.md)
 [![Docker](https://img.shields.io/badge/docker-verified-blue)](Dockerfile)
 
-Defensive open source reference lab for securing tool-connected LLM agents with an **external control plane**.
+Production-oriented defensive reference implementation for securing tool-connected LLM agents with an **external control plane**.
 
 **Core idea:** The model can ask. The broker decides.
 
-This repository is a **local, simulated** demonstration. It shows how to keep authorization, policy, provenance checks, human approval, output filtering, and audit logging **outside** the model. It is intended for security engineers, defenders, and builders learning control-plane patterns—not as a drop-in production agent platform.
+This repository is a **local, simulated** demonstration. It shows how to keep authorization, policy, provenance checks, human approval, output filtering, and audit logging **outside** the model. It is intended for security engineers, defenders, and builders learning control-plane patterns.
+
+**Boundary:** This is not a drop-in production service yet. Production deployment still requires identity, persistence, key management, enterprise DLP, observability, deployment hardening, and operational review.
 
 ## Publication status
 
 | Item | Status |
 |------|--------|
-| Repository | https://github.com/codethor0/llm-agent-control-plane-lab |
+| Repository | https://github.com/codethor0/llm-agent-control-plane |
 | CI | GitHub Actions on `main` (badge above) |
-| Latest release | [v0.2.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.2.0) (integrity hardening); [v0.1.2](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.2); [v0.1.1](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1); [v0.1.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.0) |
+| Latest release | [v0.2.1](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.1) (layered output filtering); [v0.2.0](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.0) (integrity hardening); [v0.1.2](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.2) |
 
 ## One-command quick start
 

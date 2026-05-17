@@ -1,6 +1,6 @@
 # Roadmap
 
-This project is a **defensive reference lab**, not a production agent platform. Roadmap items extend the control plane model with tested security behavior. Items are not committed until they have tests and documentation.
+This project is a **production-oriented defensive reference implementation**, not a drop-in production agent platform. Roadmap items extend the control plane model with tested security behavior. Items are not committed until they have tests and documentation.
 
 ## Completed (v0.1.x)
 

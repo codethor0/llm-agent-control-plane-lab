@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "llm-agent-control-plane-lab"
 version = "0.1.0"
-description = "Defensive reference lab for securing tool-connected LLM agents with an external control plane"
+description = "Production-oriented defensive reference implementation for securing tool-connected LLM agents with an external control plane"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = { text = "MIT" }

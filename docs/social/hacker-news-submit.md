@@ -6,7 +6,7 @@ Show HN: Defensive LLM agent control plane lab (simulated tools, 84 tests, deny-
 
 URL:
 
-https://github.com/codethor0/llm-agent-control-plane-lab
+https://github.com/codethor0/llm-agent-control-plane
 
 Optional comment (post as reply if needed):
 
@@ -16,6 +16,6 @@ The model proposes structured tool calls; a broker enforces policy, provenance, 
 
 Includes FastAPI demo, CLI scenarios, Docker validation, and 84 tests. No real shell or external tool execution. Vulnerable path is simulation-only for contrast.
 
-Release v0.1.1: https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1
+Release v0.1.1: https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.1
 
 Looking for feedback from defenders and builders on control-plane patterns, not feature requests for production LLM wiring.

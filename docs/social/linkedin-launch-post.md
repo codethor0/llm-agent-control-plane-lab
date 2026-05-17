@@ -19,7 +19,7 @@ What it is not:
 - A jailbreak or exploit toolkit
 - A guarantee against all prompt injection
 
-Repository: https://github.com/codethor0/llm-agent-control-plane-lab
-Release v0.1.1: https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1
+Repository: https://github.com/codethor0/llm-agent-control-plane
+Release v0.1.1: https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.1
 
 Use in authorized local lab environments only. Feedback and control-gap issues welcome on GitHub.
