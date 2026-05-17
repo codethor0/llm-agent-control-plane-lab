@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 
 from hypothesis import assume, given
-from tests.property_helpers import context_ids, safe_identifier, tenant_id
 
 from agent_control_plane.approval_tokens import (
     clear_used_approval_tokens,
@@ -21,6 +20,7 @@ from agent_control_plane.models import (
     ToolCallPayload,
 )
 from agent_control_plane.policy_types import ToolPolicy
+from tests.property_helpers import context_ids, safe_identifier, tenant_id
 
 _EMAIL_POLICY = ToolPolicy.model_validate(
     {

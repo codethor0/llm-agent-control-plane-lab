@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from hypothesis import given
-from tests.property_helpers import known_tool, unknown_tool
 
 from agent_control_plane.models import ToolCallPayload
 from agent_control_plane.schemas import (
@@ -11,6 +10,7 @@ from agent_control_plane.schemas import (
     validate_tool_arguments,
     validate_tool_call_payload,
 )
+from tests.property_helpers import known_tool, unknown_tool
 
 
 @given(unknown_tool)

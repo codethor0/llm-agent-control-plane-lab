@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from hypothesis import assume, given
-from tests.property_helpers import context_ids, safe_identifier, tenant_id
 
 from agent_control_plane.models import ContextTrust, Provenance, ProvenanceSource
 from agent_control_plane.policy_types import ToolPolicy
@@ -15,6 +14,7 @@ from agent_control_plane.provenance_integrity import (
     verify_provenance_integrity,
     verify_provenance_signature,
 )
+from tests.property_helpers import context_ids, safe_identifier, tenant_id
 
 _FAKE_KEY = LAB_DEMO_HMAC_KEY
 

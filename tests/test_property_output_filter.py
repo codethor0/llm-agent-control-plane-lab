@@ -6,7 +6,6 @@ import json
 
 from hypothesis import assume, given
 from hypothesis import strategies as st
-from tests.property_helpers import safe_plain_text, tenant_id
 
 from agent_control_plane.output_filter import (
     OutputDestination,
@@ -15,6 +14,7 @@ from agent_control_plane.output_filter import (
     filter_output,
     findings_for_audit,
 )
+from tests.property_helpers import safe_plain_text, tenant_id
 
 # Lab-only token with high Shannon entropy; not a real secret.
 _HIGH_ENTROPY_FAKE = "aB3dE5fG7hI9jK1lM3nO5pQ7rS9tU1vW3xY5zA7bC9dE1fG3hI5jK7"
