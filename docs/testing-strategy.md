@@ -7,7 +7,7 @@
 3. Tests are deterministic and do not call external services.
 4. Do not mock away the control under test.
 
-## Layout (167 tests)
+## Layout (210 tests)
 
 | File | Focus |
 |------|-------|
@@ -21,6 +21,7 @@
 | `test_approval_gate_integration.py` | Human approval wired through broker and pipeline |
 | `test_schema_validation.py` | Structure-only validation |
 | `test_output_filter.py` | Layered leak prevention (patterns, entropy, tenant/destination/schema, audit metadata) |
+| `test_property_*.py` | Hypothesis property-based edge cases (schemas, broker, provenance, approval, output filter, repo hygiene) |
 | `test_audit_logger.py` | JSONL schema and redaction |
 | `test_audit_events.py` | Pipeline audit event types |
 | `test_pipeline_protected.py` | End-to-end protected path |

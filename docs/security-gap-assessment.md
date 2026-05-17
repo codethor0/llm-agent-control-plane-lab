@@ -118,19 +118,19 @@ Production deployments need enterprise DLP, classification services, egress cont
 
 - Positive and negative cases; no weakening of existing pattern tests (maintained in P4)
 
-## Gap 6: Adversarial fuzzing (deterministic suite only)
+## Gap 6: Adversarial fuzzing (property-based lab coverage)
 
 ### Current state
 
-167 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
+210 pytest cases including Hypothesis property tests (`tests/test_property_*.py`) for schemas, broker decisions, provenance HMAC integrity, approval tokens, output filter layers, and repo hygiene. CI profile uses `max_examples=25`, `derandomize=true`.
 
 ### Risk
 
-Edge-case strings bypass validators.
+Property tests increase edge-case coverage but do not prove absence of bugs or replace production red-team review.
 
 ### Maturity target
 
-Hypothesis tests for `schemas.py`, email/tenant targets, output filter inputs, policy engine decisions (bounded examples).
+Expand bounded generation for policy fixtures and deployment profiles; optional separate long-run profile locally (not required in CI).
 
 ## Gap 7: Supply-chain posture (baseline only)
 
