@@ -27,7 +27,8 @@ This project is a **local, simulated** reference lab. It is not certified for pr
 
 - [docs/defensive-controls.md](docs/defensive-controls.md) — invariants and test names by control
 - [docs/threat-model.md](docs/threat-model.md) — threat framing
-- [docs/architecture.md](docs/architecture.md) — pipeline layout
+- [docs/architecture.md](docs/architecture.md) — Mermaid diagrams (control plane, security zones, threat map, validation pipeline)
+- [README.md](README.md#architecture) — summary architecture diagrams
 - [PROJECT_DOCTRINE.md](PROJECT_DOCTRINE.md) — non-negotiable rules
 - [SECURITY.md](SECURITY.md) — reporting vulnerabilities
 
