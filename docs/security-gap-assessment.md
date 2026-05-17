@@ -19,6 +19,7 @@ This document evaluates **gaps between the current lab and production-grade agen
 | Area | Evidence |
 |------|----------|
 | Deny-by-default policy | `policies/default.yaml`, `tests/test_policy_engine.py` |
+| Policy integrity (schema + hash) | `policy_integrity.py`, `scripts/validate_policy.py`, `tests/test_policy_integrity.py` |
 | Tool broker authority | `tool_broker.py`, `tests/test_tool_broker.py`, `test_invariant_tool_broker_is_authority_boundary` |
 | Schema is not authorization | `tests/test_schema_validation.py`, `test_invariant_schema_validation_not_authorization` |
 | Provenance rules (declarative) | `provenance.py`, `tests/test_provenance.py` |
@@ -54,25 +55,23 @@ Signed or hashed provenance bound to retrieval events and service identity.
 - Reject when tenant on provenance does not match request tenant
 - Positive path: valid signed internal_reviewed allows only permitted tools
 
-## Gap 2: Policy integrity (file trust assumed)
+## Gap 2: Policy integrity (partially addressed in P0)
 
-### Current state
+### Current state (after P0)
 
-`policies/default.yaml` is loaded from disk at runtime. Policy engine enforces rules correctly **if** the file is trustworthy. No hash or signature verification.
+`policies/default.yaml` is validated by `policy_integrity.py` and `scripts/validate_policy.py`. Canonical SHA-256 is checked against `policies/default.sha256` in `make validate` and CI. Invariants enforce default deny, required demo tools, disabled `run_shell`, `send_email` approval, and `export_records` admin-only rules.
 
-### Risk
+### Remaining risk
 
-Accidental or malicious policy edits could enable disabled tools or weaken approval requirements.
+SHA-256 detects drift; it does not prove who changed the file. Signed policy attestation and optional `policy_hash` audit events at pipeline start remain future work.
 
-### Maturity target
+### Maturity target (remaining)
 
-Policy schema validation, CI policy diff tests, optional signed policy bundle, audit event on policy load with hash.
+Signed policy bundle, policy change audit event on load, runtime verification hook in `load_policy` (optional).
 
-### Tests needed
+### Tests implemented (P0)
 
-- Fail closed on unknown policy keys or invalid YAML schema
-- Detect drift from golden policy hash in CI
-- Log policy file hash at pipeline start (audit field)
+- `tests/test_policy_integrity.py` — schema, invariants, hash determinism, script mismatch failure
 
 ## Gap 3: Tool-output injection (under-tested)
 
@@ -137,7 +136,7 @@ Layered filters: entropy heuristics, structured finding types, tenant-aware rule
 
 ### Current state
 
-84 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
+98 deterministic pytest cases. No Hypothesis or property-based tests on schemas, targets, or policy decisions.
 
 ### Risk
 

@@ -7,10 +7,11 @@
 3. Tests are deterministic and do not call external services.
 4. Do not mock away the control under test.
 
-## Layout (84 tests)
+## Layout (98 tests)
 
 | File | Focus |
 |------|-------|
+| `test_policy_integrity.py` | Policy schema, invariants, canonical SHA-256 |
 | `test_policy_engine.py` | Policy rules and deny reasons |
 | `test_provenance.py` | Declarative provenance authorization |
 | `test_tool_broker.py` | Authority boundary |
@@ -29,10 +30,11 @@
 ## Adding a new tool safely
 
 1. Add policy entry in `policies/default.yaml` with explicit `enabled`, roles, and approval flags.
-2. Add Pydantic argument schema in `schemas.py`.
-3. Add simulator branch in `simulator.py` (simulation only).
-4. Add agent core scenario only for deterministic tests.
-5. Add policy, provenance, approval, and pipeline tests before merging.
+2. Run `python scripts/validate_policy.py --write-hash` to update `policies/default.sha256` when the canonical policy changes.
+3. Add Pydantic argument schema in `schemas.py`.
+4. Add simulator branch in `simulator.py` (simulation only).
+5. Add agent core scenario only for deterministic tests.
+6. Add policy, provenance, approval, and pipeline tests before merging.
 
 ## Running tests
 
