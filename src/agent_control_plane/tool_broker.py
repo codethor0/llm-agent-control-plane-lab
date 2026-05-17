@@ -4,6 +4,10 @@ from agent_control_plane.approval_gate import evaluate_approval_gate
 from agent_control_plane.models import AgentRequest, BrokerDecision, ToolCallPayload
 from agent_control_plane.policy_engine import evaluate_policy
 from agent_control_plane.policy_types import PolicyDocument
+from agent_control_plane.provenance_integrity import (
+    LAB_DEMO_HMAC_KEY,
+    verify_provenance_integrity,
+)
 from agent_control_plane.schemas import validate_tool_call_payload
 
 
@@ -11,6 +15,9 @@ def broker_tool_request(
     request: AgentRequest,
     policy: PolicyDocument,
     tool_call: ToolCallPayload,
+    *,
+    require_provenance_signature: bool = False,
+    provenance_hmac_key: bytes | None = None,
 ) -> BrokerDecision:
     """
     Decide whether a tool request may proceed to simulation.
@@ -24,6 +31,19 @@ def broker_tool_request(
             allowed=False,
             reason=schema_reason,
             schema_valid=False,
+        )
+
+    hmac_key = provenance_hmac_key if provenance_hmac_key is not None else LAB_DEMO_HMAC_KEY
+    integrity_ok, integrity_reason = verify_provenance_integrity(
+        tool_call.provenance,
+        hmac_key,
+        require_signature=require_provenance_signature,
+    )
+    if not integrity_ok:
+        return BrokerDecision(
+            allowed=False,
+            reason=integrity_reason,
+            schema_valid=True,
         )
 
     policy_decision = evaluate_policy(policy, request, tool_call)

@@ -24,7 +24,8 @@ def validate_provenance_for_tool(
     """
     Decide whether provenance may support a tool request.
 
-    Invariant: provenance is declarative metadata only (not cryptographic attestation).
+    Invariant: provenance is declarative metadata by default; optional HMAC verification
+    in strict broker mode is integrity-only (see provenance_integrity.py), not authorization.
     Untrusted or user/web/email/support sources cannot authorize tools.
     Internal reviewed provenance may authorize safe internal reads only.
     """

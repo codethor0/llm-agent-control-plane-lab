@@ -20,9 +20,18 @@ from agent_control_plane.tool_broker import broker_tool_request
 class ControlPlanePipeline:
     """Orchestrates the defensive control plane for a single agent turn."""
 
-    def __init__(self, policy_path: Path, audit_logger: AuditLogger) -> None:
+    def __init__(
+        self,
+        policy_path: Path,
+        audit_logger: AuditLogger,
+        *,
+        require_provenance_signature: bool = False,
+        provenance_hmac_key: bytes | None = None,
+    ) -> None:
         self._policy_path = policy_path
         self._audit = audit_logger
+        self._require_provenance_signature = require_provenance_signature
+        self._provenance_hmac_key = provenance_hmac_key
 
     def run_protected(self, request: AgentRequest) -> PipelineResult:
         """
@@ -86,7 +95,13 @@ class ControlPlanePipeline:
             )
 
         tool_call = model_turn.tool_call
-        broker_decision = broker_tool_request(request, policy, tool_call)
+        broker_decision = broker_tool_request(
+            request,
+            policy,
+            tool_call,
+            require_provenance_signature=self._require_provenance_signature,
+            provenance_hmac_key=self._provenance_hmac_key,
+        )
 
         if not broker_decision.schema_valid:
             self._audit.write(
