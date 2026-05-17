@@ -8,6 +8,7 @@ _SOURCES_CANNOT_AUTHORIZE: frozenset[ProvenanceSource] = frozenset(
     {
         ProvenanceSource.USER,
         ProvenanceSource.RETRIEVED,
+        ProvenanceSource.TOOL_OUTPUT,
         ProvenanceSource.EXTERNAL,
         ProvenanceSource.WEB,
         ProvenanceSource.EMAIL,

@@ -19,6 +19,7 @@ class ProvenanceSource(StrEnum):
     USER = "user"
     MODEL = "model"
     RETRIEVED = "retrieved"
+    TOOL_OUTPUT = "tool_output"
     SYSTEM = "system"
     EXTERNAL = "external"
     WEB = "web"
@@ -45,6 +46,15 @@ class RetrievedChunk(BaseModel):
     tenant_id: str
 
 
+class ToolOutputSegment(BaseModel):
+    """Prior simulated tool output ingested as untrusted evidence for a later turn."""
+
+    execution_id: str
+    tool_name: str
+    content: str
+    trust: ContextTrust = ContextTrust.UNTRUSTED
+
+
 class Provenance(BaseModel):
     """Provenance attached to a tool request; required for broker decisions."""
 
@@ -65,6 +75,7 @@ class AgentRequest(BaseModel):
     human_approval: bool = False
     user_message: str
     retrieved_chunks: list[RetrievedChunk] = Field(default_factory=list)
+    tool_output_segments: list[ToolOutputSegment] = Field(default_factory=list)
     scenario: str = "safe_read"
 
 
