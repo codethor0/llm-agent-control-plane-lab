@@ -73,25 +73,19 @@ Signed policy bundle, policy change audit event on load, runtime verification ho
 
 - `tests/test_policy_integrity.py` — schema, invariants, hash determinism, script mismatch failure
 
-## Gap 3: Tool-output injection (under-tested)
+## Gap 3: Tool-output injection (partially addressed in P2)
 
-### Current state
+### Current state (after P2)
 
-Doctrine and architecture state tool output is untrusted. Prompt assembly marks retrieved content as untrusted evidence. **No dedicated tests** simulate malicious content returned **from a tool execution step** influencing a later turn (tool-output-as-injection vector).
+`ToolOutputSegment` is ingested as untrusted prompt evidence (`may_trigger_tool_use=false`). `ProvenanceSource.TOOL_OUTPUT` cannot authorize tools. Dedicated tests in `tests/test_tool_output_injection.py` cover policy, broker, output filter, prompt assembly, and protected pipeline scenarios.
 
-### Risk
+### Remaining risk
 
-In multi-turn agents, tool responses could carry instructions that affect later model turns if a future adapter feeds tool output back without re-filtering.
+Coverage is simulated single-turn and test-harness multi-turn only. Production integrations must classify tool output at ingestion and never attach `TOOL_OUTPUT` provenance to authorize external effects.
 
-### Maturity target
+### Honest claim
 
-Document the distrust model; add scenarios and tests for tool-returned instruction-like text, wrong-tenant data in tool results, and follow-up tool-call attempts driven by simulated tool output.
-
-### Tests needed (examples)
-
-- Simulated tool result contains "ignore policy" — must not bypass broker on next turn
-- Tool result references foreign tenant — blocked by policy or filter
-- Tool result triggers disallowed follow-up tool without approval
+Tool-output injection is tested on simulated paths. This does not prove all production tool integrations are safe.
 
 ## Gap 4: Approval semantics (simulated checkbox)
 

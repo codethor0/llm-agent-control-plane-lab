@@ -22,7 +22,7 @@ Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.
 |----------|--------------|--------|
 | P0 | Policy integrity (schema, hash, CI verification) | Done |
 | P1 | Signed or hashed provenance (lab HMAC mode) | Planned |
-| P2 | Tool-output injection tests | Planned |
+| P2 | Tool-output injection tests | Done |
 | P3 | Approval token model (ID, expiry, action hash) | Planned |
 | P4 | Output filter layers (entropy, tenant-aware) | Planned |
 | P5 | Hypothesis fuzz tests | Planned |
