@@ -36,20 +36,20 @@ This tag includes the hygiene-scanner fix for pytest basetemp directories, **84*
 
 ## Safe use
 
-Authorized local lab use only. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/SECURITY.md).
+Authorized local lab use only. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/SECURITY.md).
 
 ## Known limitations
 
-- Provenance is declarative metadata, not signed or cryptographically attested ([provenance.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/docs/provenance.md))
+- Provenance is declarative metadata, not signed or cryptographically attested ([provenance.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/docs/provenance.md))
 - Simulated model only (scenario-driven; no live LLM API by default)
 - Architecture PNG regeneration uses local tooling (not in CI)
 - Multi-tenant isolation is demonstration-level
 
 ## Prior releases
 
-- [v0.1.1](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1) — documentation and architecture assets
-- [v0.1.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.0) — initial public release
+- [v0.1.1](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.1) — documentation and architecture assets
+- [v0.1.0](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.0) — initial public release
 
 ## Future work
 
-See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/ROADMAP.md).
+See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/ROADMAP.md).

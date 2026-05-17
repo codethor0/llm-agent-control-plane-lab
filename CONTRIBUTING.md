@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for helping improve this defensive reference lab.
+Thank you for helping improve this defensive reference implementation.
 
 ## Before you start
 

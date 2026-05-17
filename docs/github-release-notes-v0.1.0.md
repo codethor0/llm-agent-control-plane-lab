@@ -10,7 +10,7 @@ First public release of a defensive reference lab that demonstrates an external 
 - Deny-by-default policy with provenance and role checks
 - Protected path (full control plane) and vulnerable path (labeled unsafe simulation only)
 - FastAPI local API and CLI demo (`make demo`)
-- 83 automated tests mapped to [defensive controls](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/docs/defensive-controls.md)
+- 83 automated tests mapped to [defensive controls](https://github.com/codethor0/llm-agent-control-plane/blob/main/docs/defensive-controls.md)
 - Prompt-artifact hygiene scanner (`scripts/validate_repo.py`) in `make validate` and CI
 
 ## What this release does not do
@@ -50,15 +50,15 @@ Validated on Python 3.12 with:
 
 ## Safe use
 
-Use only in **authorized local lab** environments. Do not point this project at production systems, real customer data, or third-party targets. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/SECURITY.md).
+Use only in **authorized local lab** environments. Do not point this project at production systems, real customer data, or third-party targets. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/SECURITY.md).
 
 ## Known limitations
 
 - Simulated model only (scenario-driven, no live LLM API)
-- Provenance is declarative metadata, not signed attestation ([provenance.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/docs/provenance.md))
+- Provenance is declarative metadata, not signed attestation ([provenance.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/docs/provenance.md))
 - Policy file integrity on disk is assumed
 - Multi-tenant isolation is demonstration-level, not production-grade
 
 ## Upgrade and future work
 
-See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/ROADMAP.md).
+See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/ROADMAP.md).

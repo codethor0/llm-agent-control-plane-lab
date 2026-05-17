@@ -84,7 +84,7 @@ def test_repository_root_passes_hygiene_scan(validate_repo: object) -> None:
 
 
 def test_cycle_report_filename_fails(validate_repo: object, tmp_path: Path) -> None:
-    (tmp_path / "llm-agent-control-plane-lab-cycle-report.md").write_text(
+    (tmp_path / "llm-agent-control-plane-cycle-report.md").write_text(
         "cycle notes",
         encoding="utf-8",
     )

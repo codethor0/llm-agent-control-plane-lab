@@ -6,9 +6,9 @@ Status: **published** (verified end-to-end May 2026).
 
 | Check | Status |
 |-------|--------|
-| Public repository | https://github.com/codethor0/llm-agent-control-plane-lab |
+| Public repository | https://github.com/codethor0/llm-agent-control-plane |
 | Git remote | `origin` configured |
-| Latest release | [v0.1.1](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1) |
+| Latest release | [v0.1.1](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.1) |
 | CI badge | Enabled on README |
 | License | MIT |
 

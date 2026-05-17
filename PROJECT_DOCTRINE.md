@@ -1,12 +1,12 @@
 # Project Doctrine
 
-Repository: **llm-agent-control-plane-lab**
+Repository: **llm-agent-control-plane**
 
 This document is the authoritative engineering doctrine for humans and AI agents working in this repository. Cursor rules in `.cursor/rules/` mirror and enforce these requirements.
 
 ## Core purpose
 
-Build a defensive lab and proof-of-concept that shows how to secure LLM agents with an **external control plane**.
+Build a production-oriented defensive reference implementation that shows how to secure LLM agents with an **external control plane**.
 
 Demonstrated flow:
 

@@ -1,8 +1,8 @@
 # Security Controls Matrix
 
-Quick audit map for the defensive control plane lab. **If a control is not backed by tests, it does not exist** (see [docs/defensive-controls.md](docs/defensive-controls.md)).
+Quick audit map for the defensive control plane reference implementation. **If a control is not backed by tests, it does not exist** (see [docs/defensive-controls.md](docs/defensive-controls.md)).
 
-This project is a **local, simulated** reference lab. It is not certified for production deployments.
+This project is a **local, simulated** reference implementation. It is not certified for production deployments.
 
 ## Matrix
 

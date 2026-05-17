@@ -2,7 +2,7 @@
 
 ## Scope
 
-This policy applies to the **llm-agent-control-plane-lab** repository only: a defensive reference implementation for educational and authorized local testing. It is not a product security program for downstream deployments.
+This policy applies to the **llm-agent-control-plane** repository only: a production-oriented defensive reference implementation for educational and authorized local testing. It is not a product security program for downstream deployments.
 
 ## Supported versions
 

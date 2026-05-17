@@ -94,7 +94,7 @@ Validated on commit ancestry through `9e5209f` (minimum bar documentation) and i
 - No Hypothesis fuzz suite yet (P5 planned)
 - Supply-chain tooling beyond bandit/pip-audit not yet in CI (P6 planned)
 
-See [docs/security-gap-assessment.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/docs/security-gap-assessment.md).
+See [docs/security-gap-assessment.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/docs/security-gap-assessment.md).
 
 ## Upgrade notes
 
@@ -113,14 +113,14 @@ See [docs/security-gap-assessment.md](https://github.com/codethor0/llm-agent-con
 | P7 | Production hardening documentation |
 | P8 | LLM adapter interface (no live API by default) |
 
-See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/ROADMAP.md).
+See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/ROADMAP.md).
 
 ## Prior releases
 
-- [v0.1.2](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.2) — E2E verification and hygiene scanner fix
-- [v0.1.1](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1) — documentation and architecture assets
-- [v0.1.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.0) — initial public release
+- [v0.1.2](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.2) — E2E verification and hygiene scanner fix
+- [v0.1.1](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.1) — documentation and architecture assets
+- [v0.1.0](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.0) — initial public release
 
 ## Safe use
 
-Authorized local lab use only. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/SECURITY.md).
+Authorized local lab use only. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/SECURITY.md).

@@ -33,12 +33,12 @@ Adds a security controls matrix, architecture assets on the release tag, and soc
 
 ## Safe use
 
-Authorized local lab use only. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/SECURITY.md).
+Authorized local lab use only. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/SECURITY.md).
 
 ## Prior release
 
-[v0.1.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.0) — first public defensive control plane lab release.
+[v0.1.0](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.0) — first public defensive control plane lab release.
 
 ## Future work
 
-See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/ROADMAP.md).
+See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane/blob/main/ROADMAP.md).

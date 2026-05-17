@@ -71,7 +71,7 @@ FORBIDDEN_SUFFIXES: tuple[str, ...] = (
 FORBIDDEN_NAME_FRAGMENTS: tuple[str, ...] = (
     "cursor_project_doctrine",
     "cycle-report",
-    "llm-agent-control-plane-lab-cycle-report.md",
+    "llm-agent-control-plane-cycle-report.md",
 )
 
 
