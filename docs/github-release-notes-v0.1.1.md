@@ -16,19 +16,19 @@ Adds a security controls matrix, architecture assets on the release tag, and soc
 
 - No changes to `src/agent_control_plane/` security logic
 - No policy weakening
-- No test count reduction (still **83** tests)
+- No weakening of security tests (84 tests at final verification)
 - Simulated tools only; no production LLM API wiring
 
 ## Validation status
 
 | Check | Result |
 |-------|--------|
-| pytest | 83 passed |
+| pytest | 84 passed |
 | ruff / mypy | pass |
 | bandit | no issues |
 | pip-audit | no known vulnerabilities |
 | `scripts/validate_repo.py` | pass |
-| docker compose pytest | 83 passed |
+| docker compose pytest | 84 passed |
 | make demo | pass |
 
 ## Safe use

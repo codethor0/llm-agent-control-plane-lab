@@ -17,12 +17,12 @@ Expected:
 - `check-python`: OK: Python 3.12.x
 - ruff check and format: pass
 - mypy: pass
-- pytest: 83 passed
+- pytest: 84 passed
 - `python scripts/validate_repo.py`: pass
 - bandit: no issues in `src/`
 - pip-audit: no known vulnerabilities (network required)
 - docker compose build: pass (Docker daemon required)
-- docker compose run --rm app python -m pytest: 83 passed
+- docker compose run --rm app python -m pytest: 84 passed
 
 ## Repo hygiene
 

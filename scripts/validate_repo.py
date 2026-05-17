@@ -86,7 +86,7 @@ def find_repo_root(start: Path | None = None) -> Path:
 
 def is_skipped_dir(path: Path) -> bool:
     """Return True if any path component is a skipped cache or environment directory."""
-    return any(part in SKIP_DIR_NAMES for part in path.parts)
+    return any(part in SKIP_DIR_NAMES or part.startswith("pytest-of-") for part in path.parts)
 
 
 def is_allowed_governance_file(relative_path: str) -> bool:

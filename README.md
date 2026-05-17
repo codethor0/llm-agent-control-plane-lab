@@ -68,7 +68,7 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 - Enforces **deny-by-default** policy, **tool broker** authorization, **provenance** rules, **human approval**, and **output filtering**
 - Writes structured, **redacted JSONL** audit events
 - Provides a local **FastAPI** API and **CLI demo**
-- Maps [security invariants](docs/defensive-controls.md) to **83** automated tests
+- Maps [security invariants](docs/defensive-controls.md) to **84** automated tests
 - Blocks prompt artifacts from the repository via `scripts/validate_repo.py`
 
 ## What this repo does not do
@@ -132,8 +132,8 @@ make demo
 
 | Check | Command | Notes |
 |-------|---------|-------|
-| All checks | `make validate` | lint, types, 83 tests, repo hygiene, bandit, pip-audit, Docker |
-| Tests | `python -m pytest` | 83 security-focused tests |
+| All checks | `make validate` | lint, types, 84 tests, repo hygiene, bandit, pip-audit, Docker |
+| Tests | `python -m pytest` | 84 security-focused tests |
 | Repo hygiene | `python scripts/validate_repo.py` | Blocks prompt artifacts |
 | Demo | `make demo` | Seven CLI scenarios |
 
