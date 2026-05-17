@@ -14,7 +14,7 @@ This repository is a **local, simulated** demonstration. It shows how to keep au
 |------|--------|
 | Repository | https://github.com/codethor0/llm-agent-control-plane-lab |
 | CI | GitHub Actions on `main` (badge above) |
-| Release notes | [docs/github-release-notes-v0.1.0.md](docs/github-release-notes-v0.1.0.md) |
+| Latest release | [v0.1.1](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.1) (docs); [v0.1.0](https://github.com/codethor0/llm-agent-control-plane-lab/releases/tag/v0.1.0) (initial) |
 
 ## One-command quick start
 
@@ -171,6 +171,8 @@ curl -s -X POST http://127.0.0.1:8080/run \
 8. All tool execution is simulated in this lab.
 
 Full doctrine: [PROJECT_DOCTRINE.md](PROJECT_DOCTRINE.md).
+
+Security controls matrix (threat, implementation, tests): [SECURITY-CONTROLS.md](SECURITY-CONTROLS.md). Detailed invariants: [docs/defensive-controls.md](docs/defensive-controls.md).
 
 ## Safe use
 
