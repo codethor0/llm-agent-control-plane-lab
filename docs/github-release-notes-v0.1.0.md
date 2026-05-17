@@ -1,7 +1,3 @@
-# Release notes: v0.1.0
-
-Use this document when creating the GitHub release **v0.1.0: Defensive LLM Agent Control Plane Lab**.
-
 ## Summary
 
 First public release of a defensive reference lab that demonstrates an external control plane around a **simulated** tool-connected LLM agent.
@@ -14,7 +10,7 @@ First public release of a defensive reference lab that demonstrates an external 
 - Deny-by-default policy with provenance and role checks
 - Protected path (full control plane) and vulnerable path (labeled unsafe simulation only)
 - FastAPI local API and CLI demo (`make demo`)
-- 83 automated tests mapped to [defensive controls](defensive-controls.md)
+- 83 automated tests mapped to [defensive controls](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/docs/defensive-controls.md)
 - Prompt-artifact hygiene scanner (`scripts/validate_repo.py`) in `make validate` and CI
 
 ## What this release does not do
@@ -36,7 +32,7 @@ First public release of a defensive reference lab that demonstrates an external 
 - Audit events with redaction for allow, block, schema failure, and filter failure
 - Prompt artifacts blocked from the repository
 
-## Validation results (release candidate)
+## Validation results
 
 Validated on Python 3.12 with:
 
@@ -52,24 +48,17 @@ Validated on Python 3.12 with:
 | docker compose run --rm app python -m pytest | 83 passed |
 | make demo | pass |
 
-Re-run before tagging:
-
-```bash
-make validate
-make demo
-```
-
 ## Safe use
 
-Use only in **authorized local lab** environments. Do not point this project at production systems, real customer data, or third-party targets. See [SECURITY.md](../SECURITY.md).
+Use only in **authorized local lab** environments. Do not point this project at production systems, real customer data, or third-party targets. See [SECURITY.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/SECURITY.md).
 
 ## Known limitations
 
 - Simulated model only (scenario-driven, no live LLM API)
-- Provenance is declarative metadata, not signed attestation ([provenance.md](provenance.md))
+- Provenance is declarative metadata, not signed attestation ([provenance.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/docs/provenance.md))
 - Policy file integrity on disk is assumed
 - Multi-tenant isolation is demonstration-level, not production-grade
 
 ## Upgrade and future work
 
-See [ROADMAP.md](../ROADMAP.md).
+See [ROADMAP.md](https://github.com/codethor0/llm-agent-control-plane-lab/blob/main/ROADMAP.md).
