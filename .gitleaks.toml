@@ -1,0 +1,15 @@
+# Gitleaks configuration for llm-agent-control-plane (P6).
+# Default rules remain enabled via useDefault.
+title = "llm-agent-control-plane"
+
+[extend]
+useDefault = true
+
+# tests/ contains only lab-labeled fake secret patterns (FAKE-TEST-ONLY, lab-fake-*)
+# used to verify output-filter and audit redaction. See PROJECT_DOCTRINE and
+# docs/supply-chain.md. Production paths under src/ are not allowlisted.
+[allowlist]
+description = "Lab fake secret fixtures in tests only"
+paths = [
+  '''(?i)tests/''',
+]

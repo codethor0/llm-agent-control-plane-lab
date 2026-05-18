@@ -1,0 +1,32 @@
+# Dependabot version updates for supply-chain hygiene (P6).
+# Does not require repository secrets.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - supply-chain
+
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - supply-chain
+    groups:
+      dev-dependencies:
+        patterns:
+          - ruff
+          - mypy
+          - pytest*
+          - hypothesis
+          - bandit
+          - pip-audit

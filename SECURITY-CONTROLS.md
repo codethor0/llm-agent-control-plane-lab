@@ -27,6 +27,11 @@ This project is a **local, simulated** reference implementation. It is not certi
 | Docker validation | Environment drift; non-reproducible validation | `Dockerfile`, `docker-compose.yml`; CI docker job | CI: `docker compose build` + `pytest` (210 tests); local `make validate` | Implemented, tested in CI | Docker optional locally; image does not bind-mount host code |
 | Property-based security tests | Edge-case bypass of validators or broker rules | Hypothesis tests in `tests/test_property_*.py`; CI profile in `conftest.py` / `pyproject.toml` | `test_property_schemas.py`, `test_property_broker.py`, `test_property_provenance_integrity.py`, `test_property_approval_tokens.py`, `test_property_output_filter.py`, `test_property_repo_hygiene.py` | Implemented, tested (lab) | Bounded examples only; not exhaustive fuzzing or production certification |
 | GitHub Actions CI | Regressions on push/PR | `.github/workflows/ci.yml` | Workflow runs ruff, mypy, pytest, bandit, pip-audit, repo hygiene, policy integrity, Docker | Active on `main` | Node.js 20 deprecation warnings on actions; not formal compliance attestation |
+| CodeQL static analysis | Code vulnerabilities in Python sources | `.github/workflows/codeql.yml` | GitHub CodeQL analysis job on push/PR and weekly schedule | Active (P6) | SAST only; triage in GitHub Security; not exhaustive |
+| Secret scanning (Gitleaks) | Committed credentials or tokens | `.github/workflows/secrets.yml`; `.gitleaks.toml` | Full-history scan; tests/ allowlist for lab-fake fixtures only | Active (P6) | Heuristic scanner; allowlist scoped to `tests/`; does not scan live environments |
+| Container CVE scan (Trivy) | Known vulnerabilities in Docker image | `.github/workflows/trivy.yml` | Build image; fail on CRITICAL/HIGH unfixed | Active (P6) | Base image drift; not runtime pen-test |
+| SBOM generation | Dependency transparency for releases | `.github/workflows/sbom.yml` | CycloneDX JSON artifact per run | Active (P6) | Artifact unsigned unless signing added; not a vuln scan |
+| Dependabot updates | Dependency and Actions drift | `.github/dependabot.yml` | Weekly pip and GitHub Actions update PRs | Active (P6) | Requires maintainer review; no auto-merge by default |
 
 ## Related documentation
 
