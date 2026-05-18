@@ -14,13 +14,13 @@ Diagrams below use Mermaid (GitHub-rendered). Optional static exports: [llm-agen
 
 **Security boundary:** Everything after the simulated agent core is deterministic enforcement. Schema validation checks structure only; the tool broker is the authority boundary for allow or deny.
 
-**What is simulated:** The agent core and all tool effects. No production LLM API, shell, email, or network calls.
+**What is simulated:** The LLM adapter (default: `SimulatedLLMAdapter` delegating to `agent_core.py`) and all tool effects. No production LLM API, shell, email, or network calls. See [llm-adapter.md](llm-adapter.md).
 
 ```mermaid
 flowchart TD
   ui[Untrusted inputs]
   pa[Prompt assembly]
-  ac[Simulated agent core]
+  la[LLM adapter simulated]
   of[Output filter]
   sv[Schema validator]
   tb[Tool broker]
@@ -31,8 +31,8 @@ flowchart TD
   al[Audit logger JSONL]
 
   ui --> pa
-  pa --> ac
-  ac -->|"untrusted output"| of
+  pa --> la
+  la -->|"untrusted candidate output"| of
   of --> sv
   sv --> tb
   tb --> pe
@@ -50,7 +50,8 @@ flowchart TD
 | Stage | Module | Owns the decision? |
 |-------|--------|--------------------|
 | Prompt assembly | `prompt.py` | No — context only |
-| Simulated agent core | `agent_core.py` | No — proposes text and tool calls |
+| LLM adapter | `llm_adapter.py` | No — produces untrusted candidate output only |
+| Simulated agent core | `agent_core.py` | No — scenario logic behind `SimulatedLLMAdapter` |
 | Output filter | `output_filter.py` | Yes — blocks secret patterns |
 | Schema validator | `schemas.py` / broker | Structure only, not authorization |
 | Tool broker | `tool_broker.py` | Yes — authority boundary |
@@ -120,7 +121,7 @@ flowchart TD
   rh[Repo hygiene scanner]
   rf[Ruff]
   my[Mypy]
-  py[Pytest 84 tests]
+  py[Pytest 248 tests]
   bd[Bandit]
   pa[pip-audit]
   dk[Docker build]

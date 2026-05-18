@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 
+from agent_control_plane.llm_adapter import LLMAdapterMode
+
 
 class EnvironmentMode(StrEnum):
     """Deployment environment profile."""
@@ -76,6 +78,10 @@ class AppConfig:
     enable_debug_errors: bool
     allow_live_external_tools: bool
     allow_shell_tools: bool
+    llm_adapter_mode: LLMAdapterMode
+    allow_live_llm_calls: bool
+    llm_provider_name: str | None
+    llm_model_name: str | None
     policy_path: Path
     _api_keys: frozenset[str]
 
@@ -102,6 +108,9 @@ class AppConfig:
             errors.append("allow_live_external_tools must remain disabled")
         if self.allow_shell_tools:
             errors.append("allow_shell_tools must remain disabled")
+
+        if self.allow_live_llm_calls:
+            errors.append("live LLM calls are not implemented; keep allow_live_llm_calls false")
 
         if self.environment_mode is EnvironmentMode.PRODUCTION:
             if not self.require_api_auth:
@@ -185,6 +194,15 @@ def load_config_from_env() -> AppConfig:
 
     api_keys = _load_api_keys(keys_file=keys_file, inline_key=inline_key)
 
+    adapter_mode_raw = os.environ.get("ACP_LLM_ADAPTER_MODE", "simulated").strip().lower()
+    try:
+        llm_adapter_mode = LLMAdapterMode(adapter_mode_raw)
+    except ValueError as exc:
+        raise ConfigurationError(f"invalid ACP_LLM_ADAPTER_MODE: {adapter_mode_raw}") from exc
+
+    provider_raw = os.environ.get("ACP_LLM_PROVIDER_NAME")
+    model_raw = os.environ.get("ACP_LLM_MODEL_NAME")
+
     return AppConfig(
         environment_mode=mode,
         require_api_auth=_env_bool("ACP_REQUIRE_API_AUTH", default_require_auth),
@@ -200,6 +218,10 @@ def load_config_from_env() -> AppConfig:
         enable_debug_errors=_env_bool("ACP_ENABLE_DEBUG_ERRORS", default_debug),
         allow_live_external_tools=_env_bool("ACP_ALLOW_LIVE_EXTERNAL_TOOLS", False),
         allow_shell_tools=_env_bool("ACP_ALLOW_SHELL_TOOLS", False),
+        llm_adapter_mode=llm_adapter_mode,
+        allow_live_llm_calls=_env_bool("ACP_ALLOW_LIVE_LLM_CALLS", False),
+        llm_provider_name=provider_raw.strip() if provider_raw else None,
+        llm_model_name=model_raw.strip() if model_raw else None,
         policy_path=policy_path,
         _api_keys=api_keys,
     )

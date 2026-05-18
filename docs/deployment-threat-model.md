@@ -32,10 +32,13 @@ This threat model covers **deployment and operations** of the llm-agent-control-
 [Control plane pipeline]  <-- broker, policy, filter (in-process)
         |
         v
+[LLM adapter - simulated by default]  <-- candidate output only; no tool authority
+        |
+        v
 [Simulated tools]  <-- no real external execution
 ```
 
-Untrusted: all HTTP request bodies, headers (except validated API keys), and model output inside the pipeline.
+Untrusted: all HTTP request bodies, headers (except validated API keys), and **all** LLM adapter output (treated as untrusted candidate text before output filter and broker).
 
 ## Attacker goals
 
