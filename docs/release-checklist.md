@@ -17,12 +17,13 @@ Expected:
 - `check-python`: OK: Python 3.12.x
 - ruff check and format: pass
 - mypy: pass
-- pytest: 84 passed
+- pytest: 210 passed
 - `python scripts/validate_repo.py`: pass
+- `python scripts/validate_policy.py`: pass
 - bandit: no issues in `src/`
 - pip-audit: no known vulnerabilities (network required)
 - docker compose build: pass (Docker daemon required)
-- docker compose run --rm app python -m pytest: 84 passed
+- docker compose run --rm app python -m pytest: 210 passed
 
 ## Repo hygiene
 
@@ -60,6 +61,14 @@ Expected:
 - [ ] `docker compose run --rm app python -m pytest` passes
 - [ ] Image uses `python:3.12-slim-bookworm`
 - [ ] No bind mounts required for CI-equivalent test run
+
+## Supply-chain checks (releases after P6)
+
+See [release-security-checklist.md](release-security-checklist.md) for CodeQL, Gitleaks, Trivy, SBOM, and tag verification.
+
+- [ ] All required GitHub Actions workflows green on the release commit
+- [ ] SBOM artifact downloaded from Actions if publishing externally
+- [ ] No unsupported production or exhaustive-fuzzing claims in release notes
 
 ## GitHub checks
 

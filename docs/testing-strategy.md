@@ -54,6 +54,20 @@ docker compose build
 docker compose run --rm app python -m pytest
 ```
 
+## CI and supply-chain tests (P6)
+
+GitHub Actions (see [supply-chain.md](supply-chain.md)):
+
+| Workflow | Validates |
+|----------|-----------|
+| CI | ruff, mypy, pytest (210), repo hygiene, policy integrity, bandit, pip-audit, Docker |
+| CodeQL | Python static analysis |
+| Secret scan | Gitleaks on git history (tests/ allowlist for lab-fake fixtures only) |
+| Trivy | Docker image CRITICAL/HIGH (unfixed) |
+| SBOM | CycloneDX JSON artifact (unsigned) |
+
+These improve release hygiene; they do not prove absence of bugs or replace red-team review.
+
 ## Forbidden patterns
 
 - `@pytest.mark.skip` or `xfail` on security tests

@@ -10,7 +10,7 @@ This document evaluates **gaps between the current lab and production-grade agen
 |------|-------|-------|
 | Public defensive lab | 10/10 | Clear doctrine, tests, CI, docs, safe scope |
 | Security architecture teaching | 10/10 | Broker-centric model is well demonstrated |
-| Open-source hygiene | 9.8/10 | Prompt-artifact scanner; supply-chain tooling incomplete |
+| Open-source hygiene | 9.5/10 | Prompt-artifact scanner; CodeQL, Gitleaks, Trivy, SBOM, Dependabot (P6) |
 | Production readiness | 7.5/10 | Intentional lab boundaries |
 | Research extensibility | 8.8/10 | Strong base; deeper controls planned |
 
@@ -136,15 +136,15 @@ Expand bounded generation for policy fixtures and deployment profiles; optional 
 
 ### Current state
 
-CI: ruff, mypy, pytest, repo hygiene, bandit, pip-audit, Docker. Actions use floating `@v4` / `@v5` tags. No Dependabot, CodeQL, gitleaks, Trivy, or SBOM in repo.
+CI: ruff, mypy, pytest (210), repo hygiene, bandit, pip-audit, Docker. P6 adds CodeQL, Gitleaks, Trivy, SBOM workflows and Dependabot config. Actions pinned to major versions or explicit third-party tags (see [supply-chain.md](supply-chain.md)).
 
 ### Risk
 
-Dependency and workflow drift; secrets in commits; container CVEs undetected in CI.
+Residual dependency/CVE drift between scans; secrets outside git history; SBOM unsigned; branch protection not enforced unless configured in GitHub.
 
 ### Maturity target
 
-Dependabot, CodeQL workflow, secret scanning, Trivy on image, SBOM artifact, pinned action SHAs, documented signed-release guidance.
+Maintain green supply-chain workflows; enable branch protection per [branch-protection.md](branch-protection.md); optional signed tags; SHA-pinned Actions via Dependabot review.
 
 ## Gap 8: API hardening (demo scope)
 

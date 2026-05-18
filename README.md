@@ -21,7 +21,7 @@ This repository is a **local, simulated** demonstration. It shows how to keep au
 | Item | Status |
 |------|--------|
 | Repository | https://github.com/codethor0/llm-agent-control-plane |
-| CI | GitHub Actions on `main` (badge above) |
+| CI | GitHub Actions on `main` (badge above); supply-chain workflows: CodeQL, Gitleaks, Trivy, SBOM |
 | Latest release | [v0.2.2](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.2) (property-based tests); [v0.2.1](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.1); [v0.2.0](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.0) |
 
 ## One-command quick start
@@ -221,6 +221,7 @@ make demo
 | Repo hygiene | `python scripts/validate_repo.py` | Blocks prompt artifacts |
 | Policy integrity | `python scripts/validate_policy.py` | Schema, invariants, SHA-256 vs `policies/default.sha256` |
 | Demo | `make demo` | Seven CLI scenarios |
+| Supply chain (CI) | CodeQL, Gitleaks, Trivy, SBOM workflows | See [docs/supply-chain.md](docs/supply-chain.md); does not guarantee security |
 
 ## API example
 
@@ -268,6 +269,9 @@ Use only in **authorized local lab** environments. Do not point this project at 
 - [CONTRIBUTING.md](CONTRIBUTING.md) — tests required for security changes
 - [ROADMAP.md](ROADMAP.md) — planned future work
 - [docs/release-checklist.md](docs/release-checklist.md) — pre-release validation
+- [docs/release-security-checklist.md](docs/release-security-checklist.md) — supply-chain release gates
+- [docs/supply-chain.md](docs/supply-chain.md) — CodeQL, Gitleaks, Trivy, SBOM, Dependabot
+- [docs/branch-protection.md](docs/branch-protection.md) — recommended `main` protection (guidance)
 - [docs/github-publication-readiness.md](docs/github-publication-readiness.md) — first push checklist
 - GitHub issue templates under `.github/ISSUE_TEMPLATE/`
 
