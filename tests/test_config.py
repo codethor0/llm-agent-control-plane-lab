@@ -13,6 +13,7 @@ from agent_control_plane.config import (
     load_config_from_env,
     production_error_detail,
 )
+from agent_control_plane.llm_adapter import LLMAdapterMode
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = REPO_ROOT / "policies" / "default.yaml"
@@ -35,6 +36,10 @@ def _local_config(tmp_path: Path) -> AppConfig:
         enable_debug_errors=True,
         allow_live_external_tools=False,
         allow_shell_tools=False,
+        llm_adapter_mode=LLMAdapterMode.SIMULATED,
+        allow_live_llm_calls=False,
+        llm_provider_name=None,
+        llm_model_name=None,
         policy_path=POLICY_PATH,
         _api_keys=frozenset(),
     )
@@ -69,6 +74,10 @@ def _production_config(
         enable_debug_errors=enable_debug_errors,
         allow_live_external_tools=allow_live_external_tools,
         allow_shell_tools=allow_shell_tools,
+        llm_adapter_mode=LLMAdapterMode.SIMULATED,
+        allow_live_llm_calls=False,
+        llm_provider_name=None,
+        llm_model_name=None,
         policy_path=POLICY_PATH,
         _api_keys=keys,
     )
@@ -121,6 +130,34 @@ def test_production_config_shell_tools_fails(tmp_path: Path) -> None:
         cfg.validate()
 
 
+def test_allow_live_llm_calls_fails(tmp_path: Path) -> None:
+    cfg = _local_config(tmp_path)
+    cfg = AppConfig(
+        environment_mode=cfg.environment_mode,
+        require_api_auth=cfg.require_api_auth,
+        allowed_api_keys_file=cfg.allowed_api_keys_file,
+        allowed_origins=cfg.allowed_origins,
+        max_request_body_bytes=cfg.max_request_body_bytes,
+        audit_log_dir=cfg.audit_log_dir,
+        audit_retention_days=cfg.audit_retention_days,
+        enable_strict_provenance=cfg.enable_strict_provenance,
+        provenance_hmac_key_file=cfg.provenance_hmac_key_file,
+        require_approval_token=cfg.require_approval_token,
+        enable_rate_limit_guidance=cfg.enable_rate_limit_guidance,
+        enable_debug_errors=cfg.enable_debug_errors,
+        allow_live_external_tools=cfg.allow_live_external_tools,
+        allow_shell_tools=cfg.allow_shell_tools,
+        policy_path=cfg.policy_path,
+        _api_keys=cfg.api_keys,
+        llm_adapter_mode=LLMAdapterMode.SIMULATED,
+        allow_live_llm_calls=True,
+        llm_provider_name=None,
+        llm_model_name=None,
+    )
+    with pytest.raises(ConfigurationError, match="live LLM calls are not implemented"):
+        cfg.validate()
+
+
 def test_production_strict_provenance_passes_with_key_file(tmp_path: Path) -> None:
     key_file = tmp_path / "provenance.key"
     key_file.write_bytes(b"lab-fake-hmac-key-for-tests-only-32b!")
@@ -157,6 +194,10 @@ def test_invalid_max_request_size_fails(tmp_path: Path) -> None:
         allow_shell_tools=cfg.allow_shell_tools,
         policy_path=cfg.policy_path,
         _api_keys=cfg.api_keys,
+        llm_adapter_mode=cfg.llm_adapter_mode,
+        allow_live_llm_calls=cfg.allow_live_llm_calls,
+        llm_provider_name=cfg.llm_provider_name,
+        llm_model_name=cfg.llm_model_name,
     )
     with pytest.raises(ConfigurationError, match="max_request_body_bytes"):
         cfg.validate()
@@ -181,6 +222,10 @@ def test_invalid_audit_retention_fails(tmp_path: Path) -> None:
         allow_shell_tools=cfg.allow_shell_tools,
         policy_path=cfg.policy_path,
         _api_keys=cfg.api_keys,
+        llm_adapter_mode=cfg.llm_adapter_mode,
+        allow_live_llm_calls=cfg.allow_live_llm_calls,
+        llm_provider_name=cfg.llm_provider_name,
+        llm_model_name=cfg.llm_model_name,
     )
     with pytest.raises(ConfigurationError, match="audit_retention_days"):
         cfg.validate()

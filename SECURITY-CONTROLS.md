@@ -37,12 +37,14 @@ This project is a **local, simulated** reference implementation. It is not certi
 | Request body size limit | DoS via large HTTP bodies | `MaxBodySizeMiddleware` in `api.py` | `tests/test_api_hardening.py` | Implemented, tested | Content-Length check; proxy limits still required |
 | Safe production error responses | Information disclosure via stack traces | `production_error_detail`; exception handlers | `tests/test_config.py`, `tests/test_api_hardening.py` | Implemented, tested | Debug mode available in local profile only |
 | Container non-root runtime | Container privilege escalation | `Dockerfile` USER `appuser`; Compose `read_only` | Docker build + pytest in CI | Implemented (P7) | Host mount misconfiguration can weaken posture |
+| LLM adapter boundary (simulated default) | Live model output bypassing filter, schema, or broker; unauthorized tool calls from adapter | `llm_adapter.py`; `SimulatedLLMAdapter`; `DisabledExternalLLMAdapter`; pipeline `_generate_model_turn()` | `tests/test_llm_adapter.py` | Implemented, tested (P8) | No live provider client; `ACP_ALLOW_LIVE_LLM_CALLS` rejected at config validation |
 
 ## Related documentation
 
 - [docs/defensive-controls.md](docs/defensive-controls.md) — invariants and test names by control
 - [docs/threat-model.md](docs/threat-model.md) — threat framing
 - [docs/architecture.md](docs/architecture.md) — Mermaid diagrams (control plane, security zones, threat map, validation pipeline)
+- [docs/llm-adapter.md](docs/llm-adapter.md) — LLM adapter trust boundary and integration requirements
 - [README.md](README.md#architecture) — summary architecture diagrams
 - [PROJECT_DOCTRINE.md](PROJECT_DOCTRINE.md) — non-negotiable rules
 - [SECURITY.md](SECURITY.md) — reporting vulnerabilities

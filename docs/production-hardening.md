@@ -6,12 +6,12 @@ This document describes how to deploy **llm-agent-control-plane** with a product
 
 - An external control plane around a simulated LLM agent core
 - Deny-by-default policy, tool broker authorization, provenance checks, approval gates, output filtering, and audit logging
-- Local and container validation with 210+ automated security tests
+- Local and container validation with 248 automated security tests
 
 ## What this project is not
 
 - A drop-in production agent platform with enterprise IdP, workflow UI, or DLP
-- A live LLM integration (no live API calls by default)
+- A live LLM integration (adapter interface only; `ACP_ALLOW_LIVE_LLM_CALLS` is rejected; see [llm-adapter.md](llm-adapter.md))
 - Certified for regulated production without your own organizational review
 
 ## Required controls before network exposure
@@ -46,6 +46,10 @@ Environment variables (see `.env.example`):
 | `ACP_PROVENANCE_HMAC_KEY_FILE` | Path to HMAC key bytes (production strict mode) |
 | `ACP_REQUIRE_APPROVAL_TOKEN` | Broker requires bound approval tokens |
 | `ACP_ENABLE_DEBUG_ERRORS` | Verbose errors (disallowed in production profile) |
+| `ACP_LLM_ADAPTER_MODE` | `simulated` (default) or `disabled_external` (fail-closed stub) |
+| `ACP_ALLOW_LIVE_LLM_CALLS` | Must remain `false` (not implemented; validation fails if `true`) |
+| `ACP_LLM_PROVIDER_NAME` | Optional label for future providers (metadata only) |
+| `ACP_LLM_MODEL_NAME` | Optional model label (metadata only) |
 
 Load and validate in code:
 

@@ -2,12 +2,18 @@
 
 from pathlib import Path
 
-from agent_control_plane.agent_core import run_simulated_agent
 from agent_control_plane.approval_tokens import mark_approval_token_used
 from agent_control_plane.audit_logger import AuditEvent, AuditLogger
+from agent_control_plane.llm_adapter import (
+    LLMAdapter,
+    LLMAdapterRequest,
+    SimulatedLLMAdapter,
+    to_model_turn_result,
+)
 from agent_control_plane.models import (
     AgentRequest,
     BrokerDecision,
+    ModelTurnResult,
     PipelineResult,
     PolicyDecision,
     Provenance,
@@ -34,12 +40,19 @@ class ControlPlanePipeline:
         require_provenance_signature: bool = False,
         provenance_hmac_key: bytes | None = None,
         require_approval_token: bool = False,
+        llm_adapter: LLMAdapter | None = None,
     ) -> None:
         self._policy_path = policy_path
         self._audit = audit_logger
         self._require_provenance_signature = require_provenance_signature
         self._provenance_hmac_key = provenance_hmac_key
         self._require_approval_token = require_approval_token
+        self._llm_adapter = llm_adapter or SimulatedLLMAdapter()
+
+    def _generate_model_turn(self, request: AgentRequest) -> ModelTurnResult:
+        """Obtain untrusted candidate output via the configured LLM adapter."""
+        adapter_response = self._llm_adapter.generate(LLMAdapterRequest(agent_request=request))
+        return to_model_turn_result(adapter_response)
 
     def run_protected(self, request: AgentRequest) -> PipelineResult:
         """
@@ -49,7 +62,7 @@ class ControlPlanePipeline:
         approval, output filter, and audit.
         """
         policy = load_policy(self._policy_path)
-        model_turn = run_simulated_agent(request)
+        model_turn = self._generate_model_turn(request)
 
         filter_context = build_filter_context_from_request(request)
         output_result = filter_output(model_turn.natural_language, filter_context)
@@ -203,7 +216,7 @@ class ControlPlanePipeline:
 
         Invariant: vulnerable path never performs real shell, network, or external execution.
         """
-        model_turn = run_simulated_agent(request)
+        model_turn = self._generate_model_turn(request)
         if model_turn.tool_call is None:
             return PipelineResult(
                 request_id=request.request_id,
