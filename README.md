@@ -22,7 +22,7 @@ This repository is a **local, simulated** demonstration. It shows how to keep au
 |------|--------|
 | Repository | https://github.com/codethor0/llm-agent-control-plane |
 | CI | GitHub Actions on `main` (badge above) |
-| Latest release | [v0.2.1](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.1) (layered output filtering); [v0.2.0](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.0) (integrity hardening); [v0.1.2](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.2) |
+| Latest release | [v0.2.2](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.2) (property-based tests); [v0.2.1](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.1); [v0.2.0](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.0) |
 
 ## One-command quick start
 
