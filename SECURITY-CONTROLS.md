@@ -38,6 +38,7 @@ This project is a **local, simulated** reference implementation. It is not certi
 | Safe production error responses | Information disclosure via stack traces | `production_error_detail`; exception handlers | `tests/test_config.py`, `tests/test_api_hardening.py` | Implemented, tested | Debug mode available in local profile only |
 | Container non-root runtime | Container privilege escalation | `Dockerfile` USER `appuser`; Compose `read_only` | Docker build + pytest in CI | Implemented (P7) | Host mount misconfiguration can weaken posture |
 | LLM adapter boundary (simulated default) | Live model output bypassing filter, schema, or broker; unauthorized tool calls from adapter | `llm_adapter.py`; `SimulatedLLMAdapter`; `DisabledExternalLLMAdapter`; pipeline `_generate_model_turn()` | `tests/test_llm_adapter.py` | Implemented, tested (P8) | No live provider client; `ACP_ALLOW_LIVE_LLM_CALLS` rejected at config validation |
+| Audit correlation and operational events | Incomplete incident evidence; secret leakage in audit logs | `audit_logger.py`; `observability.py`; `correlation_id` on events; API auth/body-limit/adapter audit | `tests/test_audit_observability.py`, `tests/test_audit_events.py` | Implemented, tested (P9) | JSONL only; not a managed SIEM; heuristic redaction |
 
 ## Related documentation
 
@@ -45,6 +46,10 @@ This project is a **local, simulated** reference implementation. It is not certi
 - [docs/threat-model.md](docs/threat-model.md) — threat framing
 - [docs/architecture.md](docs/architecture.md) — Mermaid diagrams (control plane, security zones, threat map, validation pipeline)
 - [docs/llm-adapter.md](docs/llm-adapter.md) — LLM adapter trust boundary and integration requirements
+- [docs/audit-event-taxonomy.md](docs/audit-event-taxonomy.md) — audit event types and review guidance
+- [docs/siem-export.md](docs/siem-export.md) — SIEM ingestion patterns (documentation only)
+- [docs/audit-review-playbook.md](docs/audit-review-playbook.md) — operator review checklists
+- [docs/operator-runbook.md](docs/operator-runbook.md) — day-two operations
 - [README.md](README.md#architecture) — summary architecture diagrams
 - [PROJECT_DOCTRINE.md](PROJECT_DOCTRINE.md) — non-negotiable rules
 - [SECURITY.md](SECURITY.md) — reporting vulnerabilities

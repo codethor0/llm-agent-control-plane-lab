@@ -59,7 +59,8 @@ flowchart TD
 | Provenance checks | `provenance.py` | Yes — source cannot authorize alone |
 | Approval gate | `approval_gate.py` | Yes — high-impact tools need approval |
 | Simulated tools | `simulator.py` | Simulated effects only |
-| Audit logger | `audit_logger.py` | Evidence — redacted JSONL |
+| Audit logger | `audit_logger.py` | Evidence — redacted JSONL with `correlation_id` |
+| Observability | `observability.py` | Correlation IDs and API operational audit helpers |
 
 ## Security zones
 
@@ -121,7 +122,7 @@ flowchart TD
   rh[Repo hygiene scanner]
   rf[Ruff]
   my[Mypy]
-  py[Pytest 248 tests]
+  py[Pytest 260 tests]
   bd[Bandit]
   pa[pip-audit]
   dk[Docker build]

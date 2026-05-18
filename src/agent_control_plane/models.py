@@ -74,6 +74,7 @@ class AgentRequest(BaseModel):
     """Inbound request context for a single agent turn."""
 
     request_id: str
+    correlation_id: str | None = None
     user_id: str
     session_id: str
     tenant_id: str

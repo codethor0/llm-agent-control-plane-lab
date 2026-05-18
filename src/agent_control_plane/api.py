@@ -23,6 +23,7 @@ from agent_control_plane.config import (
 )
 from agent_control_plane.llm_adapter import create_llm_adapter_from_config
 from agent_control_plane.models import AgentRequest, RetrievedChunk
+from agent_control_plane.observability import normalize_correlation_id, write_operational_audit
 from agent_control_plane.pipeline import ControlPlanePipeline
 
 
@@ -30,6 +31,7 @@ class RunRequestBody(BaseModel):
     """HTTP body for running a protected pipeline turn."""
 
     request_id: str
+    correlation_id: str | None = None
     user_id: str
     session_id: str
     tenant_id: str
@@ -44,9 +46,15 @@ class RunRequestBody(BaseModel):
 class MaxBodySizeMiddleware(BaseHTTPMiddleware):
     """Reject requests whose Content-Length exceeds the configured maximum."""
 
-    def __init__(self, app: ASGIApp, max_body_bytes: int) -> None:
+    def __init__(
+        self,
+        app: ASGIApp,
+        max_body_bytes: int,
+        audit_logger: AuditLogger,
+    ) -> None:
         super().__init__(app)
         self._max_body_bytes = max_body_bytes
+        self._audit = audit_logger
 
     async def dispatch(
         self,
@@ -64,6 +72,18 @@ class MaxBodySizeMiddleware(BaseHTTPMiddleware):
                         content={"detail": "invalid_content_length"},
                     )
                 if size > self._max_body_bytes:
+                    correlation_id = normalize_correlation_id(
+                        request.headers.get("X-Correlation-ID"),
+                        fallback="api-body-limit",
+                    )
+                    write_operational_audit(
+                        self._audit,
+                        event_type="request_body_limit_blocked",
+                        correlation_id=correlation_id,
+                        request_id=correlation_id,
+                        stage="api_middleware",
+                        policy_reason="request_entity_too_large",
+                    )
                     return JSONResponse(
                         status_code=413,
                         content={"detail": "request_entity_too_large"},
@@ -90,6 +110,7 @@ def create_app(config: AppConfig | None = None) -> FastAPI:
 
     cfg.audit_log_dir.mkdir(parents=True, exist_ok=True)
     audit_path = cfg.audit_log_dir / "api_events.jsonl"
+    audit_logger = AuditLogger(audit_path)
 
     provenance_key: bytes | None = None
     if cfg.enable_strict_provenance:
@@ -97,7 +118,7 @@ def create_app(config: AppConfig | None = None) -> FastAPI:
 
     pipeline = ControlPlanePipeline(
         cfg.policy_path,
-        AuditLogger(audit_path),
+        audit_logger,
         require_provenance_signature=cfg.enable_strict_provenance,
         provenance_hmac_key=provenance_key,
         require_approval_token=cfg.require_approval_token,
@@ -112,18 +133,24 @@ def create_app(config: AppConfig | None = None) -> FastAPI:
 
     app.state.config = cfg
     app.state.pipeline = pipeline
+    app.state.audit_logger = audit_logger
 
     if cfg.allowed_origins:
         app.add_middleware(
             CORSMiddleware,
             allow_origins=list(cfg.allowed_origins),
             allow_methods=["GET", "POST"],
-            allow_headers=["Content-Type", "X-API-Key", "Authorization"],
+            allow_headers=["Content-Type", "X-API-Key", "Authorization", "X-Correlation-ID"],
         )
 
-    app.add_middleware(MaxBodySizeMiddleware, max_body_bytes=cfg.max_request_body_bytes)
+    app.add_middleware(
+        MaxBodySizeMiddleware,
+        max_body_bytes=cfg.max_request_body_bytes,
+        audit_logger=audit_logger,
+    )
 
     def require_api_key(
+        request: Request,
         x_api_key: Annotated[str | None, Header(alias="X-API-Key")] = None,
         authorization: Annotated[str | None, Header()] = None,
     ) -> None:
@@ -131,6 +158,18 @@ def create_app(config: AppConfig | None = None) -> FastAPI:
             return
         presented = _extract_api_key(x_api_key, authorization)
         if presented is None or presented not in cfg.api_keys:
+            correlation_id = normalize_correlation_id(
+                request.headers.get("X-Correlation-ID"),
+                fallback="api-unauthenticated",
+            )
+            write_operational_audit(
+                audit_logger,
+                event_type="api_auth_failure",
+                correlation_id=correlation_id,
+                request_id=correlation_id,
+                stage="api_auth",
+                policy_reason="unauthorized",
+            )
             raise HTTPException(status_code=401, detail="unauthorized")
 
     @app.exception_handler(Exception)
@@ -159,10 +198,18 @@ def create_app(config: AppConfig | None = None) -> FastAPI:
         return {"status": "ok", "mode": cfg.environment_mode.value}
 
     @app.post("/run", dependencies=[Depends(require_api_key)])
-    def run_turn(body: RunRequestBody) -> dict[str, object]:
+    def run_turn(
+        body: RunRequestBody,
+        x_correlation_id: Annotated[str | None, Header(alias="X-Correlation-ID")] = None,
+    ) -> dict[str, object]:
         """Execute one agent turn through the selected path."""
+        correlation_id = normalize_correlation_id(
+            body.correlation_id or x_correlation_id,
+            fallback=body.request_id,
+        )
         request = AgentRequest(
             request_id=body.request_id,
+            correlation_id=correlation_id,
             user_id=body.user_id,
             session_id=body.session_id,
             tenant_id=body.tenant_id,

@@ -13,7 +13,7 @@ This threat model covers **deployment and operations** of the llm-agent-control-
 | API keys | Gate access to `/run` in production profile |
 | Provenance HMAC key | Signs provenance metadata in strict mode |
 | Approval tokens | One-time authorization for high-impact tools (lab registry) |
-| Audit JSONL | Allow/deny decisions with redacted metadata |
+| Audit JSONL | Allow/deny decisions with redacted metadata and `correlation_id` |
 | Container image | Python runtime and dependencies |
 | SBOM artifact | Dependency transparency from CI |
 
