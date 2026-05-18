@@ -26,7 +26,7 @@ Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.
 | P3 | Approval token model (ID, expiry, action hash) | Done |
 | P4 | Output filter layers (entropy, tenant-aware) | Done |
 | P5 | Hypothesis property-based tests | Done |
-| P6 | Supply-chain (Dependabot, CodeQL, gitleaks, Trivy, SBOM) | Done (feature branch) |
+| P6 | Supply-chain (Dependabot, CodeQL, gitleaks, Trivy, SBOM) | Done |
 | P7 | Production hardening documentation | Planned |
 | P8 | LLM adapter interface (no live API by default) | Planned |
 
