@@ -21,6 +21,7 @@ from agent_control_plane.config import (
     load_config_from_env,
     production_error_detail,
 )
+from agent_control_plane.llm_adapter import create_llm_adapter_from_config
 from agent_control_plane.models import AgentRequest, RetrievedChunk
 from agent_control_plane.pipeline import ControlPlanePipeline
 
@@ -100,6 +101,7 @@ def create_app(config: AppConfig | None = None) -> FastAPI:
         require_provenance_signature=cfg.enable_strict_provenance,
         provenance_hmac_key=provenance_key,
         require_approval_token=cfg.require_approval_token,
+        llm_adapter=create_llm_adapter_from_config(cfg),
     )
 
     app = FastAPI(

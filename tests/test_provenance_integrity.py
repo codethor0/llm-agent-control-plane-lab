@@ -9,6 +9,7 @@ from agent_control_plane.audit_logger import AuditLogger
 from agent_control_plane.models import (
     AgentRequest,
     ContextTrust,
+    ModelTurnResult,
     Provenance,
     ProvenanceSource,
     ToolCallPayload,
@@ -261,24 +262,21 @@ def test_strict_protected_pipeline_blocks_tampered_provenance(
         require_provenance_signature=True,
     )
 
-    class _TamperedAgentCore:
-        @staticmethod
-        def run(request: AgentRequest):  # type: ignore[no-untyped-def]
-            from agent_control_plane.agent_core import run_simulated_agent
+    def _tampered_model_turn(request: AgentRequest) -> ModelTurnResult:
+        from agent_control_plane.agent_core import run_simulated_agent
 
-            turn = run_simulated_agent(
-                request.model_copy(update={"scenario": "strict_signed_read"})
-            )
-            assert turn.tool_call is not None
-            assert turn.tool_call.provenance is not None
-            turn.tool_call.provenance = turn.tool_call.provenance.model_copy(
-                update={"tenant_id": "tenant-b"}
-            )
-            return turn
+        turn = run_simulated_agent(request.model_copy(update={"scenario": "strict_signed_read"}))
+        assert turn.tool_call is not None
+        assert turn.tool_call.provenance is not None
+        turn.tool_call.provenance = turn.tool_call.provenance.model_copy(
+            update={"tenant_id": "tenant-b"}
+        )
+        return turn
 
-    with mock.patch(
-        "agent_control_plane.pipeline.run_simulated_agent",
-        side_effect=_TamperedAgentCore.run,
+    with mock.patch.object(
+        tampered_pipeline,
+        "_generate_model_turn",
+        side_effect=_tampered_model_turn,
     ):
         blocked = tampered_pipeline.run_protected(
             base_request.model_copy(update={"scenario": "strict_signed_read"})

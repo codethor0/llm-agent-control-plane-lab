@@ -160,19 +160,19 @@ Operators may deploy with `ACP_ENVIRONMENT=local` on a network-facing host or sk
 
 Enterprise IdP integration, per-tenant rate limits in infrastructure, and persistent approval store (P7 docs + config; not full production service).
 
-## Gap 9: Simulated model (intentional)
+## Gap 9: Live LLM provider integration (partial — P8)
 
 ### Current state
 
-`agent_core.py` is scenario-driven. No live LLM API. Safe for public repo.
+`llm_adapter.py` defines `LLMAdapter`, `SimulatedLLMAdapter` (wraps `agent_core.py`), and `DisabledExternalLLMAdapter` (fail-closed). Pipeline routes model turns through the adapter; output still passes output filter, schema validation, and broker. No live API client. `ACP_ALLOW_LIVE_LLM_CALLS=true` is rejected at config validation.
 
 ### Risk
 
-Integrators unclear how to attach a real model safely.
+Future live adapters could bypass controls if implemented incorrectly outside this pattern.
 
 ### Maturity target
 
-`LLMClient` protocol, `LocalFakeLLMClient`, stub `ExternalLLMClient` raising `NotImplementedError`, integration guide without API keys by default.
+Provider-specific live adapters with isolated tests, secret manager for API keys, logging review, rate limiting, and security review before enabling network calls.
 
 ## Non-goals (unchanged)
 

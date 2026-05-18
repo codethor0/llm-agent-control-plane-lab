@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 
 from agent_control_plane.api import create_app
 from agent_control_plane.config import AppConfig, EnvironmentMode
+from agent_control_plane.llm_adapter import LLMAdapterMode
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = REPO_ROOT / "policies" / "default.yaml"
@@ -43,6 +44,10 @@ def _production_app(tmp_path: Path) -> TestClient:
         enable_debug_errors=False,
         allow_live_external_tools=False,
         allow_shell_tools=False,
+        llm_adapter_mode=LLMAdapterMode.SIMULATED,
+        allow_live_llm_calls=False,
+        llm_provider_name=None,
+        llm_model_name=None,
         policy_path=POLICY_PATH,
         _api_keys=frozenset({FAKE_API_KEY}),
     )
@@ -65,6 +70,10 @@ def _local_app(tmp_path: Path) -> TestClient:
         enable_debug_errors=True,
         allow_live_external_tools=False,
         allow_shell_tools=False,
+        llm_adapter_mode=LLMAdapterMode.SIMULATED,
+        allow_live_llm_calls=False,
+        llm_provider_name=None,
+        llm_model_name=None,
         policy_path=POLICY_PATH,
         _api_keys=frozenset(),
     )
