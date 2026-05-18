@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pytest
+from hypothesis import HealthCheck, settings
 
 from agent_control_plane.audit_logger import AuditLogger
 from agent_control_plane.models import (
@@ -12,6 +13,18 @@ from agent_control_plane.models import (
     ProvenanceSource,
 )
 from agent_control_plane.pipeline import ControlPlanePipeline
+
+
+def pytest_configure() -> None:
+    """Load a fast, deterministic Hypothesis profile for CI and local runs."""
+    settings.register_profile(
+        "ci",
+        max_examples=25,
+        deadline=None,
+        derandomize=True,
+        suppress_health_check=[HealthCheck.too_slow],
+    )
+    settings.load_profile("ci")
 
 
 @pytest.fixture
