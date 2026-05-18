@@ -32,6 +32,11 @@ This project is a **local, simulated** reference implementation. It is not certi
 | Container CVE scan (Trivy) | Known vulnerabilities in Docker image | `.github/workflows/trivy.yml` | Build image; fail on CRITICAL/HIGH unfixed | Active (P6) | Base image drift; not runtime pen-test |
 | SBOM generation | Dependency transparency for releases | `.github/workflows/sbom.yml` | CycloneDX JSON artifact per run | Active (P6) | Artifact unsigned unless signing added; not a vuln scan |
 | Dependabot updates | Dependency and Actions drift | `.github/dependabot.yml` | Weekly pip and GitHub Actions update PRs | Active (P6) | Requires maintainer review; no auto-merge by default |
+| Production config validation | Unsafe deployment profile | `config.py`; `AppConfig.validate()` | `tests/test_config.py` | Implemented, tested (P7) | Env-based; operator must set production vars correctly |
+| API authentication (production profile) | Unauthorized pipeline invocation | `api.py`; `ACP_REQUIRE_API_AUTH` | `tests/test_api_hardening.py` | Implemented, tested (lab file keys) | File/env keys only; not enterprise IdP |
+| Request body size limit | DoS via large HTTP bodies | `MaxBodySizeMiddleware` in `api.py` | `tests/test_api_hardening.py` | Implemented, tested | Content-Length check; proxy limits still required |
+| Safe production error responses | Information disclosure via stack traces | `production_error_detail`; exception handlers | `tests/test_config.py`, `tests/test_api_hardening.py` | Implemented, tested | Debug mode available in local profile only |
+| Container non-root runtime | Container privilege escalation | `Dockerfile` USER `appuser`; Compose `read_only` | Docker build + pytest in CI | Implemented (P7) | Host mount misconfiguration can weaken posture |
 
 ## Related documentation
 

@@ -18,7 +18,7 @@ python scripts/validate_policy.py
 
 Expected:
 
-- pytest: **210 passed** (host and Docker via `make validate`)
+- pytest: **233 passed** (host and Docker via `make validate`)
 - `make demo`: 7 scenarios OK
 - repo hygiene: no prompt artifacts
 - policy integrity: canonical SHA-256 matches `policies/default.sha256`
@@ -73,8 +73,16 @@ Do not tag if required workflows are failing or skipped without documented reaso
 - [ ] Monitor Dependabot PRs for critical dependency updates
 - [ ] File issues for accepted CodeQL/Trivy findings with mitigation plan
 
+## Production deployment (P7)
+
+- [ ] `ACP_ENVIRONMENT=production` validation passes at startup
+- [ ] API auth and CORS configured per [production-hardening.md](production-hardening.md)
+- [ ] Container runs non-root; read-only rootfs where applicable
+- [ ] No claim of production certification in release notes
+
 ## Related docs
 
 - [branch-protection.md](branch-protection.md) — recommended `main` protection (guidance only until configured)
 - [supply-chain.md](supply-chain.md) — workflows, pinning policy, limitations
+- [production-hardening.md](production-hardening.md) — deployment profile
 - [release-checklist.md](release-checklist.md) — general publication checklist
