@@ -1,6 +1,11 @@
 # Pin major.minor for reproducible CI and local Docker validation.
 FROM python:3.12-slim-bookworm
 
+# Apply Debian security updates in the image (supply-chain; no app logic change).
+RUN apt-get update \
+    && apt-get upgrade -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
