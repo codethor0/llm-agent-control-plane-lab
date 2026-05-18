@@ -26,7 +26,7 @@ No private registry or repository secrets required.
 - **First-party actions:** pin to major version tags (`actions/checkout@v4`, `actions/upload-artifact@v4`, `github/codeql-action/*@v3`).
 - **Third-party actions:** pin to explicit release tags where used:
   - `gitleaks/gitleaks-action@v2` — secret scanning without custom credentials
-  - `aquasecurity/trivy-action@0.28.0` — container CVE scan
+  - `aquasecurity/trivy-action@0.36.0` — container CVE scan
   - `anchore/sbom-action@v0` — SBOM generation (Syft-based)
 - Full commit SHA pinning is optional hardening; Dependabot can propose Action updates.
 - Do not add untrusted third-party actions without documenting rationale here.
