@@ -4,7 +4,7 @@
 [![Release](https://img.shields.io/github/v/release/codethor0/llm-agent-control-plane)](https://github.com/codethor0/llm-agent-control-plane/releases)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-210%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane/actions)
+[![Tests](https://img.shields.io/badge/tests-233%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane/actions)
 [![Security](https://img.shields.io/badge/security-deny--by--default-critical)](SECURITY-CONTROLS.md)
 [![Docker](https://img.shields.io/badge/docker-verified-blue)](Dockerfile)
 
@@ -76,7 +76,7 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 - Enforces **deny-by-default** policy, **tool broker** authorization, **provenance** rules, **human approval**, and **output filtering**
 - Writes structured, **redacted JSONL** audit events
 - Provides a local **FastAPI** API and **CLI demo**
-- Maps [security invariants](docs/defensive-controls.md) to **210** automated tests
+- Maps [security invariants](docs/defensive-controls.md) to **233** automated tests
 - Blocks prompt artifacts from the repository via `scripts/validate_repo.py`
 
 ## What this repo does not do
@@ -216,8 +216,8 @@ make demo
 
 | Check | Command | Notes |
 |-------|---------|-------|
-| All checks | `make validate` | lint, types, 210 tests, repo hygiene, policy integrity, bandit, pip-audit, Docker |
-| Tests | `python -m pytest` | 210 security-focused tests (includes property-based) |
+| All checks | `make validate` | lint, types, 233 tests, repo hygiene, policy integrity, bandit, pip-audit, Docker |
+| Tests | `python -m pytest` | 233 security-focused tests (includes property-based and API hardening) |
 | Repo hygiene | `python scripts/validate_repo.py` | Blocks prompt artifacts |
 | Policy integrity | `python scripts/validate_policy.py` | Schema, invariants, SHA-256 vs `policies/default.sha256` |
 | Demo | `make demo` | Seven CLI scenarios |
@@ -264,6 +264,8 @@ Security controls matrix (threat, implementation, tests): [SECURITY-CONTROLS.md]
 
 Use only in **authorized local lab** environments. Do not point this project at production systems, real customer data, or third-party targets. Report issues per [SECURITY.md](SECURITY.md).
 
+For deployment guardrails (API auth, CORS, request limits, container profile), see [docs/production-hardening.md](docs/production-hardening.md) and [docs/deployment-threat-model.md](docs/deployment-threat-model.md). Production mode improves posture but does **not** make this a certified production service.
+
 ## Contributing and roadmap
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) — tests required for security changes
@@ -272,6 +274,8 @@ Use only in **authorized local lab** environments. Do not point this project at 
 - [docs/release-security-checklist.md](docs/release-security-checklist.md) — supply-chain release gates
 - [docs/supply-chain.md](docs/supply-chain.md) — CodeQL, Gitleaks, Trivy, SBOM, Dependabot
 - [docs/branch-protection.md](docs/branch-protection.md) — recommended `main` protection (guidance)
+- [docs/production-hardening.md](docs/production-hardening.md) — deployment profile and checklist
+- [docs/deployment-threat-model.md](docs/deployment-threat-model.md) — deployment threats and mitigations
 - [docs/github-publication-readiness.md](docs/github-publication-readiness.md) — first push checklist
 - GitHub issue templates under `.github/ISSUE_TEMPLATE/`
 

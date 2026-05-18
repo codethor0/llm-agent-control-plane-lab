@@ -150,17 +150,15 @@ Maintain green supply-chain workflows; enable branch protection per [branch-prot
 
 ### Current state
 
-FastAPI demo (`api.py`): `/health`, `/run`, no auth, no rate limits. Documented as local lab only.
+FastAPI demo (`api.py`): `/health`, `/run`; production profile requires API auth, explicit CORS, request size limits, and safe errors (`config.py`, `tests/test_api_hardening.py`). Local mode remains auth-free for lab use. Rate limiting documented at edge only.
 
 ### Risk
 
-Operators deploy demo without auth and expose broker to the network.
+Operators may deploy with `ACP_ENVIRONMENT=local` on a network-facing host or skip edge rate limits.
 
 ### Maturity target
 
-`docs/production-hardening.md`: authn/z, rate limits, request size limits, CORS, TLS, network isolation, non-root container, read-only rootfs.
-
-No requirement to implement auth in the lab unless explicitly scoped later.
+Enterprise IdP integration, per-tenant rate limits in infrastructure, and persistent approval store (P7 docs + config; not full production service).
 
 ## Gap 9: Simulated model (intentional)
 

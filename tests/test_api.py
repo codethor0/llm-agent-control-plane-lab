@@ -2,18 +2,18 @@
 
 from fastapi.testclient import TestClient
 
-from agent_control_plane.api import app
+from agent_control_plane.api import get_app
 
 
 def test_health_endpoint() -> None:
-    client = TestClient(app)
+    client = TestClient(get_app())
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
 
 
 def test_run_protected_safe_read() -> None:
-    client = TestClient(app)
+    client = TestClient(get_app())
     response = client.post(
         "/run",
         json={

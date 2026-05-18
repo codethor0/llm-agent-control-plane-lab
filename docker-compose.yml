@@ -5,6 +5,13 @@ services:
       dockerfile: Dockerfile
     image: llm-agent-control-plane:local
     environment:
-      AUDIT_LOG_PATH: /app/var/audit/events.jsonl
+      ACP_ENVIRONMENT: local
+      ACP_AUDIT_LOG_DIR: /tmp/audit
+      ACP_POLICY_PATH: /app/policies/default.yaml
       POLICY_PATH: /app/policies/default.yaml
     working_dir: /app
+    read_only: true
+    tmpfs:
+      - /tmp:size=64M,mode=1777
+    security_opt:
+      - no-new-privileges:true
