@@ -23,6 +23,9 @@ COPY scripts ./scripts
 COPY docker-compose.yml docker-compose.production.yml ./
 COPY .env.example .env.production.example ./
 COPY docs/deployment-boundaries.md docs/deployment-checklist.md docs/helm-guidance.md ./docs/
+COPY docs/release-provenance.md docs/artifact-verification.md docs/github-actions-trust.md ./docs/
+COPY docs/supply-chain.md docs/release-security-checklist.md docs/release-checklist.md ./docs/
+COPY .github/workflows ./.github/workflows
 
 RUN pip install --upgrade pip \
     && pip install -e ".[dev]" \

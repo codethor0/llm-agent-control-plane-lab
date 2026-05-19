@@ -1,16 +1,17 @@
-# Supply Chain Security (P6)
+# Supply Chain Security (P6, P12)
 
-Supply-chain workflows and configuration added in P6 improve **open-source release hygiene** and CI verification. They do **not** guarantee supply-chain security or production certification.
+Supply-chain workflows and configuration improve **open-source release hygiene** and CI verification. They do **not** guarantee supply-chain security or production certification.
 
 ## Workflows
 
 | Workflow | File | Trigger | Purpose |
 |----------|------|---------|---------|
-| CI | `.github/workflows/ci.yml` | push/PR `main` | Lint, types, 210 tests, bandit, pip-audit, Docker |
+| CI | `.github/workflows/ci.yml` | push/PR `main` | Lint, types, tests, bandit, pip-audit, Docker |
 | CodeQL | `.github/workflows/codeql.yml` | push/PR `main`, weekly | Python static analysis (GitHub CodeQL) |
 | Secret scan | `.github/workflows/secrets.yml` | push/PR `main` | Gitleaks on full git history |
 | Trivy | `.github/workflows/trivy.yml` | push/PR `main` | CRITICAL/HIGH on built Docker image |
 | SBOM | `.github/workflows/sbom.yml` | push/PR `main`, manual | CycloneDX JSON artifact (unsigned) |
+| Release artifacts | `.github/workflows/release-artifacts.yml` | push tag `v*` | Source tarball + `SHA256SUMS` (unsigned checksums) |
 
 ## Dependabot
 
@@ -45,9 +46,17 @@ On a green `SBOM` workflow run, download artifact **`sbom-cyclonedx`** from the 
 - Fails on **CRITICAL** and **HIGH** with `ignore-unfixed: true`.
 - Does not replace ongoing base-image maintenance.
 
+## Release checksums (P12)
+
+On push of a `v*` tag, **Release artifacts** builds a `git archive` tarball, writes `SHA256SUMS`, uploads a workflow artifact, and attaches files to the GitHub Release using `GITHUB_TOKEN` only.
+
+- Checksums are **integrity hashes**, not digital signatures.
+- Releases tagged before this workflow (for example **v0.2.7**) may lack `SHA256SUMS` assets.
+- See [release-provenance.md](release-provenance.md) and [artifact-verification.md](artifact-verification.md).
+
 ## Signed tags and releases
 
-Signed annotated tags and GitHub release signing are **recommended** for maintainers but **not automated** in this repository. See [release-security-checklist.md](release-security-checklist.md).
+GPG-signed tags, cosign, and sigstore attestations are **not** implemented. Annotated tags and unsigned checksums are the current trust baseline. See [release-security-checklist.md](release-security-checklist.md) and [github-actions-trust.md](github-actions-trust.md).
 
 ## Branch protection
 
