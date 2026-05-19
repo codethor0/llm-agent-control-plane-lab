@@ -49,13 +49,13 @@ Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.
 
 | Item | Description | Status |
 |------|-------------|--------|
-| Enterprise integration plan | Architecture and operator boundaries | In progress (feature branch) |
-| Identity integration guidance | OIDC/SAML at gateway (not in-app) | In progress |
-| KMS / secret management guidance | No secrets in repo; rotation expectations | In progress |
-| Approval workflow guidance | Lab vs persistent store | In progress |
-| SIEM onboarding plan | JSONL to enterprise SIEM (no connector) | In progress |
-| Rate limiting / edge controls | Gateway-owned limits | In progress |
-| Enterprise readiness checklist | Pre-production gates | In progress |
+| Enterprise integration plan | Architecture and operator boundaries | Done (main; release notes v0.2.9) |
+| Identity integration guidance | OIDC/SAML at gateway (not in-app) | Done |
+| KMS / secret management guidance | No secrets in repo; rotation expectations | Done |
+| Approval workflow guidance | Lab vs persistent store | Done |
+| SIEM onboarding plan | JSONL to enterprise SIEM (no connector) | Done |
+| Rate limiting / edge controls | Gateway-owned limits | Done |
+| Enterprise readiness checklist | Pre-production gates | Done |
 
 **Not in P11:** Implementing IdP, KMS, persistent approvals, managed SIEM connector, or in-app distributed rate limiting.
 
