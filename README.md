@@ -4,7 +4,7 @@
 [![Release](https://img.shields.io/github/v/release/codethor0/llm-agent-control-plane)](https://github.com/codethor0/llm-agent-control-plane/releases)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-282%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane/actions)
+[![Tests](https://img.shields.io/badge/tests-293%20passing-brightgreen)](https://github.com/codethor0/llm-agent-control-plane/actions)
 [![Security](https://img.shields.io/badge/security-deny--by--default-critical)](SECURITY-CONTROLS.md)
 [![Docker](https://img.shields.io/badge/docker-verified-blue)](Dockerfile)
 
@@ -85,7 +85,7 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 - Enforces **deny-by-default** policy, **tool broker** authorization, **provenance** rules, **human approval**, and **output filtering**
 - Writes structured, **redacted JSONL** audit events
 - Provides a local **FastAPI** API and **CLI demo**
-- Maps [security invariants](docs/defensive-controls.md) to **282** automated tests
+- Maps [security invariants](docs/defensive-controls.md) to **293** automated tests
 - Exposes a safe [LLM adapter interface](docs/llm-adapter.md) (simulated by default; no live API calls)
 - Provides [audit taxonomy](docs/audit-event-taxonomy.md), [SIEM export guidance](docs/siem-export.md), and [operator playbooks](docs/audit-review-playbook.md) for review and response
 - Ships [deployment reference profiles](docs/deployment-boundaries.md) (Compose, Kubernetes manifests, checklists; not a managed platform)
@@ -228,8 +228,8 @@ make demo
 
 | Check | Command | Notes |
 |-------|---------|-------|
-| All checks | `make validate` | lint, types, 282 tests, repo hygiene, policy integrity, bandit, pip-audit, Docker |
-| Tests | `python -m pytest` | 282 security-focused tests (includes release provenance, deployment artifacts, audit observability) |
+| All checks | `make validate` | lint, types, 293 tests, repo hygiene, policy integrity, bandit, pip-audit, Docker |
+| Tests | `python -m pytest` | 293 security-focused tests (includes enterprise doc honesty, release provenance, deployment artifacts) |
 | Repo hygiene | `python scripts/validate_repo.py` | Blocks prompt artifacts |
 | Policy integrity | `python scripts/validate_policy.py` | Schema, invariants, SHA-256 vs `policies/default.sha256` |
 | Demo | `make demo` | Seven CLI scenarios |
@@ -288,6 +288,8 @@ For deployment guardrails (API auth, CORS, request limits, container profile), s
 - [docs/artifact-verification.md](docs/artifact-verification.md) — verify tags, CI, SBOM, checksums
 - [docs/supply-chain.md](docs/supply-chain.md) — CodeQL, Gitleaks, Trivy, SBOM, Dependabot
 - [docs/github-actions-trust.md](docs/github-actions-trust.md) — Actions pinning and maintenance
+- [docs/enterprise-integration-plan.md](docs/enterprise-integration-plan.md) — enterprise IdP, KMS, SIEM, approvals (guidance only)
+- [docs/enterprise-readiness-checklist.md](docs/enterprise-readiness-checklist.md) — operator readiness gates
 - [docs/branch-protection.md](docs/branch-protection.md) — recommended `main` protection (guidance)
 - [docs/production-hardening.md](docs/production-hardening.md) — deployment profile and checklist
 - [docs/deployment-threat-model.md](docs/deployment-threat-model.md) — deployment threats and mitigations
