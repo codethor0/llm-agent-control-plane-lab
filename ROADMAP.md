@@ -28,7 +28,8 @@ Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.
 | P5 | Hypothesis property-based tests | Done |
 | P6 | Supply-chain (Dependabot, CodeQL, gitleaks, Trivy, SBOM) | Done |
 | P7 | Production deployment hardening | Done |
-| P8 | LLM adapter interface (no live API by default) | Done (`feature/p8-llm-adapter`) |
+| P8 | LLM adapter interface (no live API by default) | Done (v0.2.5) |
+| P9 | Observability and audit review | Done (feature branch) |
 
 **v0.2.0 release bar (minimum):** P0 through P3 complete with tests; `make validate` green. **Minimum bar met on main.**
 
@@ -44,7 +45,8 @@ Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.
 
 | Item | Description |
 |------|-------------|
-| OpenTelemetry tracing | Spans aligned with `request_id` across pipeline stages |
+| Audit taxonomy and SIEM guidance | Done (P9): taxonomy, playbooks, correlation IDs |
+| OpenTelemetry tracing | Spans aligned with `correlation_id` across pipeline stages |
 | SARIF output | Export bandit/ruff/security findings for CI ingestion |
 | Approval workflow examples | Documented patterns for human-in-the-loop gates |
 

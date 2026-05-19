@@ -77,6 +77,14 @@ config.validate()
 
 `MaxBodySizeMiddleware` rejects requests when `Content-Length` exceeds `ACP_MAX_REQUEST_BODY_BYTES`. Combine with reverse-proxy body limits for defense in depth.
 
+## Audit and observability
+
+- JSONL audit logs: `ACP_AUDIT_LOG_DIR` (default `./audit_logs`)
+- Events include `correlation_id` for request tracing (header `X-Correlation-ID` or body field)
+- Event taxonomy: [audit-event-taxonomy.md](audit-event-taxonomy.md)
+- SIEM ingestion guidance: [siem-export.md](siem-export.md) (documentation only; no bundled connector)
+- Review playbooks: [audit-review-playbook.md](audit-review-playbook.md), [operator-runbook.md](operator-runbook.md)
+
 ## Rate limiting recommendation
 
 Deploy rate limiting at the edge (API gateway, reverse proxy, or service mesh). The application exposes `ACP_ENABLE_RATE_LIMIT_GUIDANCE` as a documented reminder; per-tenant and per-IP limits are an operator responsibility.

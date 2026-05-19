@@ -7,6 +7,7 @@ def test_audit_event_fields_written(tmp_path: object, audit_logger: AuditLogger)
     audit_logger.write(
         AuditEvent(
             event_type="tool_blocked",
+            correlation_id="req-1",
             request_id="req-1",
             user_id="user-1",
             session_id="sess-1",
@@ -30,6 +31,7 @@ def test_audit_event_fields_written(tmp_path: object, audit_logger: AuditLogger)
     event = events[0]
     assert event["event_type"] == "tool_blocked"
     assert event["request_id"] == "req-1"
+    assert event["correlation_id"] == "req-1"
     assert event["policy_decision"] == "deny"
     assert "timestamp" in event
 
@@ -38,6 +40,7 @@ def test_audit_redacts_secrets_in_reason(audit_logger: AuditLogger) -> None:
     audit_logger.write(
         AuditEvent(
             event_type="output_filter_blocked",
+            correlation_id="req-2",
             request_id="req-2",
             user_id="user-1",
             session_id="sess-1",

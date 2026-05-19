@@ -6,6 +6,7 @@ from agent_control_plane.approval_tokens import mark_approval_token_used
 from agent_control_plane.audit_logger import AuditEvent, AuditLogger
 from agent_control_plane.llm_adapter import (
     LLMAdapter,
+    LLMAdapterError,
     LLMAdapterRequest,
     SimulatedLLMAdapter,
     to_model_turn_result,
@@ -19,6 +20,7 @@ from agent_control_plane.models import (
     Provenance,
     ToolCallPayload,
 )
+from agent_control_plane.observability import resolve_correlation_id
 from agent_control_plane.output_filter import (
     build_filter_context_from_request,
     filter_output,
@@ -62,7 +64,24 @@ class ControlPlanePipeline:
         approval, output filter, and audit.
         """
         policy = load_policy(self._policy_path)
-        model_turn = self._generate_model_turn(request)
+        try:
+            model_turn = self._generate_model_turn(request)
+        except LLMAdapterError as exc:
+            self._audit.write(
+                _audit_event(
+                    request,
+                    event_type="adapter_failure",
+                    stage="llm_adapter",
+                    allowed=False,
+                    policy_reason=str(exc),
+                    tool_name=None,
+                    target=None,
+                    risk_level=None,
+                    human_approval_required=False,
+                    contains_sensitive=False,
+                )
+            )
+            raise
 
         filter_context = build_filter_context_from_request(request)
         output_result = filter_output(model_turn.natural_language, filter_context)
@@ -232,6 +251,7 @@ class ControlPlanePipeline:
         self._audit.write(
             AuditEvent(
                 event_type="vulnerable_path_simulation",
+                correlation_id=resolve_correlation_id(request),
                 request_id=request.request_id,
                 user_id=request.user_id,
                 session_id=request.session_id,
@@ -336,6 +356,7 @@ def _audit_event(
 ) -> AuditEvent:
     return AuditEvent(
         event_type=event_type,
+        correlation_id=resolve_correlation_id(request),
         request_id=request.request_id,
         user_id=request.user_id,
         session_id=request.session_id,
@@ -391,6 +412,7 @@ def _audit_event_for_tool(
         approval_reason = request.approval_token.approval_reason
     return AuditEvent(
         event_type=event_type,
+        correlation_id=resolve_correlation_id(request),
         request_id=request.request_id,
         user_id=request.user_id,
         session_id=request.session_id,
