@@ -130,6 +130,7 @@ Untrusted: all HTTP request bodies, headers (except validated API keys), and **a
 | API auth and body limits | `tests/test_api_hardening.py` |
 | Broker and policy | Existing security test suite |
 | Container non-root | `Dockerfile` USER directive |
+| Deployment reference artifacts | `tests/test_deployment_artifacts.py` |
 | Supply chain | GitHub Actions workflows |
 
 Re-run `make validate` before each release.

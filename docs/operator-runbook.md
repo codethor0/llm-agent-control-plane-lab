@@ -122,8 +122,21 @@ docker compose run --rm app python -m pytest
 - Use `correlation_id` from client header or `request_id` for tracing.
 - Escalate cross-tenant and output-filter critical events per playbook.
 
+## Production reference deployment
+
+```bash
+docker compose -f docker-compose.production.yml build
+docker compose -f docker-compose.production.yml up
+```
+
+Uses `.env.production.example` and `deploy/examples/fake-api-keys.txt` (lab-fake keys only). Bind is `127.0.0.1:8080` by default; place TLS and rate limiting at a reverse proxy.
+
+Kubernetes reference: [deploy/kubernetes/README.md](../deploy/kubernetes/README.md).
+
 ## Related documents
 
+- [deployment-checklist.md](deployment-checklist.md)
+- [deployment-boundaries.md](deployment-boundaries.md)
 - [audit-event-taxonomy.md](audit-event-taxonomy.md)
 - [siem-export.md](siem-export.md)
 - [production-hardening.md](production-hardening.md)

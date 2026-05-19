@@ -122,7 +122,7 @@ flowchart TD
   rh[Repo hygiene scanner]
   rf[Ruff]
   my[Mypy]
-  py[Pytest 260 tests]
+  py[Pytest 271 tests]
   bd[Bandit]
   pa[pip-audit]
   dk[Docker build]

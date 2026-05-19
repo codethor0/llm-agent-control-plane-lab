@@ -7,7 +7,7 @@
 3. Tests are deterministic and do not call external services.
 4. Do not mock away the control under test.
 
-## Layout (260 tests)
+## Layout (271 tests)
 
 | File | Focus |
 |------|-------|
@@ -33,6 +33,7 @@
 | `test_api_hardening.py` | API auth, body limits, safe errors |
 | `test_llm_adapter.py` | LLM adapter boundary, fail-closed external stub, pipeline integration |
 | `test_audit_observability.py` | Correlation IDs, API audit safety, adapter failure audit, taxonomy coverage |
+| `test_deployment_artifacts.py` | Production Compose/K8s/env examples; no real secrets; honest docs |
 | `test_validate_repo.py` | Prompt-artifact hygiene scanner |
 
 ## Adding a new tool safely
@@ -64,7 +65,7 @@ GitHub Actions (see [supply-chain.md](supply-chain.md)):
 
 | Workflow | Validates |
 |----------|-----------|
-| CI | ruff, mypy, pytest (260), repo hygiene, policy integrity, bandit, pip-audit, Docker |
+| CI | ruff, mypy, pytest (271), repo hygiene, policy integrity, bandit, pip-audit, Docker |
 | CodeQL | Python static analysis |
 | Secret scan | Gitleaks on git history (tests/ allowlist for lab-fake fixtures only) |
 | Trivy | Docker image CRITICAL/HIGH (unfixed) |

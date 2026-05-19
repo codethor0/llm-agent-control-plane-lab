@@ -29,7 +29,8 @@ Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.
 | P6 | Supply-chain (Dependabot, CodeQL, gitleaks, Trivy, SBOM) | Done |
 | P7 | Production deployment hardening | Done |
 | P8 | LLM adapter interface (no live API by default) | Done (v0.2.5) |
-| P9 | Observability and audit review | Done (feature branch) |
+| P9 | Observability and audit review | Done (v0.2.6) |
+| P10 | Deployment reference profile | Done (feature branch) |
 
 **v0.2.0 release bar (minimum):** P0 through P3 complete with tests; `make validate` green. **Minimum bar met on main.**
 
