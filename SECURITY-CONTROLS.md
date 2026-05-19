@@ -40,6 +40,8 @@ This project is a **local, simulated** reference implementation. It is not certi
 | LLM adapter boundary (simulated default) | Live model output bypassing filter, schema, or broker; unauthorized tool calls from adapter | `llm_adapter.py`; `SimulatedLLMAdapter`; `DisabledExternalLLMAdapter`; pipeline `_generate_model_turn()` | `tests/test_llm_adapter.py` | Implemented, tested (P8) | No live provider client; `ACP_ALLOW_LIVE_LLM_CALLS` rejected at config validation |
 | Audit correlation and operational events | Incomplete incident evidence; secret leakage in audit logs | `audit_logger.py`; `observability.py`; `correlation_id` on events; API auth/body-limit/adapter audit | `tests/test_audit_observability.py`, `tests/test_audit_events.py` | Implemented, tested (P9) | JSONL only; not a managed SIEM; heuristic redaction |
 | Deployment reference profile | Unsafe deployment; unclear operator vs app boundaries | `docker-compose.production.yml`; `deploy/kubernetes/`; `.env.production.example`; deployment docs | `tests/test_deployment_artifacts.py` | Implemented, tested (P10) | Reference-only manifests; not continuously deployed; no Helm chart in repo |
+| Release checksums (unsigned) | Tampered or mistaken release artifacts | `release-artifacts` workflow; `SHA256SUMS` on tag | `tests/test_release_artifacts.py` | Implemented, tested (P12) | Integrity hashes only; not signatures |
+| Enterprise integration guidance | False production claims; missing operator boundaries | P11 docs under `docs/enterprise-*.md`, `identity-integration.md`, etc. | `tests/test_enterprise_docs.py` | Documented (P11) | Guidance only; IdP, KMS, SIEM connector, persistent approvals, distributed rate limits not implemented |
 
 ## Related documentation
 
@@ -54,6 +56,8 @@ This project is a **local, simulated** reference implementation. It is not certi
 - [docs/deployment-boundaries.md](docs/deployment-boundaries.md) — enforced vs operator controls
 - [docs/deployment-checklist.md](docs/deployment-checklist.md) — pre/post deploy checks
 - [docs/helm-guidance.md](docs/helm-guidance.md) — Helm values patterns (no bundled chart)
+- [docs/enterprise-integration-plan.md](docs/enterprise-integration-plan.md) — enterprise integration boundaries (guidance only)
+- [docs/enterprise-readiness-checklist.md](docs/enterprise-readiness-checklist.md) — operator readiness gates
 - [README.md](README.md#architecture) — summary architecture diagrams
 - [PROJECT_DOCTRINE.md](PROJECT_DOCTRINE.md) — non-negotiable rules
 - [SECURITY.md](SECURITY.md) — reporting vulnerabilities

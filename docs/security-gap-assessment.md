@@ -158,7 +158,21 @@ Operators may deploy with `ACP_ENVIRONMENT=local` on a network-facing host or sk
 
 ### Maturity target
 
-Enterprise IdP integration, per-tenant rate limits in infrastructure, and persistent approval store (P7 docs + config; not full production service).
+Enterprise IdP integration, per-tenant rate limits in infrastructure, and persistent approval store (P7 docs + config; not full production service). P11 adds explicit integration guidance; implementations remain operator-owned.
+
+## Gap 12: Enterprise integration implementations (partial — P11)
+
+### Current state
+
+Documentation: [enterprise-integration-plan.md](enterprise-integration-plan.md), [identity-integration.md](identity-integration.md), [kms-secret-management.md](kms-secret-management.md), [approval-workflow.md](approval-workflow.md), [siem-onboarding-plan.md](siem-onboarding-plan.md), [rate-limiting-edge-controls.md](rate-limiting-edge-controls.md), [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md). Tests in `tests/test_enterprise_docs.py` guard against false implementation claims.
+
+### Risk
+
+Teams may assume the open-source repo ships IdP, KMS, SIEM connector, or persistent approvals because production-oriented language is used elsewhere.
+
+### Maturity target
+
+Implement and test each integration behind the same broker boundary, or keep guidance-only with clear SECURITY-CONTROLS status.
 
 ## Gap 11: Deployment packaging (partial — P10)
 

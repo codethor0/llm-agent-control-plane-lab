@@ -2,6 +2,8 @@
 
 Use before and after deploying the control-plane API in any shared or network-facing environment. This project remains a **reference implementation**; organizational sign-off is required for production use.
 
+For enterprise IdP, KMS, SIEM, approvals, and edge rate limits, complete [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md) in addition to this checklist. P11 guidance does not implement those integrations.
+
 ## Pre-deploy validation
 
 - [ ] `make validate` passes on the release commit you are deploying

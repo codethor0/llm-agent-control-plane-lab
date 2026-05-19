@@ -85,6 +85,11 @@ Do not tag if required workflows are failing or skipped without documented reaso
 - [ ] Container runs non-root; read-only rootfs where applicable
 - [ ] No claim of production certification in release notes
 
+## Enterprise integration boundaries (P11)
+
+- [ ] Release notes do not claim OIDC/SAML, KMS, managed SIEM connector, persistent approvals, or distributed rate limiting are implemented
+- [ ] Operators using the release for enterprise deployment review [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md)
+
 ## Related docs
 
 - [branch-protection.md](branch-protection.md) — recommended `main` protection (guidance only until configured)
@@ -94,3 +99,5 @@ Do not tag if required workflows are failing or skipped without documented reaso
 - [github-actions-trust.md](github-actions-trust.md) — Actions inventory and pinning
 - [production-hardening.md](production-hardening.md) — deployment profile
 - [release-checklist.md](release-checklist.md) — general publication checklist
+- [enterprise-integration-plan.md](enterprise-integration-plan.md) — enterprise boundaries (guidance only)
+- [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md) — operator readiness gates
