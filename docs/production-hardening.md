@@ -6,11 +6,11 @@ This document describes how to deploy **llm-agent-control-plane** with a product
 
 - An external control plane around a simulated LLM agent core
 - Deny-by-default policy, tool broker authorization, provenance checks, approval gates, output filtering, and audit logging
-- Local and container validation with 271 automated security tests
+- Local and container validation with automated security tests (see `make validate`)
 
 ## What this project is not
 
-- A drop-in production agent platform with enterprise IdP, workflow UI, or DLP
+- A drop-in production agent platform with enterprise IdP, workflow UI, or DLP (see [enterprise-integration-plan.md](enterprise-integration-plan.md) for operator-owned integration boundaries)
 - A live LLM integration (adapter interface only; `ACP_ALLOW_LIVE_LLM_CALLS` is rejected; see [llm-adapter.md](llm-adapter.md))
 - Certified for regulated production without your own organizational review
 
@@ -169,6 +169,16 @@ When `ACP_ENABLE_STRICT_PROVENANCE=true`, configure `ACP_PROVENANCE_HMAC_KEY_FIL
 - [ ] Supply-chain CI green (CodeQL, Gitleaks, Trivy, SBOM)
 - [ ] Organizational security review completed
 - [ ] No claim of universal LLM safety or production certification
+
+## Enterprise integration (P11)
+
+Guidance only — not implemented in application code:
+
+- [enterprise-integration-plan.md](enterprise-integration-plan.md)
+- [identity-integration.md](identity-integration.md), [kms-secret-management.md](kms-secret-management.md)
+- [approval-workflow.md](approval-workflow.md), [siem-onboarding-plan.md](siem-onboarding-plan.md)
+- [rate-limiting-edge-controls.md](rate-limiting-edge-controls.md)
+- [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md)
 
 ## Deployment reference profile (P10)
 

@@ -45,9 +45,19 @@ Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.
 | GitHub Actions trust doc | Pinning inventory | Done (v0.2.8) |
 | GPG / cosign / SLSA | Future hardening | Not started |
 
-## Planned — Enterprise integration (P11)
+## Enterprise integration (P11)
 
-Guidance only until implemented and tested: IdP, KMS, persistent approvals, SIEM onboarding, rate limiting, platform ownership boundaries. Not started.
+| Item | Description | Status |
+|------|-------------|--------|
+| Enterprise integration plan | Architecture and operator boundaries | In progress (feature branch) |
+| Identity integration guidance | OIDC/SAML at gateway (not in-app) | In progress |
+| KMS / secret management guidance | No secrets in repo; rotation expectations | In progress |
+| Approval workflow guidance | Lab vs persistent store | In progress |
+| SIEM onboarding plan | JSONL to enterprise SIEM (no connector) | In progress |
+| Rate limiting / edge controls | Gateway-owned limits | In progress |
+| Enterprise readiness checklist | Pre-production gates | In progress |
+
+**Not in P11:** Implementing IdP, KMS, persistent approvals, managed SIEM connector, or in-app distributed rate limiting.
 
 ## Security and policy (ongoing)
 

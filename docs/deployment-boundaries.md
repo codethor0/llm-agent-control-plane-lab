@@ -39,8 +39,13 @@ This table clarifies what the application enforces, what the container/CI stack 
 | [helm-guidance.md](helm-guidance.md) | Values patterns without bundled chart |
 | [deployment-checklist.md](deployment-checklist.md) | Pre-flight and post-deploy checks |
 
+## Enterprise integration (P11)
+
+P11 adds **guidance only** for IdP, KMS, persistent approvals, SIEM onboarding, and edge rate limiting. None of these are implemented in application code. See [enterprise-integration-plan.md](enterprise-integration-plan.md) and [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md).
+
 ## Related documents
 
 - [production-hardening.md](production-hardening.md)
 - [deployment-threat-model.md](deployment-threat-model.md)
 - [operator-runbook.md](operator-runbook.md)
+- [enterprise-integration-plan.md](enterprise-integration-plan.md)

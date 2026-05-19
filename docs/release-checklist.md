@@ -76,6 +76,11 @@ See [release-security-checklist.md](release-security-checklist.md) for CodeQL, G
 
 See [release-provenance.md](release-provenance.md) and [artifact-verification.md](artifact-verification.md).
 
+## Enterprise readiness (P11)
+
+- [ ] Release notes do not claim enterprise IdP, KMS, managed SIEM, persistent approvals, or in-app rate limiting unless implemented
+- [ ] [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md) referenced for operators deploying beyond lab scope
+
 ## GitHub checks
 
 - [ ] `LICENSE` is MIT

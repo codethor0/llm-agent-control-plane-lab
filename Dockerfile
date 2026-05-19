@@ -25,6 +25,9 @@ COPY .env.example .env.production.example ./
 COPY docs/deployment-boundaries.md docs/deployment-checklist.md docs/helm-guidance.md ./docs/
 COPY docs/release-provenance.md docs/artifact-verification.md docs/github-actions-trust.md ./docs/
 COPY docs/supply-chain.md docs/release-security-checklist.md docs/release-checklist.md ./docs/
+COPY docs/enterprise-integration-plan.md docs/identity-integration.md docs/approval-workflow.md ./docs/
+COPY docs/kms-secret-management.md docs/siem-onboarding-plan.md docs/rate-limiting-edge-controls.md ./docs/
+COPY docs/enterprise-readiness-checklist.md ./docs/
 COPY .github/workflows ./.github/workflows
 
 RUN pip install --upgrade pip \
