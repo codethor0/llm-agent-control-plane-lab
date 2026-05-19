@@ -22,7 +22,7 @@ This repository is a **local, simulated** demonstration. It shows how to keep au
 |------|--------|
 | Repository | https://github.com/codethor0/llm-agent-control-plane |
 | CI | GitHub Actions on `main` (badge above); supply-chain: CodeQL, Gitleaks, Trivy, SBOM; tag releases get unsigned `SHA256SUMS` (see [release provenance](docs/release-provenance.md)) |
-| Latest release | [v0.2.7](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.7) (deployment reference profile); [v0.2.6](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.6); [v0.2.5](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.5) |
+| Latest release | [v0.2.8](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.8) (release provenance and checksums); [v0.2.7](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.7); [v0.2.6](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.6) |
 
 ## One-command quick start
 
