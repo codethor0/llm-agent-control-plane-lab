@@ -19,6 +19,7 @@ class AuditEvent:
     """Fields required for audit events per project doctrine."""
 
     event_type: str
+    correlation_id: str
     request_id: str
     user_id: str
     session_id: str
@@ -68,6 +69,7 @@ class AuditLogger:
         record = {
             "event_type": event.event_type,
             "timestamp": datetime.now(UTC).isoformat(),
+            "correlation_id": event.correlation_id,
             "request_id": event.request_id,
             "user_id": event.user_id,
             "session_id": event.session_id,

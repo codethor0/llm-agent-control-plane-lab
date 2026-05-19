@@ -160,6 +160,20 @@ Operators may deploy with `ACP_ENVIRONMENT=local` on a network-facing host or sk
 
 Enterprise IdP integration, per-tenant rate limits in infrastructure, and persistent approval store (P7 docs + config; not full production service).
 
+## Gap 10: Observability and SIEM integration (partial — P9)
+
+### Current state
+
+Audit JSONL includes `correlation_id`, event taxonomy, SIEM export documentation, review playbooks, and operator runbooks. API boundary events (`api_auth_failure`, `request_body_limit_blocked`) and `adapter_failure` are audited. Tests in `tests/test_audit_observability.py`.
+
+### Risk
+
+Operators may assume bundled SIEM integration or tamper-evident centralized logging exists.
+
+### Maturity target
+
+OpenTelemetry traces, signed log shipping, managed SIEM connectors, and production alert runbooks owned by the deploying organization.
+
 ## Gap 9: Live LLM provider integration (partial — P8)
 
 ### Current state

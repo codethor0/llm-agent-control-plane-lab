@@ -274,6 +274,7 @@ def test_audit_logger_stores_output_filter_metadata(tmp_path: object) -> None:
     logger.write(
         AuditEvent(
             event_type="output_filter_blocked",
+            correlation_id="req-1",
             request_id="req-1",
             user_id="user-1",
             session_id="sess-1",
