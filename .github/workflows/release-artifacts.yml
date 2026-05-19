@@ -1,0 +1,53 @@
+name: Release artifacts
+
+# Generate SHA256 checksums for source archives on tag push.
+# Uploads SHA256SUMS and tarball to the GitHub Release (GITHUB_TOKEN only).
+# Does not push container images or use repository secrets.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  checksums:
+    name: Source archive and SHA256SUMS
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build source archive and checksums
+        run: |
+          set -euo pipefail
+          ARCHIVE="llm-agent-control-plane-${GITHUB_REF_NAME}.tar.gz"
+          git archive --format=tar.gz --output="${ARCHIVE}" HEAD
+          sha256sum "${ARCHIVE}" > SHA256SUMS
+          echo "Generated ${ARCHIVE} and SHA256SUMS"
+          cat SHA256SUMS
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-checksums-${{ github.ref_name }}
+          path: |
+            SHA256SUMS
+            llm-agent-control-plane-*.tar.gz
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Attach assets to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ARCHIVE="llm-agent-control-plane-${GITHUB_REF_NAME}.tar.gz"
+          gh release upload "${GITHUB_REF_NAME}" SHA256SUMS "${ARCHIVE}" \
+            --repo "${{ github.repository }}" \
+            --clobber

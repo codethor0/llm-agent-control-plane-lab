@@ -64,11 +64,17 @@ Expected:
 
 ## Supply-chain checks (releases after P6)
 
-See [release-security-checklist.md](release-security-checklist.md) for CodeQL, Gitleaks, Trivy, SBOM, and tag verification.
+See [release-security-checklist.md](release-security-checklist.md) for CodeQL, Gitleaks, Trivy, SBOM, tag verification, and checksums.
 
-- [ ] All required GitHub Actions workflows green on the release commit
-- [ ] SBOM artifact downloaded from Actions if publishing externally
+- [ ] All required GitHub Actions workflows green on the release commit (CI, CodeQL, Secret scan, Trivy, SBOM)
+- [ ] Tag points to intended commit (`git show vX.Y.Z`)
+- [ ] No prompt artifacts committed (`python scripts/validate_repo.py`)
+- [ ] SBOM artifact downloaded from Actions if publishing externally (unsigned)
+- [ ] After P12: `SHA256SUMS` and source tarball on release page from **Release artifacts** workflow
+- [ ] Release notes do not claim signed releases or SLSA unless implemented
 - [ ] No unsupported production or exhaustive-fuzzing claims in release notes
+
+See [release-provenance.md](release-provenance.md) and [artifact-verification.md](artifact-verification.md).
 
 ## GitHub checks
 
