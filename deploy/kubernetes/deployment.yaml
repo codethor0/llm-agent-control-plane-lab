@@ -1,0 +1,82 @@
+# Reference only — not production-certified. Pin image by digest in real deployments.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-agent-control-plane
+  labels:
+    app: llm-agent-control-plane
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm-agent-control-plane
+  template:
+    metadata:
+      labels:
+        app: llm-agent-control-plane
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: control-plane
+          image: llm-agent-control-plane:production-reference
+          imagePullPolicy: IfNotPresent
+          command:
+            - uvicorn
+            - agent_control_plane.api:app
+            - --host
+            - "0.0.0.0"
+            - --port
+            - "8080"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: llm-control-plane-config
+          volumeMounts:
+            - name: audit
+              mountPath: /tmp/audit
+            - name: api-keys
+              mountPath: /run/secrets
+              readOnly: true
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
+            runAsGroup: 999
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: audit
+          emptyDir:
+            medium: Memory
+            sizeLimit: 128Mi
+        - name: api-keys
+          secret:
+            secretName: llm-control-plane-api-keys
+            optional: false

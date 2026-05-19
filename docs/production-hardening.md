@@ -6,7 +6,7 @@ This document describes how to deploy **llm-agent-control-plane** with a product
 
 - An external control plane around a simulated LLM agent core
 - Deny-by-default policy, tool broker authorization, provenance checks, approval gates, output filtering, and audit logging
-- Local and container validation with 248 automated security tests
+- Local and container validation with 271 automated security tests
 
 ## What this project is not
 
@@ -97,7 +97,7 @@ Deploy rate limiting at the edge (API gateway, reverse proxy, or service mesh). 
 
 ## Container hardening
 
-The `Dockerfile` and `docker-compose.yml` implement:
+The `Dockerfile`, `docker-compose.yml`, and reference `docker-compose.production.yml` implement:
 
 - Non-root `appuser` runtime
 - `read_only` root filesystem in Compose with `tmpfs` for `/tmp` and `/app/var`
@@ -169,6 +169,15 @@ When `ACP_ENABLE_STRICT_PROVENANCE=true`, configure `ACP_PROVENANCE_HMAC_KEY_FIL
 - [ ] Supply-chain CI green (CodeQL, Gitleaks, Trivy, SBOM)
 - [ ] Organizational security review completed
 - [ ] No claim of universal LLM safety or production certification
+
+## Deployment reference profile (P10)
+
+- [docker-compose.production.yml](../docker-compose.production.yml) — API with auth, read-only rootfs, audit volume
+- [.env.production.example](../.env.production.example) — fake production variables
+- [deploy/kubernetes/README.md](../deploy/kubernetes/README.md) — reference manifests
+- [deployment-boundaries.md](deployment-boundaries.md) — app vs operator responsibilities
+- [deployment-checklist.md](deployment-checklist.md) — deploy validation steps
+- [helm-guidance.md](helm-guidance.md) — Helm values patterns (no bundled chart)
 
 ## Related documentation
 
