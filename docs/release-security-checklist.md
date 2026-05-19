@@ -44,6 +44,9 @@ Do not tag if required workflows are failing or skipped without documented reaso
 - [ ] SBOM is **not signed** unless signing is explicitly implemented and documented
 - [ ] Review Trivy results for new CRITICAL/HIGH issues on the release image
 - [ ] Review CodeQL alerts (if any) for the release commit
+- [ ] After tag push: confirm **Release artifacts** workflow green and `SHA256SUMS` on the release page (tags after P12 merge only)
+- [ ] Verify `sha256sum -c SHA256SUMS` locally if publishing checksums externally
+- [ ] Release notes do **not** claim cosign, GPG, or SLSA levels unless implemented
 
 ## Repo hygiene and secrets
 
@@ -63,9 +66,11 @@ Do not tag if required workflows are failing or skipped without documented reaso
 
 - [ ] Tag points at intended commit on `main` (`git show vX.Y.Z`)
 - [ ] Annotated tag message matches release title
+- [ ] CI, CodeQL, Secret scan, Trivy, and SBOM green on the release commit **before** tagging
 - [ ] `gh release create` uses `docs/github-release-notes-vX.Y.Z.md`
 - [ ] Prior release tags unchanged (no history rewrite)
 - [ ] README "Latest release" updated if publishing a new latest version
+- [ ] Do not claim release signing in notes unless signatures are generated and documented
 
 ## Post-release
 
@@ -84,5 +89,8 @@ Do not tag if required workflows are failing or skipped without documented reaso
 
 - [branch-protection.md](branch-protection.md) — recommended `main` protection (guidance only until configured)
 - [supply-chain.md](supply-chain.md) — workflows, pinning policy, limitations
+- [release-provenance.md](release-provenance.md) — what is verified vs unsigned
+- [artifact-verification.md](artifact-verification.md) — consumer verification steps
+- [github-actions-trust.md](github-actions-trust.md) — Actions inventory and pinning
 - [production-hardening.md](production-hardening.md) — deployment profile
 - [release-checklist.md](release-checklist.md) — general publication checklist

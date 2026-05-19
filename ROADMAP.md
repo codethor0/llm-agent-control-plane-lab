@@ -30,9 +30,24 @@ Theme: **depth over aesthetics**. See [docs/v0.2.0-hardening-plan.md](docs/v0.2.
 | P7 | Production deployment hardening | Done |
 | P8 | LLM adapter interface (no live API by default) | Done (v0.2.5) |
 | P9 | Observability and audit review | Done (v0.2.6) |
-| P10 | Deployment reference profile | Done (feature branch) |
+| P10 | Deployment reference profile | Done (v0.2.7) |
+| P12 | Release signing and artifact provenance (checksums, docs) | In progress (feature branch) |
 
 **v0.2.0 release bar (minimum):** P0 through P3 complete with tests; `make validate` green. **Minimum bar met on main.**
+
+## v0.2.x — Release trust (P12)
+
+| Item | Description | Status |
+|------|-------------|--------|
+| Release provenance docs | What is verified vs unsigned | In progress |
+| SHA256SUMS on tag | `release-artifacts` workflow | In progress |
+| Artifact verification guide | Consumer steps | In progress |
+| GitHub Actions trust doc | Pinning inventory | In progress |
+| GPG / cosign / SLSA | Future hardening | Not started |
+
+## Planned — Enterprise integration (P11)
+
+Guidance only until implemented and tested: IdP, KMS, persistent approvals, SIEM onboarding, rate limiting, platform ownership boundaries. Not started.
 
 ## Security and policy (ongoing)
 
