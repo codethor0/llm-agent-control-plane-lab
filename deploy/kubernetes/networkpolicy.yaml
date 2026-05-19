@@ -1,0 +1,21 @@
+# Reference only — restrict ingress to same-namespace pods with matching label.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: llm-agent-control-plane-ingress
+  labels:
+    app: llm-agent-control-plane
+spec:
+  podSelector:
+    matchLabels:
+      app: llm-agent-control-plane
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              access: llm-control-plane-clients
+      ports:
+        - protocol: TCP
+          port: 8080

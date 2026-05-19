@@ -1,0 +1,50 @@
+# Reference production-oriented Compose profile (not a managed production deployment).
+# Simulated tools only. Terminate TLS and enforce rate limits at a reverse proxy.
+# Do not expose without API authentication.
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: llm-agent-control-plane:production-reference
+    command:
+      - uvicorn
+      - agent_control_plane.api:app
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8080"
+    env_file:
+      - .env.production.example
+    environment:
+      ACP_POLICY_PATH: /app/policies/default.yaml
+      POLICY_PATH: /app/policies/default.yaml
+    ports:
+      # Bind localhost only; place nginx/Envoy in front for TLS and rate limiting
+      - "127.0.0.1:8080:8080"
+    working_dir: /app
+    read_only: true
+    tmpfs:
+      - /tmp:size=128M,mode=1777
+    volumes:
+      - ./deploy/examples/fake-api-keys.txt:/run/secrets/api_keys.txt:ro
+      - control_plane_audit:/tmp/audit
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health')",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  control_plane_audit:
+    driver: local

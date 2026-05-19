@@ -1,0 +1,16 @@
+# Reference only — ClusterIP; expose via Ingress with TLS in real deployments.
+apiVersion: v1
+kind: Service
+metadata:
+  name: llm-agent-control-plane
+  labels:
+    app: llm-agent-control-plane
+spec:
+  type: ClusterIP
+  selector:
+    app: llm-agent-control-plane
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      protocol: TCP

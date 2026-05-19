@@ -16,9 +16,13 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 COPY pyproject.toml README.md ./
 COPY policies ./policies
+COPY deploy ./deploy
 COPY src ./src
 COPY tests ./tests
 COPY scripts ./scripts
+COPY docker-compose.yml docker-compose.production.yml ./
+COPY .env.example .env.production.example ./
+COPY docs/deployment-boundaries.md docs/deployment-checklist.md docs/helm-guidance.md ./docs/
 
 RUN pip install --upgrade pip \
     && pip install -e ".[dev]" \

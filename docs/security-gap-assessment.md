@@ -160,6 +160,20 @@ Operators may deploy with `ACP_ENVIRONMENT=local` on a network-facing host or sk
 
 Enterprise IdP integration, per-tenant rate limits in infrastructure, and persistent approval store (P7 docs + config; not full production service).
 
+## Gap 11: Deployment packaging (partial — P10)
+
+### Current state
+
+Reference Compose profile, Kubernetes manifests, Helm guidance, deployment boundaries table, checklist, and artifact tests. No bundled Helm chart or Terraform modules.
+
+### Risk
+
+Teams may treat reference manifests as production-certified without platform review.
+
+### Maturity target
+
+Organization-specific Helm chart, GitOps pipeline, signed images, and platform admission policies.
+
 ## Gap 10: Observability and SIEM integration (partial — P9)
 
 ### Current state

@@ -18,7 +18,7 @@ python scripts/validate_policy.py
 
 Expected:
 
-- pytest: **260 passed** (host and Docker via `make validate`; 248 on v0.2.5)
+- pytest: **271 passed** (host and Docker via `make validate`; 260 on v0.2.6)
 - `make demo`: 7 scenarios OK
 - repo hygiene: no prompt artifacts
 - policy integrity: canonical SHA-256 matches `policies/default.sha256`
