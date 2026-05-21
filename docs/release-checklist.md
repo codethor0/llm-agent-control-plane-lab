@@ -17,13 +17,13 @@ Expected:
 - `check-python`: OK: Python 3.12.x
 - ruff check and format: pass
 - mypy: pass
-- pytest: 271 passed (after P10 merge; 260 on v0.2.6)
+- pytest: 299 passed (host; run `python -m pytest` to confirm on release commit)
 - `python scripts/validate_repo.py`: pass
 - `python scripts/validate_policy.py`: pass
 - bandit: no issues in `src/`
 - pip-audit: no known vulnerabilities (network required)
 - docker compose build: pass (Docker daemon required)
-- docker compose run --rm app python -m pytest: 271 passed (after P10 merge)
+- docker compose run --rm app python -m pytest: 299 passed (Docker image copy of tests)
 
 ## Repo hygiene
 
