@@ -24,10 +24,11 @@ var/
 .vscode/
 *.swp
 
-# Cursor IDE (keep .cursor/rules doctrine files; block chats and exports)
-.cursor/chats/
-.cursor/projects/
-.cursor/**/*.jsonl
+# IDE metadata and internal governance (never commit to public repo)
+.cursor/
+.cursor/**
+AGENTS.md
+PROJECT_DOCTRINE.md
 
 # Prompt artifacts and AI conversation exports (never commit)
 master-prompts/
@@ -44,6 +45,8 @@ ai-notes/
 *.prompts.md
 *.chat.md
 *.transcript.md
+*master-prompt*
 *cursor_project_doctrine*
 *cycle-report*.md
 llm-agent-control-plane-cycle-report.md
+chatgpt-*

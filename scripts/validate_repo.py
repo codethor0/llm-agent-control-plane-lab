@@ -6,13 +6,10 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-ALLOWED_GOVERNANCE_FILES: frozenset[str] = frozenset(
+FORBIDDEN_EXACT_FILES: frozenset[str] = frozenset(
     {
-        "PROJECT_DOCTRINE.md",
         "AGENTS.md",
-        ".cursor/rules/project-doctrine.mdc",
-        ".cursor/rules/security-controls.mdc",
-        ".cursor/rules/testing.mdc",
+        "PROJECT_DOCTRINE.md",
     }
 )
 
@@ -35,6 +32,7 @@ SKIP_DIR_NAMES: frozenset[str] = frozenset(
 
 FORBIDDEN_DIR_NAMES: frozenset[str] = frozenset(
     {
+        ".cursor",
         "master-prompts",
         "prompts",
         "prompt-artifacts",
@@ -49,6 +47,7 @@ FORBIDDEN_DIR_NAMES: frozenset[str] = frozenset(
 )
 
 FORBIDDEN_PATH_SUBSTRINGS: tuple[str, ...] = (
+    ".cursor/",
     "master-prompts",
     "prompt-artifacts",
     "cursor-transcripts",
@@ -72,6 +71,8 @@ FORBIDDEN_NAME_FRAGMENTS: tuple[str, ...] = (
     "cursor_project_doctrine",
     "cycle-report",
     "llm-agent-control-plane-cycle-report.md",
+    "master-prompt",
+    "chatgpt-",
 )
 
 
@@ -89,23 +90,15 @@ def is_skipped_dir(path: Path) -> bool:
     return any(part in SKIP_DIR_NAMES or part.startswith("pytest-of-") for part in path.parts)
 
 
-def is_allowed_governance_file(relative_path: str) -> bool:
-    """Return True for committed governance files that may mention prompts in doctrine."""
-    return relative_path in ALLOWED_GOVERNANCE_FILES
-
-
 def check_file(relative_path: str) -> str | None:
     """
     Return a violation message if the file is a forbidden prompt artifact.
 
-    Invariant: only governance doctrine files may reference prompt policy; working prompts
-    and AI transcripts must never be committed.
+    Invariant: working prompts, IDE rule exports, and internal governance copies must
+    never be committed to the public repository.
     """
-    if is_allowed_governance_file(relative_path):
-        return None
-
-    if relative_path.startswith(".cursor/rules/") and relative_path.endswith(".mdc"):
-        return f"non-doctrine Cursor rule file not allowed: {relative_path}"
+    if relative_path in FORBIDDEN_EXACT_FILES:
+        return f"internal governance file not allowed in public repo: {relative_path}"
 
     path_obj = Path(relative_path)
     parts = path_obj.parts
@@ -162,8 +155,8 @@ def main() -> int:
     for item in violations:
         print(f"  - {item}", file=sys.stderr)
     print(
-        "Only governance files may discuss prompt policy: "
-        "PROJECT_DOCTRINE.md, AGENTS.md, .cursor/rules/*.mdc (doctrine rules only).",
+        "Do not commit prompt exports, IDE metadata (.cursor/), AGENTS.md, "
+        "PROJECT_DOCTRINE.md, master prompts, or cycle reports.",
         file=sys.stderr,
     )
     return 1

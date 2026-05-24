@@ -59,7 +59,7 @@ This project is a **local, simulated** reference implementation. It is not certi
 - [docs/enterprise-integration-plan.md](docs/enterprise-integration-plan.md) — enterprise integration boundaries (guidance only)
 - [docs/enterprise-readiness-checklist.md](docs/enterprise-readiness-checklist.md) — operator readiness gates
 - [README.md](README.md#architecture) — summary architecture diagrams
-- [PROJECT_DOCTRINE.md](PROJECT_DOCTRINE.md) — non-negotiable rules
+- [docs/defensive-controls.md](docs/defensive-controls.md) — security invariants
 - [SECURITY.md](SECURITY.md) — reporting vulnerabilities
 
 ## Validation baseline

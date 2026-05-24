@@ -37,7 +37,7 @@ If relevant, paste output from:
 make validate
 ```
 
-Do not paste secrets, real credentials, or prompt artifacts.
+Do not paste secrets, real credentials, or prompt exports.
 
 ## Additional context
 

@@ -4,7 +4,7 @@ Thank you for helping improve this defensive reference implementation.
 
 ## Before you start
 
-1. Read `PROJECT_DOCTRINE.md` and `AGENTS.md`.
+1. Read [SECURITY-CONTROLS.md](SECURITY-CONTROLS.md) and [docs/defensive-controls.md](docs/defensive-controls.md).
 2. Run `make setup` then `make validate` on `main` to confirm a clean baseline.
 
 ## Pull requests
@@ -24,6 +24,8 @@ Thank you for helping improve this defensive reference implementation.
 ## Documentation
 
 Update `docs/` when behavior or architecture changes. Keep README commands copy-paste accurate.
+
+Internal build-process files (IDE metadata, agent instruction exports, master prompts) belong outside the public repository. Public security principles live in [SECURITY-CONTROLS.md](SECURITY-CONTROLS.md) and [docs/defensive-controls.md](docs/defensive-controls.md).
 
 ## Conduct
 

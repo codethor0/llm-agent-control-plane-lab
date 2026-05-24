@@ -4,7 +4,7 @@
 **Repository:** https://github.com/codethor0/llm-agent-control-plane  
 **Starting release:** v0.2.8 (prior published)  
 **Main commit audited:** `e5bf2e7` (includes PR #16 publication cleanup)  
-**Auditor:** Cursor implementation agent (validation gate + documentation review)
+**Auditor:** Maintainer validation gate and documentation review
 
 ## Release-readiness objective
 
@@ -12,7 +12,7 @@ Confirm the repository is ready to tag **v0.2.9** as a **production-oriented def
 
 ## Files and systems inspected
 
-README.md, ROADMAP.md, SECURITY-CONTROLS.md, PROJECT_DOCTRINE.md, AGENTS.md, `.cursor/rules/`, `.github/workflows/`, Dockerfile, docker-compose.yml, docker-compose.production.yml, policies/, scripts/, `src/agent_control_plane/`, tests/, docs/ (enterprise, deployment, release provenance, observability), deploy/, release notes, GitHub release v0.2.8 assets.
+README.md, ROADMAP.md, SECURITY-CONTROLS.md, `.github/workflows/`, Dockerfile, docker-compose.yml, docker-compose.production.yml, policies/, scripts/, `src/agent_control_plane/`, tests/, docs/ (enterprise, deployment, release provenance, observability), deploy/, release notes, GitHub release v0.2.8 assets.
 
 ## Commands run
 

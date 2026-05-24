@@ -9,7 +9,7 @@ labels: security
 
 Which security invariant or control is missing or insufficient?
 
-Reference [docs/defensive-controls.md](../../docs/defensive-controls.md) or [PROJECT_DOCTRINE.md](../../PROJECT_DOCTRINE.md) if applicable.
+Reference [docs/defensive-controls.md](../../docs/defensive-controls.md) or [SECURITY-CONTROLS.md](../../SECURITY-CONTROLS.md) if applicable.
 
 ## Threat or misuse scenario
 
