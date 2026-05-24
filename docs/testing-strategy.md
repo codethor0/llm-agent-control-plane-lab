@@ -7,7 +7,7 @@
 3. Tests are deterministic and do not call external services.
 4. Do not mock away the control under test.
 
-## Layout (271 tests)
+## Layout (293 tests)
 
 | File | Focus |
 |------|-------|
@@ -65,7 +65,7 @@ GitHub Actions (see [supply-chain.md](supply-chain.md)):
 
 | Workflow | Validates |
 |----------|-----------|
-| CI | ruff, mypy, pytest (271), repo hygiene, policy integrity, bandit, pip-audit, Docker |
+| CI | ruff, mypy, pytest (293), repo hygiene, policy integrity, bandit, pip-audit, Docker |
 | CodeQL | Python static analysis |
 | Secret scan | Gitleaks on git history (tests/ allowlist for lab-fake fixtures only) |
 | Trivy | Docker image CRITICAL/HIGH (unfixed) |
