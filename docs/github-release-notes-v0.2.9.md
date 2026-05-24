@@ -1,6 +1,6 @@
 ## Summary
 
-**v0.2.9** completes **P11: enterprise integration planning**. This release adds operator-facing documentation for identity (OIDC/SAML), KMS and secret management, persistent approval workflows, SIEM onboarding, rate limiting and edge controls, and an enterprise readiness checklist. Documentation tests guard against false claims that these capabilities are implemented in the lab runtime.
+**v0.2.9** adds **P11 enterprise integration planning**, a **final release-readiness audit**, and **publication cleanup** on top of **v0.2.8** release provenance. This release is documentation and validation evidence only. The validation gate passed with **293** pytest tests.
 
 This remains a **production-oriented defensive reference implementation**, not a managed production platform.
 
@@ -8,12 +8,12 @@ This remains a **production-oriented defensive reference implementation**, not a
 
 | Area | Change |
 |------|--------|
-| Docs | [enterprise-integration-plan.md](enterprise-integration-plan.md), [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md) |
-| Identity / secrets | [identity-integration.md](identity-integration.md), [kms-secret-management.md](kms-secret-management.md) |
-| Approvals / SIEM / edge | [approval-workflow.md](approval-workflow.md), [siem-onboarding-plan.md](siem-onboarding-plan.md), [rate-limiting-edge-controls.md](rate-limiting-edge-controls.md) |
-| Cross-links | README, ROADMAP, SECURITY-CONTROLS, deployment and release checklists, security gap assessment, production hardening |
-| Container image | Dockerfile copies new enterprise guidance into the image for offline reference |
-| Tests | **293** pytest tests (was 282 on v0.2.8) |
+| Enterprise planning (P11) | [enterprise-integration-plan.md](enterprise-integration-plan.md), identity/KMS/approval/SIEM/rate-limit guidance, [enterprise-readiness-checklist.md](enterprise-readiness-checklist.md) |
+| Release-readiness audit | [reports/final-release-readiness-audit.md](../reports/final-release-readiness-audit.md) |
+| Repo cleanup | Social launch copy removed from README; `docs/social/` deleted; core idea wording clarified; repo logo SVG added |
+| Doc alignment | Operational checklists and diagrams aligned to **293** tests |
+| Branch protection | Documented in [branch-protection.md](branch-protection.md); **not enabled** via API at release time |
+| Tests | **293** pytest tests |
 
 ## P11: Enterprise integration planning
 
@@ -23,8 +23,20 @@ This remains a **production-oriented defensive reference implementation**, not a
 | Cloud KMS / HSM | Planning guidance only; **not implemented** |
 | Persistent approval store | Lab in-memory model; **enterprise store not implemented** |
 | Managed SIEM connector | JSONL audit logs and export guidance; **no connector implemented** |
-| Distributed rate limiting | Request size limits documented; **distributed limits not implemented** |
-| Production boundaries | Operator-owned IdP, KMS, SIEM, edge, and approval systems |
+| Distributed rate limiting | Request size limits in app; **distributed limits not implemented** |
+
+## Final release-readiness audit
+
+| Check | Result |
+|-------|--------|
+| `make validate` | Pass (**293** tests on CI; host pip-audit may flag starlette advisory separately) |
+| `make demo` | Pass |
+| `validate_repo.py` / `validate_policy.py` | Pass |
+| Docker build | Pass |
+| Docker Compose pytest | **293** passed |
+| Production Compose `config` | Pass |
+| v0.2.8 `SHA256SUMS` | Verified (`llm-agent-control-plane-v0.2.8.tar.gz: OK`) |
+| Contributors API | `codethor0` only |
 
 ## Validation status
 
@@ -35,9 +47,9 @@ This remains a **production-oriented defensive reference implementation**, not a
 | ruff / mypy | pass |
 | `scripts/validate_repo.py` | pass |
 | `scripts/validate_policy.py` | pass |
-| bandit / pip-audit | pass |
+| bandit / pip-audit | pass on CI |
 | `make demo` | 7 scenarios OK |
-| GitHub Actions on `main` | CI, CodeQL, Secret scan, Trivy, SBOM green |
+| GitHub Actions on release commit | CI, CodeQL, Secret scan, Trivy, SBOM green |
 
 ## What did not change
 
@@ -45,16 +57,17 @@ This remains a **production-oriented defensive reference implementation**, not a
 - Simulated tools only; **no live external tool execution**
 - **No live LLM API calls**
 - **No secrets** added to the repository
-- Policy canonical hash unchanged from v0.2.8
-- v0.2.8 and earlier release tags unchanged
+- v0.2.8 tag and checksum assets unchanged
+- **No signed-release claim** (checksums remain unsigned)
 
 ## Honest limitations
 
-- Enterprise docs describe **what operators must build or integrate**; they do not add IdP, KMS, SIEM, or edge enforcement to the lab
-- **No OIDC/SAML login**, **no cloud KMS integration**, **no managed SIEM agent**, **no distributed rate limiter** in application code
-- Approval workflow remains the **in-lab human gate**; no multi-tenant approval API or revocation admin UI
-- Passing CI and documentation tests do **not** certify enterprise production readiness
-- README **latest release** remains **v0.2.8** until a separate release promotion step tags v0.2.9
+- **Not a managed production platform**
+- **No enterprise IdP**, **no production KMS**, **no persistent approval store**, **no managed SIEM connector** in application code
+- Release checksums are **unsigned**; no cosign, GPG, or SLSA attestation
+- **`main` branch protection** was not enabled at release time (see [branch-protection.md](branch-protection.md))
+- Enterprise deployment remains **operator-owned** (gateway IdP, KMS, SIEM forwarding, edge rate limits)
+- Validation gate passed; project is **not** claimed bug-free
 
 ## Prior releases
 
