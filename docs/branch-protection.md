@@ -2,7 +2,7 @@
 
 Recommended GitHub settings for `main` on [llm-agent-control-plane](https://github.com/codethor0/llm-agent-control-plane).
 
-**Status:** This document is guidance only. As of the latest API check (`GET /repos/{owner}/{repo}/branches/main/protection`), **`main` is not protected** (HTTP 404). Enable protection in GitHub Settings before treating `main` as merge-gated.
+**Status:** As of 2026-05-24, **`main` is protected** via the GitHub API (`GET /repos/{owner}/{repo}/branches/main/protection` returns required checks and PR review rules). Verify in Settings if your view differs.
 
 ## Recommended rules for `main`
 
@@ -57,7 +57,9 @@ Notes:
 |---------|--------|
 | `delete_branch_on_merge` | false (enable recommended) |
 | GitHub Wiki | disabled (documentation lives in `docs/`) |
-| Contributors API | `codethor0` only (no `cursoragent` in contributor API) |
+| Dependabot vulnerability alerts | enabled (API `PUT .../vulnerability-alerts` returns 204) |
+| Contributors API | `codethor0` only |
+| Contributor sidebar (web UI) | May lag API; see [AUTHORS.md](../AUTHORS.md) for maintainer attribution |
 
 ## Verification
 

@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+title: llm-agent-control-plane
+message: >-
+  If you use this software, please cite it using the metadata from this file.
+type: software
+authors:
+  - family-names: Thor
+    given-names: Thor
+    email: codethor@gmail.com
+    orcid: ""
+repository-code: https://github.com/codethor0/llm-agent-control-plane
+url: https://github.com/codethor0/llm-agent-control-plane
+license: MIT
+version: 0.2.9
+date-released: 2026-05-24

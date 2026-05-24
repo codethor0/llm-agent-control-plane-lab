@@ -20,6 +20,10 @@ This repository is a **local, simulated** demonstration. It shows how to keep au
 
 **Boundary:** This is not a drop-in production service yet. Production deployment still requires identity, persistence, key management, enterprise DLP, observability, deployment hardening, and operational review.
 
+## Maintainer
+
+Thor Thor ([GitHub](https://github.com/codethor0)) — see [AUTHORS.md](AUTHORS.md).
+
 ## Publication status
 
 | Item | Status |

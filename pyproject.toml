@@ -9,6 +9,9 @@ description = "Production-oriented defensive reference implementation for securi
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = { text = "MIT" }
+authors = [
+    { name = "Thor Thor", email = "codethor@gmail.com" },
+]
 dependencies = [
     "fastapi>=0.115.0,<1",
     "pydantic>=2.7.0,<3",
