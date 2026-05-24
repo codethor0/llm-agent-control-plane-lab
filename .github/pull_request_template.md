@@ -30,9 +30,10 @@ If security controls changed, list the invariant and test names:
 
 ## Repo hygiene
 
-- [ ] No prompt artifacts, AI transcripts, Cursor chats, or validation scratchpads committed
+- [ ] No prompt artifacts, AI transcripts, IDE metadata (`.cursor/`), or validation scratchpads committed
+- [ ] No `AGENTS.md`, `PROJECT_DOCTRINE.md`, or master-prompt files committed
 - [ ] No secrets, real credentials, or unsafe payloads
-- [ ] Only governance files under `.cursor/rules/` (doctrine `.mdc` files), not working prompts
+- [ ] `python scripts/validate_repo.py` passes
 
 ## Checklist
 

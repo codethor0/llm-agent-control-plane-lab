@@ -57,7 +57,7 @@ Notes:
 |---------|--------|
 | `delete_branch_on_merge` | false (enable recommended) |
 | GitHub Wiki | disabled (documentation lives in `docs/`) |
-| Contributors API | `codethor0` only (no `cursoragent` in contributor API) |
+| Contributors API | `codethor0` only (web contributor graph may lag API) |
 
 ## Verification
 

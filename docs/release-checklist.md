@@ -31,8 +31,8 @@ Expected:
 - [ ] `.venv/` not committed
 - [ ] `__pycache__/`, `.pytest_cache/`, `.mypy_cache/`, `.ruff_cache/` not committed
 - [ ] `audit_logs/` and `var/` not committed
-- [ ] No prompt artifacts, master prompts, AI transcripts, Cursor chats, cycle reports, scratchpads, or validation notes staged or committed
-- [ ] Only `.cursor/rules/*.mdc`, `PROJECT_DOCTRINE.md`, and `AGENTS.md` are committed as governance artifacts (not working prompts or chat exports)
+- [ ] No prompt artifacts, master prompts, AI transcripts, IDE metadata (`.cursor/`), cycle reports, scratchpads, or validation notes staged or committed
+- [ ] No `AGENTS.md` or `PROJECT_DOCTRINE.md` in the public tree
 - [ ] `python scripts/validate_repo.py` passes (also run via `make validate`)
 - [ ] `.env.example` present with no secrets (force-add if global gitignore hides it)
 

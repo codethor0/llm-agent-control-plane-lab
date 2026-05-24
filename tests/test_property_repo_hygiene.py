@@ -23,12 +23,13 @@ def _load_validate_repo() -> object:
 _VALIDATE_REPO = _load_validate_repo()
 check_file = _VALIDATE_REPO.check_file  # type: ignore[attr-defined]
 scan_repository = _VALIDATE_REPO.scan_repository  # type: ignore[attr-defined]
-ALLOWED = _VALIDATE_REPO.ALLOWED_GOVERNANCE_FILES  # type: ignore[attr-defined]
+FORBIDDEN_GOVERNANCE = _VALIDATE_REPO.FORBIDDEN_EXACT_FILES  # type: ignore[attr-defined]
 
 
-@given(st.sampled_from(sorted(ALLOWED)))
-def test_property_allowed_governance_files_pass(relative_path: str) -> None:
-    assert check_file(relative_path) is None
+@given(st.sampled_from(sorted(FORBIDDEN_GOVERNANCE)))
+def test_property_forbidden_governance_files_fail(relative_path: str) -> None:
+    message = check_file(relative_path)
+    assert message is not None
 
 
 @given(
@@ -57,13 +58,12 @@ def test_property_benign_doc_names_pass(name: str) -> None:
     assert check_file(relative) is None
 
 
-def test_property_cursor_rules_allowlist_strict(tmp_path: Path) -> None:
+def test_property_cursor_directory_fails(tmp_path: Path) -> None:
     rules = tmp_path / ".cursor" / "rules"
     rules.mkdir(parents=True)
-    bad = rules / "custom-rule.mdc"
-    bad.write_text("---\nalwaysApply: true\n---\n", encoding="utf-8")
+    (rules / "custom-rule.mdc").write_text("---\nalwaysApply: true\n---\n", encoding="utf-8")
     violations = scan_repository(tmp_path)
-    assert any("non-doctrine Cursor rule" in item for item in violations)
+    assert any(".cursor" in item for item in violations)
 
 
 def test_property_ignored_cache_dirs_skipped(tmp_path: Path) -> None:

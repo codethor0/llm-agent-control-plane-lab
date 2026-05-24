@@ -261,20 +261,18 @@ curl -s -X POST http://127.0.0.1:8080/run \
   }'
 ```
 
-## Security doctrine (summary)
+## Security principles
 
-1. Deny by default; least privilege.
-2. No model output is trusted.
-3. Schema validation is not authorization.
-4. The tool broker is the authority boundary.
-5. Untrusted retrieved and user/web/email context cannot authorize tools.
-6. External and destructive actions require human approval.
-7. Output filtering and audit logging happen outside the model.
-8. All tool execution is simulated in this lab.
+- Deny by default.
+- Treat model output as untrusted.
+- Keep authorization outside the model.
+- Use the broker as the authority boundary.
+- Treat schema validation as input validation, not authorization.
+- Require provenance and approval checks for sensitive actions.
+- Filter and audit outputs outside the model.
+- Simulate tools in this reference implementation.
 
-Full doctrine: [PROJECT_DOCTRINE.md](PROJECT_DOCTRINE.md).
-
-Security controls matrix (threat, implementation, tests): [SECURITY-CONTROLS.md](SECURITY-CONTROLS.md). Detailed invariants: [docs/defensive-controls.md](docs/defensive-controls.md).
+Security controls matrix: [SECURITY-CONTROLS.md](SECURITY-CONTROLS.md). Invariants: [docs/defensive-controls.md](docs/defensive-controls.md). Threat model: [docs/threat-model.md](docs/threat-model.md).
 
 ## Safe use
 
@@ -303,11 +301,6 @@ For deployment guardrails (API auth, CORS, request limits, container profile), s
 ## Configuration
 
 Copy `.env.example` to `.env` (optional). Policy: `policies/default.yaml`.
-
-## Agent guidance
-
-- [AGENTS.md](AGENTS.md)
-- [.cursor/rules/](.cursor/rules/) (doctrine rules only; not working prompts)
 
 ## License
 
