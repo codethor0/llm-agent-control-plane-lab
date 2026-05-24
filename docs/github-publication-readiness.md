@@ -8,7 +8,7 @@ Status: **published** (verified end-to-end May 2026).
 |-------|--------|
 | Public repository | https://github.com/codethor0/llm-agent-control-plane |
 | Git remote | `origin` configured |
-| Latest release | [v0.1.1](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.1.1) |
+| Latest release | [v0.2.8](https://github.com/codethor0/llm-agent-control-plane/releases/tag/v0.2.8) |
 | CI badge | Enabled on README |
 | License | MIT |
 
@@ -28,9 +28,9 @@ Expected: pytest passes (see README for current count), Docker pytest passes, re
 |----------|----------|
 | Security controls matrix | [SECURITY-CONTROLS.md](../SECURITY-CONTROLS.md) |
 | Release checklist | [release-checklist.md](release-checklist.md) |
-| Latest release notes | [github-release-notes-v0.1.1.md](github-release-notes-v0.1.1.md) |
+| Latest release notes | [github-release-notes-v0.2.8.md](github-release-notes-v0.2.8.md) |
 | Architecture diagram | [assets/llm-agent-control-plane.svg](assets/llm-agent-control-plane.svg) |
-| Social launch copy | [social/](social/) |
+| Repo logo | [assets/llm-agent-control-plane-logo.svg](assets/llm-agent-control-plane-logo.svg) |
 
 ## Claims discipline
 

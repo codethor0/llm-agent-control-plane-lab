@@ -17,7 +17,7 @@
   </defs>
   <rect width="1200" height="520" fill="#ffffff"/>
   <text x="600" y="36" text-anchor="middle" class="label" font-size="16">External control plane (protected path)</text>
-  <text x="600" y="56" text-anchor="middle" class="sublabel">Model output is untrusted. The broker decides.</text>
+  <text x="600" y="56" text-anchor="middle" class="sublabel">Model output is untrusted. The tool broker authorizes actions.</text>
 
   <!-- Row 1: main pipeline -->
   <rect class="box" x="20" y="100" width="130" height="56" rx="6"/>

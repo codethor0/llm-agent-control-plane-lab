@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">llm-agent-control-plane</title>
+  <desc id="logoDesc">Shield icon representing an external control plane boundary.</desc>
+  <rect width="128" height="128" fill="#ffffff"/>
+  <path d="M64 8 L108 28 L108 68 C108 92 88 108 64 118 C40 108 20 92 20 68 L20 28 Z" fill="#f6f8fa" stroke="#24292f" stroke-width="3"/>
+  <rect x="44" y="48" width="40" height="32" rx="4" fill="#ddf4ff" stroke="#0969da" stroke-width="2"/>
+  <path d="M52 58 L76 58 M52 66 L76 66 M52 74 L68 74" stroke="#0969da" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="64" cy="36" r="6" fill="#0969da"/>
+</svg>
