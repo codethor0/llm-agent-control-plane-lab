@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 
-from agent_control_plane.llm_adapter import LLMAdapterMode
+from agent_control_plane.llm_adapter_mode import LLMAdapterMode
 
 
 class EnvironmentMode(StrEnum):

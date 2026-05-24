@@ -4,20 +4,27 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
-from enum import StrEnum
 from typing import Protocol, runtime_checkable
 
 from pydantic import BaseModel
 
 from agent_control_plane.agent_core import run_simulated_agent
+from agent_control_plane.llm_adapter_mode import LLMAdapterMode
 from agent_control_plane.models import AgentRequest, ModelTurnResult, ToolCallPayload
 
-
-class LLMAdapterMode(StrEnum):
-    """How the control plane obtains candidate model output."""
-
-    SIMULATED = "simulated"
-    DISABLED_EXTERNAL = "disabled_external"
+__all__ = [
+    "DisabledExternalLLMAdapter",
+    "LLMAdapter",
+    "LLMAdapterError",
+    "LLMAdapterMetadata",
+    "LLMAdapterMode",
+    "LLMAdapterRequest",
+    "LLMAdapterResponse",
+    "SimulatedLLMAdapter",
+    "create_llm_adapter",
+    "create_llm_adapter_from_config",
+    "to_model_turn_result",
+]
 
 
 class LLMAdapterError(RuntimeError):
