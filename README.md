@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/llm-agent-control-plane-logo.svg" alt="llm-agent-control-plane logo" width="96" height="96">
+</p>
+
 # llm-agent-control-plane
 
 [![CI](https://github.com/codethor0/llm-agent-control-plane/actions/workflows/ci.yml/badge.svg)](https://github.com/codethor0/llm-agent-control-plane/actions/workflows/ci.yml)
@@ -10,7 +14,7 @@
 
 Production-oriented defensive reference implementation for securing tool-connected LLM agents with an **external control plane**.
 
-**Core idea:** The model can ask. The broker decides.
+**Core idea:** LLM agents may propose actions, but only the external control plane can authorize them.
 
 This repository is a **local, simulated** demonstration. It shows how to keep authorization, policy, provenance checks, human approval, output filtering, and audit logging **outside** the model. It is intended for security engineers, defenders, and builders learning control-plane patterns.
 
@@ -102,7 +106,7 @@ Docker validation is **not** claimed unless `docker compose build` and `docker c
 
 ## Architecture
 
-**The model can ask. The broker decides.** Model output is untrusted until deterministic controls approve a simulated tool call.
+**Core idea:** LLM agents may propose actions, but only the external control plane can authorize them. Model output is untrusted; the tool broker is the authority boundary for policy, provenance, approval, and simulated execution.
 
 Detailed diagrams: [docs/architecture.md](docs/architecture.md). Threat framing: [docs/threat-model.md](docs/threat-model.md). Optional exported assets: [SVG](docs/assets/llm-agent-control-plane.svg), [PNG](docs/assets/llm-agent-control-plane.png).
 
@@ -191,7 +195,7 @@ flowchart TD
   rh[Repo hygiene scanner]
   rf[Ruff]
   my[Mypy]
-  py[Pytest 210 tests]
+  py[Pytest 293 tests]
   bd[Bandit]
   pa[pip-audit]
   dk[Docker build]
@@ -295,10 +299,6 @@ For deployment guardrails (API auth, CORS, request limits, container profile), s
 - [docs/deployment-threat-model.md](docs/deployment-threat-model.md) — deployment threats and mitigations
 - [docs/github-publication-readiness.md](docs/github-publication-readiness.md) — first push checklist
 - GitHub issue templates under `.github/ISSUE_TEMPLATE/`
-
-## Social launch copy
-
-Draft posts for sharing: [docs/social/](docs/social/) (LinkedIn, Hacker News, Substack blurb).
 
 ## Configuration
 

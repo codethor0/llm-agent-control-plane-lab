@@ -4,7 +4,7 @@
 
 This lab implements an **external control plane** around a simulated LLM agent. The model may propose tool calls; only the tool broker (policy, provenance, and approval gate) may authorize execution. All tools run through a local simulator.
 
-**Core idea:** The model can ask. The broker decides.
+**Core idea:** LLM agents may propose actions, but only the external control plane can authorize them. The tool broker is the authority boundary; policy, provenance, and approval run outside the model.
 
 Diagrams below use Mermaid (GitHub-rendered). Optional static exports: [llm-agent-control-plane.svg](assets/llm-agent-control-plane.svg), [llm-agent-control-plane.png](assets/llm-agent-control-plane.png).
 
@@ -122,7 +122,7 @@ flowchart TD
   rh[Repo hygiene scanner]
   rf[Ruff]
   my[Mypy]
-  py[Pytest 271 tests]
+  py[Pytest 293 tests]
   bd[Bandit]
   pa[pip-audit]
   dk[Docker build]
