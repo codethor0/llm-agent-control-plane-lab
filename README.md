@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="docs/assets/llm-agent-control-plane-logo.svg" alt="llm-agent-control-plane logo" width="96" height="96">
+  <img src="docs/assets/llm-agent-control-plane-logo.svg" alt="LLM Agent Control Plane logo" width="720">
+</p>
+
+<p align="center">
+  <strong>Production-oriented defensive reference implementation for securing tool-connected LLM agents.</strong>
 </p>
 
 # llm-agent-control-plane
