@@ -2,109 +2,128 @@
 
 **Date:** 2026-05-21  
 **Repository:** https://github.com/codethor0/llm-agent-control-plane  
-**Branch audited:** `main` at `79a40ba` (before `feature/final-release-readiness-audit` fixes)  
-**Auditor:** Cursor implementation agent (automated gate + manual doc review)
+**Starting release:** v0.2.8 (latest published)  
+**Main commit audited:** `79a40ba`  
+**Auditor:** Cursor implementation agent (validation gate + documentation review)
 
-## Anti-hallucination gate
+## Release-readiness objective
 
-| Assumption | Status | Evidence |
-|------------|--------|----------|
-| Latest published GitHub release is v0.2.8 | Verified | `gh release view v0.2.8` |
-| P12 checksum workflow ran on v0.2.8 | Verified | Release assets: `SHA256SUMS`, tarball; `sha256sum -c` OK |
-| Main has P11 enterprise docs merged | Verified | `git log` shows `4e04cca`, `5cb630d`, `79a40ba` |
-| v0.2.9 release notes exist but tag does not | Verified | `docs/github-release-notes-v0.2.9.md` on main; no `v0.2.9` tag |
-| Pytest count on main before this branch | Verified | `make validate`: **293 passed** |
-| No runtime changes required for release-readiness | Verified | Full validation green; drift was documentation only |
-| API smoke without production secrets | Blocked for full prod auth | Production auth needs operator key file; `/health` and local scenarios validated via `make demo` and `test_api*.py` |
+Confirm the repository is ready to tag **v0.2.9** as a **production-oriented defensive reference implementation** with honest documentation, passing validation, and verified v0.2.8 release artifacts. No claim of bug-free status, signed releases, or managed enterprise platform.
 
-## Files inspected
+## Files and systems inspected
 
-README.md, ROADMAP.md, SECURITY-CONTROLS.md, PROJECT_DOCTRINE.md, AGENTS.md, `.cursor/rules/`, `.github/workflows/`, Dockerfile, docker-compose.yml, docker-compose.production.yml, `.env.example`, `.env.production.example`, policies/, scripts/, src/agent_control_plane/, tests/, docs/ (including enterprise and release provenance), deploy/, pyproject.toml, Makefile, SECURITY.md, release notes v0.2.8/v0.2.9.
+README.md, ROADMAP.md, SECURITY-CONTROLS.md, PROJECT_DOCTRINE.md, AGENTS.md, `.cursor/rules/`, `.github/workflows/`, Dockerfile, docker-compose.yml, docker-compose.production.yml, policies/, scripts/, `src/agent_control_plane/`, tests/, docs/ (enterprise, deployment, release provenance, observability), deploy/, release notes, GitHub release v0.2.8 assets.
 
-## Known current release state
+## Commands run
 
-| Item | Value |
-|------|-------|
-| Latest GitHub release | v0.2.8 |
-| README latest release pointer | v0.2.8 |
-| Prepared notes (unreleased) | v0.2.9 on main |
-| Checksums | Unsigned SHA256SUMS on v0.2.8 |
-| Signatures | Not implemented (no cosign, GPG, SLSA) |
+```bash
+python scripts/validate_repo.py
+python scripts/validate_policy.py
+make validate
+make demo
+python -m pytest --co -q
+docker build -t llm-agent-control-plane-release-audit .
+docker compose build
+docker compose run --rm app python -m pytest
+docker compose -f docker-compose.production.yml config
+gh release view v0.2.8 --json assets
+gh release download v0.2.8 && sha256sum -c SHA256SUMS
+gh run list --limit 15
+```
+
+## Exact validation results
+
+| Step | Result | Exit code |
+|------|--------|-----------|
+| `validate_repo.py` | OK: no prompt artifacts | 0 |
+| `validate_policy.py` | OK: schema + SHA-256 match | 0 |
+| `make validate` | **293 passed** (host + Docker) | 0 |
+| `make demo` | 7 scenarios OK | 0 |
+| pytest collection | **293 tests collected** | 0 |
+| `docker build` | Success | 0 |
+| `docker compose build` | Success | 0 |
+| `docker compose run --rm app python -m pytest` | **293 passed** | 0 |
+| `docker compose -f docker-compose.production.yml config` | Valid config | 0 |
+
+## Pytest count
+
+**293** — local, `make validate`, and Docker app run (2026-05-21 gate).
+
+## Local validation result
+
+Ruff, mypy, bandit, pip-audit, repo hygiene, and policy integrity passed as part of `make validate`.
+
+## Docker validation result
+
+Image builds; non-root `appuser`; healthcheck present; no secrets baked into layers.
+
+## Docker Compose result
+
+`docker compose build` and in-container pytest: **293 passed**.
+
+## Production Compose config result
+
+`docker compose -f docker-compose.production.yml config` succeeded. Full production stack with real operator secrets was not started (by design).
+
+## v0.2.8 release artifact verification
+
+| Asset | Present | Verification |
+|-------|---------|----------------|
+| `SHA256SUMS` | Yes | `sha256sum -c SHA256SUMS` exit 0 |
+| `llm-agent-control-plane-v0.2.8.tar.gz` | Yes | **OK** (matches checksum file) |
+
+Checksums are **unsigned** integrity hashes only.
+
+## SHA256SUMS result
+
+`llm-agent-control-plane-v0.2.8.tar.gz: OK`
+
+## GitHub Actions status summary
+
+Recent runs on `main`: CI, CodeQL, Secret scan, Trivy, SBOM — **success**. Open Dependabot PRs (#4-#8) do not block this audit.
+
+## Docs and diagrams alignment status
+
+| Item | Status |
+|------|--------|
+| README latest release | v0.2.8 (unchanged this cycle) |
+| Operational test counts | Aligned to **293** where gates apply |
+| Release provenance | States unsigned checksums; no cosign/GPG/SLSA |
+| Enterprise docs | Guidance only; no false implementation claims |
+| Historical release notes | Era-specific counts retained (intentional) |
+
+## Security controls reviewed
+
+Deny-by-default policy, broker boundary, provenance, approval tokens (lab), output filter, simulated tools only, production config fail-closed, API auth and body limits, audit JSONL with redaction, LLM adapter simulated default. No new runtime changes in this audit branch.
 
 ## Bugs or drift found
 
-| ID | Severity | Finding | Fix |
-|----|----------|---------|-----|
-| D1 | Doc drift | `docs/testing-strategy.md`, release checklists, `SECURITY-CONTROLS.md`, architecture/README Mermaid cited 271 or 210 tests | Updated to **299** after audit tests added |
-| D2 | None | No security control regression found in code review | N/A |
-| D3 | None | No secrets or prompt artifacts in tracked tree | `validate_repo.py` pass |
-| D4 | Hygiene | Untracked local scratch files (`.audit-*.txt`) | Removed; not committed |
+| Finding | Action |
+|---------|--------|
+| Stale **271** / **210** in release checklists and some diagrams | Updated to **293** on this branch |
+| No runtime security regression | None |
 
-No runtime bugs identified under the validation gate.
+## Known limitations
 
-## Commands run (main, pre-fix)
-
-```bash
-python scripts/validate_repo.py          # exit 0
-python scripts/validate_policy.py        # exit 0
-make validate                            # exit 0, 293 passed
-make demo                                # exit 0
-docker build -t llm-agent-control-plane-release-audit .
-docker compose build
-docker compose run --rm app python -m pytest  # 293 passed
-docker compose -f docker-compose.production.yml config  # exit 0
-gh release download v0.2.8 && sha256sum -c SHA256SUMS  # OK
-```
-
-## Post-fix expected gate (branch)
-
-Re-run `make validate` after merge of this branch; expect **299** pytest tests.
-
-## Release artifact verification (v0.2.8)
-
-| Asset | Present | Verified |
-|-------|---------|----------|
-| `SHA256SUMS` | Yes | `sha256sum -c SHA256SUMS` OK |
-| `llm-agent-control-plane-v0.2.8.tar.gz` | Yes | Matches checksum |
-| Signed attestations | No | Documented limitation |
-
-## GitHub Actions (sample)
-
-Last 15 runs on `main`: all **success** (CI, CodeQL, Secret scan, Trivy, SBOM). Five open Dependabot PRs (#4-#8); do not block doc audit.
+- Not a managed production platform
+- No enterprise IdP, production KMS, persistent approval store, or managed SIEM connector in repo
+- Release checksums unsigned; no cosign, GPG, or SLSA attestation
+- Not bug-free; validation gate passed at documented count
 
 ## Release-readiness rating
 
-| Category | Rating | Evidence | Remaining gap |
-|----------|--------|----------|---------------|
-| Control-plane architecture | Strong | Broker/policy/provenance tests | Not multi-service production |
-| Policy and broker enforcement | Strong | 299 tests incl. property tests | Policy YAML operator-owned |
-| Provenance and approval integrity | Strong (lab) | HMAC lab mode; in-memory approvals | No enterprise PKI or persistent store |
-| Output filtering | Strong (lab) | Layered filter tests | Not enterprise DLP |
-| Tool-output injection resistance | Strong | Dedicated tests | Simulated paths only |
-| API production hardening | Strong (profile) | `test_api_hardening.py` | File keys; gateway IdP operator-owned |
-| Container hardening | Strong (reference) | non-root, read-only compose | Platform admission operator-owned |
-| Supply-chain hygiene | Strong | CodeQL, Gitleaks, Trivy, SBOM CI | Unsigned SBOM/checksums |
-| Release provenance | Strong | v0.2.8 workflow + SHA256SUMS | No cosign/GPG/SLSA |
-| Observability and audit review | Strong (JSONL) | Taxonomy, correlation_id | No managed SIEM connector |
-| Deployment reference profile | Adequate | P10 artifacts + tests | Reference-only K8s |
-| Enterprise readiness | Adequate (guidance) | P11 docs + honesty tests | Integrations not implemented |
-| Documentation alignment | Fixed in branch | Stale test counts corrected | Historical release notes keep era counts |
-| Test coverage | Strong | 299 deterministic tests | Not exhaustive fuzz |
-| Release readiness | Ready (reference) | Full validation gate passed on main | v0.2.9 publish is separate step |
+| Category | Rating |
+|----------|--------|
+| Control-plane and tests | Strong |
+| Supply chain and release provenance | Strong (unsigned) |
+| Enterprise integration | Adequate (guidance) |
+| Documentation alignment | Good after checklist fixes |
+| Overall | **Release-ready as a production-oriented defensive reference implementation** |
 
-**Safe to release (reference implementation):** Yes, as a **production-oriented defensive reference implementation** after this branch merges and `make validate` reports **299 passed**, with documented unsigned checksums and operator-owned enterprise controls.
+## Recommendation
 
-**Do not claim:** zero-defect software, production-ready platform as a managed service, enterprise SaaS, SLSA attestation levels, or cosign/GPG-signed artifacts.
+1. Merge this audit report and updated v0.2.9 release notes.
+2. Publish **v0.2.9** in a follow-up cycle: README, tag, `gh release create`, verify `release-artifacts` workflow.
+3. Triage Dependabot PRs separately.
 
-## Remaining limitations
-
-- Checksums are integrity-only, not signatures
-- Enterprise IdP, KMS, SIEM connector, persistent approvals, distributed rate limiting: guidance only
-- v0.2.9 prepared on main but not tagged until explicit publish cycle
-- Dependabot PRs should be triaged separately
-
-## Next recommended action
-
-1. Merge PR for this audit branch after CI green.
-2. Publish v0.2.9 (README, tag, release, verify `release-artifacts` on tag).
-3. Triage Dependabot Actions/Python PRs with full CI.
+Do **not** claim: bug-free, fully production-ready platform, managed enterprise service, SLSA-compliant, or signed releases.

@@ -28,9 +28,6 @@ COPY docs/supply-chain.md docs/release-security-checklist.md docs/release-checkl
 COPY docs/enterprise-integration-plan.md docs/identity-integration.md docs/approval-workflow.md ./docs/
 COPY docs/kms-secret-management.md docs/siem-onboarding-plan.md docs/rate-limiting-edge-controls.md ./docs/
 COPY docs/enterprise-readiness-checklist.md ./docs/
-COPY docs/testing-strategy.md docs/architecture.md ./docs/
-COPY SECURITY-CONTROLS.md ./
-COPY reports ./reports
 COPY .github/workflows ./.github/workflows
 
 RUN pip install --upgrade pip \
